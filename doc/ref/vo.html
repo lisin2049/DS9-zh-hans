@@ -1,0 +1,43 @@
+<!DOCTYPE doctype PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta name="generator" content="HTML Tidy for Mac OS X (vers 31 October 2006 - Apple Inc. build 17.1), see www.w3.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="GENERATOR" content="Mozilla/4.78 [en] (X11; U; Linux 2.4.7-10 i686) [Netscape]">
+<title>Virtual Observatory（虚拟天文台）</title>
+<style type="text/css">
+.zh { color: #333333; border-left: 3px solid #cccccc; padding-left: 8px; margin: 2px 0 10px 0; font-family: "Microsoft YaHei", "PingFang SC", sans-serif; }
+h2 .zh, h3 .zh, h4 .zh { color: #555555; font-weight: normal; border-left: none; padding-left: 6px; }
+li .zh { display: block; }
+</style>
+</head>
+<body alink="#FF0000" bgcolor="#FFFFFF" vlink="#551A8B" text="#000000" link="#0000FF">
+<h3><img alt="" src="../sun.png" align="middle" > Virtual Observatory Reference <span class="zh">虚拟天文台参考</span></h3>
+<blockquote>
+<p><b>Summary <span class="zh">摘要</span></b></p>
+<p>Use the Web proxy connection if your firewall does not allow your computer to connect directly to external computers. In this case, you also must use DS9's internal browser.</p>
+<p class="zh">如果防火墙不允许你的计算机直接连接外部计算机，请使用 Web 代理连接。这种情况下，你还必须使用 DS9 的内置浏览器。</p>
+<p><b>Details <span class="zh">详情</span></b></p>
+<p>When you click on one of the Virtual Observatory servers in the VO list, DS9 will attempt to connect to that server and (if the internal Web display is enabled) display its Web page. The square box to the left of the server name turns yellow while the connection is being established and then green to signal success.</p>
+<p class="zh">当你在 VO 列表中点击某个虚拟天文台服务器时，DS9 会尝试连接该服务器，并（如果启用了内置网页显示）显示其网页。连接建立期间，服务器名称左侧的方框会变黄，连接成功后变绿。</p>
+<p>A direct connection is fast and flexible. Among other things, it allows you to perform analysis on your own local data (the VO server will retrieve the image from DS9) and also allows you to use an external browser to load images.</p>
+<p class="zh">直接连接快速而灵活。它使你能够对自己的本地数据进行分析（VO 服务器会从 DS9 取回图像），也允许你使用外部浏览器加载图像。</p>
+<p>Some system managers configure their firewall explicitly to prevent computers in their care from making a direct connection to an external host. Instead, they only allow external access through a Web proxy<br>
+server (such as SOCKS). If you are using a computer behind a restricted firewall of this sort, then DS9 will not be able to connect directly to a VO server. The yellow box will not turn green and eventually DS9 will display an error message.</p>
+<p class="zh">有些系统管理员会显式配置防火墙，禁止所辖计算机直接连接外部主机，而只允许通过 Web 代理服务器（如 SOCKS）访问外部。如果你使用的计算机处于这种受限防火墙之后，DS9 将无法直接连接 VO 服务器：黄色方框不会变绿，最终 DS9 会显示错误信息。</p>
+<p>In this case, you can choose to have DS9 communicate with the VO servers through your Web proxy server. DS9 will use your proxy to send its commands and retrieve its data and analysis results, rather than doing this directly. Note that the following restrictions apply:<br></p>
+<p class="zh">这种情况下，你可以让 DS9 通过你的 Web 代理服务器与 VO 服务器通信。DS9 将使用代理发送命令、取回数据和分析结果，而不是直接连接。请注意存在以下限制：</p>
+<blockquote><i>The transfer of data is slower.<br>
+You must use the internal Web browser for loading images, etc.<br>
+You cannot perform analysis on local data.<br>
+There is a (large but finite) restriction on the number of annuli, and number of polygon points you can specify in a region, as well as the total number of regions allowed.</i><br></blockquote>
+<p class="zh">上述限制为：数据传输较慢；加载图像等操作必须使用内置网页浏览器；无法对本地数据进行分析；对环（annulus）数量、区域中可指定的多边形点数以及允许的区域总数存在（较大但有限的）限制。</p>
+<p>If your computer and firewall have been configured to require use of a Web proxy server, you will have to tell DS9 about this server. Click the <b>Configure Web Proxy</b> button and type the relevant information into the boxes. (Your systems administrator will be able to tell you the details.) At this point, you should be able to connect to a VO server successfully. Please let us know if you have problems!</p>
+<p class="zh">如果你的计算机和防火墙被配置为必须使用 Web 代理服务器，你需要把该代理服务器告诉 DS9。点击 <b>Configure Web Proxy</b> 按钮，在各框中填入相关信息（具体细节可咨询你的系统管理员）。此后你应能成功连接 VO 服务器。如有问题，请告诉我们！</p>
+<blockquote>
+<p><i>A final note: you may, of course, choose to use the Web proxy even if your computer and firewall are configured to allow direct connections. In this case, there is no need to configure the proxy server.<br></i></p>
+<p class="zh">最后说明：即使你的计算机和防火墙配置为允许直接连接，你当然也可以选择使用 Web 代理。这种情况下无需配置代理服务器。</p>
+</blockquote>
+</blockquote>
+</body>
+</html>

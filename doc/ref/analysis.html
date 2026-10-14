@@ -1,0 +1,905 @@
+<!DOCTYPE doctype PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta name="generator" content="HTML Tidy for Mac OS X (vers 31 October 2006 - Apple Inc. build 17.1), see www.w3.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="GENERATOR" content="Mozilla/4.78 [en] (X11; U; Linux 2.4.7-10 i686) [Netscape]">
+<title>Analysis（分析）</title>
+<style type="text/css">
+.zh { color: #333333; border-left: 3px solid #cccccc; padding-left: 8px; margin: 2px 0 10px 0; font-family: "Microsoft YaHei", "PingFang SC", sans-serif; }
+h2 .zh, h3 .zh, h4 .zh { color: #555555; font-weight: normal; border-left: none; padding-left: 6px; }
+li .zh { display: block; }
+</style>
+</head>
+<body link="#0000EE" vlink="#551A8B" text="#000000" bgcolor="#FFFFFF" alink="#FF0000">
+<h3><img alt="" src="../sun.png" align="middle" > Analysis <span class="zh">分析</span></h3>
+<blockquote>
+<p>Each file type known to DS9 can have user-defined analysis commands associated with it. These analysis commands are defined at start-up time , or loaded by the user, by means of an ASCII analysis description file. The analysis commands are available for execution, either via the <i>Analysis Menu</i> or the XPA point <i>Analysis</i>. In addition, commands may be <i>bound</i> to events, such as keystrokes or mouse clicks. This type of command is called a bind command.<br></p>
+<p class="zh">DS9 已知的每种文件类型都可以关联用户自定义的分析（analysis）命令。这些分析命令在启动时定义，或由用户通过一个 ASCII 分析描述文件加载。分析命令既可通过 <i>Analysis Menu</i>（分析菜单）执行，也可通过 XPA 点 <i>Analysis</i> 执行。此外，命令还可以 <i>绑定</i>（bind）到事件上，如按键或鼠标点击；这种命令称为绑定命令（bind command）。</p>
+<p>DS9 searches for an analysis file named <tt>ds9.ans</tt> or <tt>ds9.analysis</tt> in the current directory and <tt>$HOME</tt> to be loaded at startup. In addition, DS9 will search the following directories for any analysis files to be loaded at startup in the form of <tt>*.ds9</tt>: the current directory, <tt>$HOME/bin</tt>, <tt>/usr/local/bin</tt>, <tt>/opt/local/bin</tt>, and <tt>/soft/saord/bin</tt>. Finally, the user may specify analysis files to be loaded at startup in the preferences analysis panel. The user may also load or clear current analysis commands via command line options or the <i>Analysis m</i>enu<i>.</i></p>
+<p class="zh">DS9 会在当前目录和 <tt>$HOME</tt> 中查找名为 <tt>ds9.ans</tt> 或 <tt>ds9.analysis</tt> 的分析文件，于启动时加载。此外，DS9 还会在以下目录中查找以 <tt>*.ds9</tt> 形式存在、于启动时加载的分析文件：当前目录、<tt>$HOME/bin</tt>、<tt>/usr/local/bin</tt>、<tt>/opt/local/bin</tt> 和 <tt>/soft/saord/bin</tt>。最后，用户可在首选项的分析面板中指定启动时加载的分析文件，也可通过命令行选项或 <i>Analysis 菜单</i> 加载或清除当前的分析命令。</p>
+<p>When activated, either from the menu, XPA, or bound event, an analysis command first is macro-expanded to fill in user-defined arguments and then is executed externally. Results may be displayed in a separate text window, plot window, or in a image frame.</p>
+<p class="zh">当分析命令被激活（无论来自菜单、XPA 还是绑定事件）时，首先进行宏展开以填入用户定义的参数，然后在外部执行。结果可显示在单独的文本窗口、绘图窗口或某个图像帧中。</p>
+<p><tt>Analysis -&gt; Make Catalog</tt> is a built-in command that measures all supported regions in the current image frame and opens a live Catalog Tool. It is not defined by an analysis command file. See <a href="region.html#StatisticsCatalog">Region Statistics Catalog</a> for details.</p>
+<p class="zh"><tt>Analysis -&gt; Make Catalog</tt> 是一个内置命令，用于测量当前图像帧中所有受支持的区域并打开实时星表工具。它不由分析命令文件定义。详见 <a href="region.html#StatisticsCatalog">区域统计星表</a>。</p>
+<a href="#Syntax">Syntax</a><br>
+<a href="#CommandType">Command Type</a><br>
+<a href="#Macros">Macros</a><br>
+<a href="#Buttonbar">Buttonbar</a><br>
+<a href="#Help">Help</a><br>
+<a href="#Web"></a><a href="#Parameters">Parameters</a><br>
+<a href="#HierarchicalMenus">Hierarchical Menus</a><br>
+<a href="#Sample">Sample</a>
+<p class="zh">
+<a href="#Syntax">语法</a>　<a href="#CommandType">命令类型</a>　<a href="#Macros">宏</a>　<a href="#Buttonbar">按钮栏</a>　<a href="#Help">帮助</a>　<a href="#Parameters">参数</a>　<a href="#HierarchicalMenus">分层菜单</a>　<a href="#Sample">示例</a>
+</p>
+<p><b><a name="Syntax" id="Syntax"></a>Syntax</b></p>
+<p class="zh"><b>语法</b></p>
+The analysis file that defines the known analysis commands consists of one or more file descriptors, each of which has the following format:
+<p class="zh">定义已知分析命令的分析文件由一个或多个文件描述符组成，每个描述符具有如下格式：</p>
+<blockquote><tt>Menu label to be used</tt><br>
+<tt>A space separated list of file templates</tt><br>
+<tt>Command type [menu | bind &lt;event&gt; | button]</tt><br>
+<tt>The command line for the analysis program</tt></blockquote>
+<p class="zh">（上方四行依次为：所用菜单标签、以空格分隔的文件模板列表、命令类型 [menu | bind &lt;事件&gt; | button]、分析程序的命令行。命令块保持原样。）</p>
+<p>Task names may contain space characters. All lines may be indented. Also, the '#' character is a comment character. A separator can be inserted in the menu by specifying the following sequence '---'.</p>
+<p class="zh">任务名可以包含空格字符。所有行都可缩进。此外，'#' 是注释字符。通过指定 '---' 序列可在菜单中插入分隔线。</p>
+<tt>Example:</tt>
+<p class="zh">示例：</p>
+<blockquote><tt># this will insert a menu separator</tt><br>
+<tt>---</tt></blockquote>
+<p class="zh">（上面为插入菜单分隔线的示例，保持原样。）</p>
+<p><b><a name="CommandType" id="CommandType"></a>Command Type</b></p>
+<p class="zh"><b>命令类型</b></p>
+<p>The third line indicates the type of command.</p>
+<p class="zh">第三行指明命令的类型。</p>
+<blockquote>
+<p><b>menu</b></p>
+<p class="zh"><b>menu（菜单）</b></p>
+<p>A <tt>menu</tt> command creates an menu option under the <i>Analysis</i> menu option, and can be invoked by the user via the GUI or XPA.</p>
+<p class="zh"><tt>menu</tt> 命令会在 <i>Analysis</i> 菜单下创建一个菜单项，用户可通过 GUI 或 XPA 调用。</p>
+<tt>Example:</tt>
+<p class="zh">示例：</p>
+<blockquote><tt># Menu command example</tt><br>
+<tt>My Analysis Task</tt><br>
+<tt>*.fits</tt><br>
+<tt>menu</tt><br>
+<tt>$data | doit | $text</tt></blockquote>
+<p class="zh">（上面为 menu 命令示例：菜单标签“My Analysis Task”、适用 *.fits、类型 menu、命令行将数据经 doit 处理后显示为文本，保持原样。）</p>
+<p><b>button</b></p>
+<p class="zh"><b>button（按钮）</b></p>
+<p>A <tt>button</tt> command creates an button option in the current buttonbar.</p>
+<p class="zh"><tt>button</tt> 命令会在当前按钮栏（buttonbar）中创建一个按钮选项。</p>
+<tt>Example:</tt>
+<p class="zh">示例：</p>
+<blockquote><tt># Button command example</tt><br>
+<tt>My Analysis Task</tt><br>
+<tt>*.fits</tt><br>
+<tt>button</tt><br>
+<tt>$data | doit | $text</tt></blockquote>
+<p class="zh">（上面为 button 命令示例，保持原样。）</p>
+<p><b>bind</b></p>
+<p class="zh"><b>bind（绑定）</b></p>
+<p>A <tt>bind</tt> command is a command that is bound to an event. When the event occurs, the command is executed. Types of events available include all TK events, including all <i>keystrokes</i> and <i>mouse clicks.</i> If a command is bound to an event other than a <i>keystroke</i>, care must be taken not to interfere with other internal DS9 events.</p>
+<p class="zh"><tt>bind</tt> 命令是绑定到某个事件上的命令。当该事件发生时，命令被执行。可用事件类型包括所有 Tk 事件，包括所有 <i>按键</i> 和 <i>鼠标点击</i>。若命令绑定到非按键事件，须注意不要干扰 DS9 的其他内部事件。</p>
+<p>To bind to a key stroke, use the following command type:</p>
+<p class="zh">要绑定到按键，使用如下命令类型：</p>
+<blockquote><tt>bind &lt;keystroke&gt;</tt><br></blockquote>
+<p class="zh">（上面为绑定命令类型写法 bind &lt;按键&gt;，保持原样。）</p>
+<tt>Example:</tt>
+<p class="zh">示例：</p>
+<blockquote><tt># Bind command example</tt><br>
+<tt>Print coordinates</tt><br>
+<tt>*.fits</tt><br>
+<tt>bind x</tt><br>
+<tt>echo "$x $y" | $text</tt><br></blockquote>
+<p class="zh">（上面为绑定到按键 x 的示例：打印当前坐标，保持原样。）</p>
+<p><b>web</b></p>
+<p class="zh"><b>web（网页）</b></p>
+<p>A <tt>web</tt> command allows the user to invoke the internal web browser from the analysis menu.</p>
+<p class="zh"><tt>web</tt> 命令允许用户从分析菜单调用内置网页浏览器。</p>
+<tt>Example:</tt>
+<p class="zh">示例：</p>
+<blockquote><tt># web command example<br>
+HTTP based<br>
+*<br>
+web<br>
+http://hea-www.harvard.edu/RD/ds9/ref/index.html<br>
+<br>
+File based<br>
+*<br>
+web<br>
+file:/home/joye/index.html<br></tt></blockquote>
+<p class="zh">（上面为 web 命令示例：分别演示基于 HTTP URL 和基于本地文件的网页，保持原样。）</p>
+</blockquote>
+<p><b><a name="Macros" id="Macros"></a>Macros</b></p>
+<p class="zh"><b>宏</b></p>
+<p>The following macros are macro-expanded to fill in user-defined arguments before the command is executed. Strings that contain $&lt;macroname&gt; that user does not want to be expanded may be escaped by using $$&lt;macroname&gt;. All strings that contain $&lt;string&gt; &nbsp;that are not a macro name will not be affected.</p>
+<p class="zh">以下宏会在命令执行前被宏展开，以填入用户定义的参数。若用户不希望展开含有 $&lt;宏名&gt; 的字符串，可用 $$&lt;宏名&gt; 转义。所有含有 $&lt;字符串&gt; 但不是宏名的字符串不受影响。</p>
+<p>For example:</p>
+<p class="zh">例如：</p>
+<blockquote><tt>echo "$$data $foo" | $text</tt><br></blockquote>
+<p class="zh">（上面示例中 $$data 不展开、$foo 展开，保持原样。）</p>
+<p>will display a text dialog that contains "$data $foo"</p>
+<p class="zh">将显示一个包含 "$data $foo" 的文本对话框。</p>
+<p><b>$width<br>
+$height<br>
+$depth</b></p>
+<p class="zh"><b>$width / $height / $depth（宽/高/深）</b></p>
+<p>Substitute the width, height, or depth of the data file in the command line.</p>
+<p class="zh">在命令行中代入数据文件的宽度、高度或深度。</p>
+<tt>Syntax:<br>
+&nbsp;&nbsp;&nbsp; $width</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; $height</tt><br>
+<br>
+<tt>Example:<br>
+&nbsp;&nbsp;&nbsp; echo "$width $height $depth" | $text</tt><br>
+<p class="zh">（上方为 $width/$height/$depth 的语法与示例，保持原样。）</p>
+<p><b>$bitpix</b></p>
+<p class="zh"><b>$bitpix（位深）</b></p>
+<p>Substitute the bitpix of the data file in the command line.</p>
+<p class="zh">在命令行中代入数据文件的 bitpix（每个像素的位数）。</p>
+<tt>Syntax:<br>
+&nbsp;&nbsp;&nbsp; $bitpix</tt><br>
+<br>
+<tt>Example:<br>
+&nbsp;&nbsp;&nbsp; echo "$bitpix" | $text</tt>
+<p class="zh">（上方为 $bitpix 的语法与示例，保持原样。）</p>
+<p><b>$data</b></p>
+<p class="zh"><b>$data（数据）</b></p>
+<p>Data from the current frame becomes the input data to the command string. This data is in the form of a FITS image. This macro can only used at the beginning of the command string.</p>
+<p class="zh">当前帧的数据成为命令字符串的输入数据，其形式为 FITS 图像。此宏只能用于命令字符串的开头。</p>
+<tt>Syntax:<br>
+&nbsp;&nbsp;&nbsp; $data</tt><br>
+<br>
+<tt>Example:<br>
+&nbsp;&nbsp;&nbsp; $data | dosomething | $text</tt>
+<p class="zh">（上方为 $data 的语法与示例，保持原样。）</p>
+<p><b>$entry</b></p>
+<p class="zh"><b>$entry（输入框）</b></p>
+<p>Display an entry modal dialog. The returned string is substituted. If <tt>cancel</tt> is selected, the command line is not executed.</p>
+<p class="zh">弹出一个输入（entry）模式对话框。返回的字符串被代入。若选择 <tt>cancel</tt>（取消），则不执行该命令行。</p>
+<tt>Syntax:<br>
+&nbsp;&nbsp;&nbsp; $entry(&lt;message&gt;)</tt><br>
+<br>
+<tt>Example:<br>
+&nbsp;&nbsp;&nbsp; echo "$entry(Enter something here)" | $text</tt>
+<p class="zh">（上方为 $entry 的语法与示例，保持原样。）</p>
+<p><b>$dir</b></p>
+<p class="zh"><b>$dir（目录）</b></p>
+<p>Substitute the full path name of the directory where analysis file found.</p>
+<p class="zh">代入找到分析文件的那个目录的完整路径名。</p>
+<tt>Syntax:<br>
+&nbsp;&nbsp;&nbsp; $dir</tt><br>
+<br>
+<tt>Example:<br>
+&nbsp;&nbsp;&nbsp; echo "$dir" | $text</tt>
+<p class="zh">（上方为 $dir 的语法与示例，保持原样。）</p>
+<p><b>$env</b></p>
+<p class="zh"><b>$env（环境变量）</b></p>
+<p>Substitute the value of a shell environment variable.</p>
+<p class="zh">代入某个 shell 环境变量的值。</p>
+<tt>Syntax:<br>
+&nbsp;&nbsp;&nbsp; $env(&lt;shell variable&gt;)</tt><br>
+<br>
+<tt>Example:<br>
+&nbsp;&nbsp;&nbsp; echo "$env(PATH)" | $text</tt>
+<p class="zh">（上方为 $env 的语法与示例，保持原样。）</p>
+<p><b>$filedialog</b></p>
+<p class="zh"><b>$filedialog（文件对话框）</b></p>
+<p>Display the standard file dialog. Substitutes the returned pathname. Argument specifies if an open file or save file dialog is invoked.</p>
+<p class="zh">弹出标准文件对话框。代入返回的路径名。参数指定调用的是打开文件还是保存文件对话框。</p>
+<tt>Syntax:<br>
+&nbsp;&nbsp;&nbsp; $filedialog([open|save])</tt><br>
+<br>
+<tt>Example:<br>
+&nbsp;&nbsp;&nbsp; echo "$filedialog(open)" | $text</tt><br>
+<p class="zh">（上方为 $filedialog 的语法与示例，保持原样。）</p>
+<p><b>$filename</b></p>
+<p class="zh"><b>$filename（文件名）</b></p>
+<p>Substitute the filename of the data file in the command line. A full filename includes any absolute or relative path. A root filename contains no path. A (2D) subsection defines a subimage from <tt>xmin,ymin</tt> to <tt>xmax,ymax</tt>. For Frame3D, a 2D subsection will also include the current slice (PLANE=) parameter if not 1. A 3D subsection defines a subimage from <tt>xmin,ymin,zmin</tt> to <tt>xmax,ymax,zmax</tt> and no PLANE parameter.<br></p>
+<p class="zh">在命令行中代入数据文件的文件名。完整文件名（full）包含绝对或相对路径；根文件名（root）不含路径。二维子区（subsection）定义从 <tt>xmin,ymin</tt> 到 <tt>xmax,ymax</tt> 的子图像。对于三维帧，二维子区在当前切片（PLANE=）不为 1 时还会包含该切片参数。三维子区定义从 <tt>xmin,ymin,zmin</tt> 到 <tt>xmax,ymax,zmax</tt> 的子图像，且不含 PLANE 参数。</p>
+<tt>Syntax:<br>
+&nbsp;&nbsp;&nbsp; $filename # filename with extname, (2d) subsections, filters</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; $filename(root|root,base) # root filename withwith extname,no subsections, no filters)</tt><br>
+<tt>&nbsp; &nbsp; $filename(full|full,base) # full filenamewith extname,no subsections, no filters)</tt><br>
+<br>
+<tt>Example:<br>
+&nbsp;&nbsp;&nbsp; dosomething $filename | $text</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; dosomething $filename(root) | $text<br></tt><br>
+<p class="zh">（上方为 $filename 的语法与示例，保持原样。）</p>
+<b>$filename[$regions]</b>
+<p class="zh"><b>$filename[$regions]（按区域取文件名）</b></p>
+<p>Combination of <tt>$filename</tt> and <tt>$regions</tt> macros. Generates a series of filenames, each with a region.</p>
+<p class="zh">这是 <tt>$filename</tt> 与 <tt>$regions</tt> 宏的组合。它会生成一系列文件名，每个文件名对应一个区域。</p>
+<tt>Syntax:<br>
+&nbsp;&nbsp;&nbsp; $filename[$regions]</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; $filename[$regions(&lt;options&gt;)]</tt><br>
+<br>
+<tt>Example:<br>
+&nbsp;&nbsp;&nbsp; dosomething $filename[$regions] | $text</tt>
+<p class="zh">（上方为 $filename[$regions] 的语法与示例，保持原样。）</p>
+<p><b>$geturl</b></p>
+<p class="zh"><b>$geturl（取 URL 内容）</b></p>
+<p>This macro differs from all other macros, including $<tt>url</tt>, in that no subprocess pipe is created. Only HTTP is supported. The contents of the url are retrieved and sent to $<tt>text</tt>, $<tt>plot</tt>, or $<tt>image.</tt> No other processing is allowed. The primary purpose of this macro is to support external analysis for the Windows platform, which has no subprocess support.</p>
+<p class="zh">此宏与包括 $<tt>url</tt> 在内的所有其他宏不同：它不创建子进程管道。仅支持 HTTP。该 URL 的内容被取回并发送到 $<tt>text</tt>、$<tt>plot</tt> 或 $<tt>image</tt>，不允许其他处理。此宏的主要目的是为不支持子进程的 Windows 平台提供外部分析支持。</p>
+<tt>Syntax:<br>
+&nbsp;&nbsp;&nbsp; $geturl(http://&lt;hostname&gt;:&lt;port&gt;/&lt;query&gt;)</tt><br>
+<br>
+<tt>Example:<br>
+&nbsp;&nbsp;&nbsp; $geturl(http://foo.bar.edu/foo.html) | $text</tt><br>
+<p class="zh">（上方为 $geturl 的语法与示例，保持原样。）</p>
+<p><b>$image</b></p>
+<p class="zh"><b>$image（图像）</b></p>
+<p>The resulting image data is display in a DS9 frame. This macro should be the last macro of a command line. Optional parameter indicates if a new frame and what type of frame is created for the new data. The macro is removed from the command line before execution.</p>
+<p class="zh">结果图像数据显示在一个 DS9 帧中。此宏应为命令行中的最后一个宏。可选参数表示是否为新数据创建新帧以及创建何种类型的帧。执行前此宏会从命令行中移除。</p>
+<tt>Syntax:<br>
+&nbsp;&nbsp;&nbsp; $image</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; $image([new|rgb|3d|current])</tt><br>
+<br>
+<tt>Example:<br>
+&nbsp;&nbsp;&nbsp; doit | $image(new)</tt>
+<p class="zh">（上方为 $image 的语法与示例：new/rgb/3d/current 指定帧类型，保持原样。）</p>
+<p><b>$message</b></p>
+<p class="zh"><b>$message（消息框）</b></p>
+<p>Display a message dialog box, with option buttons.&nbsp; After displaying the message, the macro is removed from the command line before execution. If <tt>cancel</tt> or <tt>no</tt> is selected, the command line is not executed.</p>
+<p class="zh">弹出一个带可选按钮的消息对话框。显示消息后，此宏在执行前从命令行中移除。若选择 <tt>cancel</tt>（取消）或 <tt>no</tt>（否），则不执行该命令行。</p>
+<tt>Syntax:<br>
+&nbsp;&nbsp;&nbsp; $message(&lt;message&gt;)</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; $message([ok|okcancel|yesno],&lt;message&gt;)</tt><br>
+<br>
+<tt>Example:<br>
+&nbsp;&nbsp;&nbsp; $message(okcancel,This is a Message)| doit | $text</tt>
+<p class="zh">（上方为 $message 的语法与示例，保持原样。）</p>
+<p><b>$messageok</b></p>
+<p class="zh"><b>$messageok（消息框并返回按钮）</b></p>
+<p>Display a message dialog box, with option buttons.&nbsp; After displaying the message, the button selected is substituted in the command line.</p>
+<p class="zh">弹出一个带可选按钮的消息对话框。显示消息后，所选择的按钮被代入命令行。</p>
+<tt>Syntax:<br>
+&nbsp;&nbsp;&nbsp; $messageok(&lt;message&gt;)</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; $messageok([ok|okcancel|yesno],&lt;message&gt;)</tt><br>
+<br>
+<tt>Example:<br>
+&nbsp;&nbsp;&nbsp; echo "$messageok(okcancel,This is a Message)" | $text</tt>
+<p class="zh">（上方为 $messageok 的语法与示例，保持原样。）</p>
+<p><b>$null</b></p>
+<p class="zh"><b>$null（忽略输出）</b></p>
+<p>Expect no output or results from analysis task. Note: no error message will be returned if the analysis task fails to execute correctly.</p>
+<p class="zh">不期望分析任务产生任何输出或结果。注意：若分析任务执行失败，也不会返回错误消息。</p>
+<tt>Syntax:<br>
+&nbsp;&nbsp;&nbsp; $null</tt><br>
+<br>
+<tt>Example:<br>
+&nbsp;&nbsp;&nbsp; echo "Hello, world" &gt; foo | $null</tt>
+<p class="zh">（上方为 $null 的语法与示例，保持原样。）</p>
+<p><b>$pan</b></p>
+<p class="zh"><b>$pan（平移位置）</b></p>
+<p>Substitute current pan location of the particular data file are returned. The default coordinate system is <tt>physical</tt>.</p>
+<p class="zh">代入该数据文件当前的平移（pan）位置。默认坐标系为 <tt>physical</tt>。</p>
+<tt>Syntax:<br>
+&nbsp;&nbsp;&nbsp; $pan<br>
+&nbsp;&nbsp;&nbsp; $pan(&lt;coordinate system&gt;,&lt;format&gt;)</tt><br>
+<p>where:</p>
+<p class="zh">其中：</p>
+<tt>&nbsp;&nbsp;&nbsp; coordinate system = [image|physical|detector|amplifier|wcs|wcsa...wcsz]</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; sky frame&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = [fk4|fk5|icrs|galactic|ecliptic]</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; sky format&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = [hms|sexagesimal|degrees]</tt><br>
+<br>
+<tt>Example:<br>
+&nbsp;&nbsp;&nbsp; echo $pan(fk5,sexagesimal) | $text</tt><br>
+<p class="zh">（上方为 $pan 的语法、可选坐标系/天球框架/格式及示例，保持原样。）</p>
+<p><b>$plot</b></p>
+<p class="zh"><b>$plot（绘图）</b></p>
+<p>Display data in plot window. This macro should be the last macro of a command line. The data is read via <tt>STDIN</tt> and consists of a pair of coordinates, with optional error values. (<tt>xy, xyex, xyey, xyexe</tt>y) Default dimension is <tt>xy.</tt> The macro is removed from the command line before execution.</p>
+<p class="zh">在绘图窗口中显示数据。此宏应为命令行中的最后一个宏。数据通过 <tt>STDIN</tt> 读入，由一对坐标及可选的误差值组成（<tt>xy、xyex、xyey、xyexey</tt>）。默认维度为 <tt>xy</tt>。执行前此宏从命令行中移除。</p>
+<p>For <tt>$plot(stdin)</tt> only:</p>
+<p class="zh">仅对于 <tt>$plot(stdin)</tt>：</p>
+<p>The title, x axis label, and y axis label are assumed to be on the first line of input, delimited with a new-line. However, if the data starts with $<tt>BEGINTEXT</tt>, all text between $<tt>BEGINTEXT</tt> and $<tt>ENDTEXT</tt> will be removed from the data and displayed in a separate text dialog window, with the remaining data, including the title, x axis label, and y axis label, displayed in a plot window. Furthermore, if the data contains the string $<tt>ERROR,</tt> an error is assumed to have occurred and a text dialog window is displayed only.</p>
+<p class="zh">标题、x 轴标签和 y 轴标签假定位于输入的第一行，以换行分隔。但是，若数据以 $<tt>BEGINTEXT</tt> 开头，则 $<tt>BEGINTEXT</tt> 与 $<tt>ENDTEXT</tt> 之间的所有文本会从数据中取出并显示在单独的文本对话框中，其余数据（含标题、x 轴标签、y 轴标签）显示在绘图窗口中。此外，若数据含有字符串 $<tt>ERROR,</tt>，则假定发生错误，只显示一个文本对话框。</p>
+<tt>Syntax:<br>
+&nbsp;&nbsp;&nbsp; $plot</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; $plot(,,,)</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; $plot(&lt;title&gt;,&lt;x axis label&gt;,&lt;y axis label&gt;,[xy|xyex|xyey|xyexey])</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; $plot(stdin)</tt><br>
+<br>
+<tt>Example:<br>
+&nbsp;&nbsp;&nbsp; doit | $plot(This is aTitle,X Axis,Y Axis)<br>
+&nbsp;&nbsp;&nbsp; doit | $plot(stdin)</tt>
+<p class="zh">（上方为 $plot 的语法与示例，保持原样。）</p>
+<p><b>$regions</b></p>
+<p class="zh"><b>$regions（区域）</b></p>
+<p>Substitute region definition in specified region format, coordinate system, and coordinate format. The default coordinate system is <tt>physical</tt>, default coordinate format <tt>degrees</tt>, and default region format <tt>DS9</tt>. Arguments may appear in any order, as long as they are separated by ',' and no spaces. If one or&nbsp; more properties are specified, only regions with all of the specified properties will be substituted.</p>
+<p class="zh">按指定的区域格式、坐标系和坐标格式代入区域定义。默认坐标系为 <tt>physical</tt>，默认坐标格式为 <tt>degrees</tt>（度），默认区域格式为 <tt>DS9</tt>。参数可按任意顺序出现，只要用逗号分隔且不含空格。若指定了一个或多个属性，则只有同时具备所有指定属性的区域才会被代入。</p>
+<tt>Syntax:<br>
+&nbsp;&nbsp;&nbsp; $regions</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; $regions(&lt;options&gt;)</tt>
+<p>where options are one of the following:</p>
+<p class="zh">其中 options 可为下列之一：</p>
+<tt>&nbsp;&nbsp;&nbsp; regions format&nbsp;&nbsp;&nbsp; = [ds9|ciao|saotng|saoimage|pros|xy]</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; property&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = [include|exclude|source|background]</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; coordinate system = [image|physical|detector|amplifier|wcs]</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; sky frame&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = [fk4|fk5|icrs|galactic|ecliptic]</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; sky format&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = [sexagesimal|degrees]</tt>
+<p>also, the old <i>SAOTNG</i> formats are also supported:</p>
+<p class="zh">此外，旧的 <i>SAOTNG</i> 格式也受支持：</p>
+<tt>&nbsp;&nbsp;&nbsp; $regions_pixels</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; $regions_degrees</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; $regions_hms</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; $include_regions</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; $include_regions_pixels</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; $include_regions_degrees</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; $include_regions_hms</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; $exclude_regions</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; $exclude_regions_pixels</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; $exclude_regions_degrees</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; $exclude_regions_hms<br></tt><br>
+<tt>Example:<br>
+&nbsp;&nbsp;&nbsp; dosomething $regions | $text</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; dosomething $regions(pros) | $text</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; dosomething $regions(source,wcs,fk5) | $text</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; dosomething $regions(saotng,background,exclude,ecliptic,sexagesimal) | $text</tt>
+<p class="zh">（上方为 $regions 的可选参数、旧 SAOTNG 宏形式及示例，命令保持原样。）</p>
+<p><b>$text</b></p>
+<p class="zh"><b>$text（文本）</b></p>
+<p>Display text in a text dialog window. This macro should be the last macro of a command line. To display text from only STDOUT use '|' as the pipe command. To display text from both STDOUT and STDERR, use '|&amp;' as the pipe command. No parameters are required. The macro is removed from the command line before execution.</p>
+<p class="zh">在文本对话框窗口中显示文本。此宏应为命令行中的最后一个宏。要只显示 STDOUT 的文本，用 '|' 作为管道命令；要同时显示 STDOUT 和 STDERR 的文本，用 '|&amp;' 作为管道命令。不需要参数。执行前此宏从命令行中移除。</p>
+<tt>Syntax:<br>
+&nbsp;&nbsp;&nbsp; $text</tt><br>
+<br>
+<tt>Example:<br>
+&nbsp;&nbsp;&nbsp; doit | $text # stdout<br>
+&nbsp;&nbsp;&nbsp; doit |&amp; $text # stdout and stderr<br></tt>
+<p class="zh">（上方为 $text 的语法与示例，保持原样。）</p>
+<p><b>$url</b></p>
+<p class="zh"><b>$url（URL）</b></p>
+<p>URLs are processed and stored in a temporary file. Only HTTP and anonymous FTP are supported.</p>
+<p class="zh">URL 被处理并存入一个临时文件。仅支持 HTTP 和匿名 FTP。</p>
+<tt>Syntax:<br>
+&nbsp;&nbsp;&nbsp; $url(http://&lt;hostname&gt;:&lt;port&gt;/&lt;query&gt;)</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; $url(ftp://&lt;hostname&gt;/&lt;filename&gt;)</tt><br>
+<br>
+<tt>Example:<br>
+&nbsp;&nbsp;&nbsp; $url(http://legacy.gsfc.nasa.gov/rosat/data/p000s26b.img.Z) | uncompress | $image</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; $url(ftp://legacy.gsfc.nasa.gov/rosat/data/hri/images/rh100193_img.fits) | $image<br></tt>
+<p class="zh">（上方为 $url 的语法与示例，保持原样。）</p>
+<p><b>$vo_method</b></p>
+<p class="zh"><b>$vo_method（VO 方法）</b></p>
+<p>Returns the vo method.</p>
+<p class="zh">返回 vo 方法。</p>
+<tt>Syntax:<br>
+&nbsp;&nbsp;&nbsp; $vo_method</tt><br>
+<br>
+<tt>Example:<br>
+&nbsp;&nbsp;&nbsp; echo '$vo_method' | $text</tt><br>
+<p class="zh">（上方为 $vo_method 的语法与示例，保持原样。）</p>
+<p><b>$value<br></b></p>
+<p class="zh"><b>$value（像素值）</b></p>
+<p>Substitute the value at the location of the cursor of an bind event.<br></p>
+<p class="zh">代入绑定事件发生时光标所在位置处的数值。</p>
+<tt>Syntax:<br>
+&nbsp;&nbsp;&nbsp; $value<br>
+<br>
+Example:<br>
+&nbsp;&nbsp;&nbsp; echo "$value" | $text</tt><br>
+<p class="zh">（上方为 $value 的语法与示例，保持原样。）</p>
+<p><b>$x<br>
+$y<br>
+$z<br></b></p>
+<p class="zh"><b>$x / $y / $z（坐标）</b></p>
+<p>Substitute coordinates of an bind event. When a bind event is triggered, the <i>x,y</i> coordinates of the mouse of the particular data file are returned. The default coordinate system is <tt>physical</tt>. This macro is only available for bind commands. For datacubes, the z coordinate is returned based on the current slice selected.<br></p>
+<p class="zh">代入绑定事件的坐标。当绑定事件触发时，返回该数据文件中鼠标的 <i>x,y</i> 坐标。默认坐标系为 <tt>physical</tt>。此宏仅对绑定命令可用。对于数据立方体，z 坐标基于当前选定的切片返回。</p>
+<tt>Syntax:<br>
+&nbsp;&nbsp;&nbsp; $x</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; $x(&lt;coordinate system&gt;,&lt;format&gt;)</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; $y</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; $y(&lt;coordinate system&gt;,&lt;format&gt;)<br>
+&nbsp;&nbsp;&nbsp; $z<br>
+&nbsp;&nbsp;&nbsp; $z(&lt;coordinate system&gt;)<br></tt>
+<p>where:</p>
+<p class="zh">其中：</p>
+<tt>&nbsp;&nbsp;&nbsp; coordinate system = [image|physical|detector|amplifier|wcs|wcsa...wcsz]</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; sky frame&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = [fk4|fk5|icrs|galactic|ecliptic]</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; sky format&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = [hms|sexagesimal|degrees]</tt><br>
+<br>
+<tt>Example:<br>
+&nbsp;&nbsp;&nbsp; echo "$x $y" | $text<br>
+&nbsp;&nbsp;&nbsp; echo "$x $y $z" | $text<br>
+&nbsp;&nbsp;&nbsp; echo "$x(fk5,sexagesimal) $y(fk5,sexagesimal)" | $text<br>
+&nbsp;&nbsp;&nbsp; echo "$x(wcs) $y(wcs) $z(wcs)" | $text</tt><br>
+<p class="zh">（上方为 $x/$y/$z 的语法、可选参数及示例，保持原样。）</p>
+<p><b>$xpa</b></p>
+<p class="zh"><b>$xpa（XPA 访问点）</b></p>
+<p>Returns the xpa access point name.</p>
+<p class="zh">返回 xpa 访问点名称。</p>
+<tt>Syntax:<br>
+&nbsp;&nbsp;&nbsp; $xpa</tt><br>
+<br>
+<tt>Example:<br>
+&nbsp;&nbsp;&nbsp; echo '$xpa' | $text</tt>
+<p class="zh">（上方为 $xpa 的语法与示例，保持原样。）</p>
+<p><b>$xpa_method</b></p>
+<p class="zh"><b>$xpa_method（XPA 方法）</b></p>
+<p>Returns the xpa method.</p>
+<p class="zh">返回 xpa 方法。</p>
+<tt>Syntax:<br>
+&nbsp;&nbsp;&nbsp; $xpa_method</tt><br>
+<br>
+<tt>Example:<br>
+&nbsp;&nbsp;&nbsp; echo '$xpa_method' | $text</tt>
+<p class="zh">（上方为 $xpa_method 的语法与示例，保持原样。）</p>
+<p><b><a name="Buttonbar" id="Buttonbar"></a>Buttonbar</b></p>
+<p class="zh"><b>按钮栏</b></p>
+<p>Creates an analysis buttonbar, in which button commands may be created. After all button commands have been defined, use <tt>endbuttonbar</tt> to complete the definition. </p>
+<p class="zh">创建一个分析按钮栏（buttonbar），可在其中创建按钮命令。在所有按钮命令定义完成后，用 <tt>endbuttonbar</tt> 结束定义。</p>
+<tt>Example:</tt>
+<p class="zh">示例：</p>
+<blockquote><tt>buttonbar</tt><br>
+<tt>Hello</tt><br>
+<tt>*.fits</tt><br>
+<tt>button</tt><br>
+<tt>echo "hello" | $text</tt><br>
+<tt>World</tt><br>
+<tt>*.fits</tt><br>
+<tt>button</tt><br>
+<tt>echo "world" | $text</tt><br>
+<tt>endbuttonbar</tt></blockquote>
+<p class="zh">（上面为按钮栏示例：定义 Hello 和 World 两个按钮，保持原样。）</p>
+<p><b><a name="Help" id="Help"></a>Help</b></p>
+<p class="zh"><b>帮助</b></p>
+<p>The user may define his own <tt>HELP</tt> message. This message will be available to the user as a menu item. An optional label may be specified. The default label is <tt>Help</tt>. When invoked, a text dialog window will appear, containing the message. Multiple <tt>HELP</tt> items may be defined within a menu or across hierarchical menus.</p>
+<p class="zh">用户可以定义自己的 <tt>HELP</tt> 消息。该消息将作为菜单项提供给用户。可指定可选标签，默认为 <tt>Help</tt>。调用时会弹出一个包含该消息的文本对话框窗口。在一个菜单内或跨分层菜单可定义多个 <tt>HELP</tt> 项。</p>
+<tt>Example:</tt>
+<p class="zh">示例：</p>
+<blockquote><tt>help Main Help</tt><br>
+<tt>A help message may contain</tt><br>
+<tt>multiple lines of description of the tasks</tt><br>
+<tt>in the menu or menus</tt><br>
+<tt>endhelp</tt></blockquote>
+<p class="zh">（上面为 help 消息示例，保持原样。）</p>
+<p><b><a name="Parameters" id="Parameters"></a>Parameters</b></p>
+<p class="zh"><b>参数</b></p>
+<p>The user may define his own macros or parameters to be evaluated before the command line is executed. To do this, the user defines a parameter segment that is referenced in the command line. Parameters may be displayed in a notebook style via use of the 'tab' 'endtab' keywords. The parameter definition has the following format:</p>
+<p class="zh">用户可以定义自己的宏或参数，在命令行执行前求值。为此，用户定义一个参数段，并在命令行中引用它。参数可通过 'tab' 'endtab' 关键字以笔记本（分页）样式显示。参数定义格式如下：</p>
+<blockquote><tt>param &lt;name&gt;<br>
+&nbsp;&nbsp;&lt;variable&gt; &lt;entry|text|checkbox|menu|combobox|open|save&gt; &lt;title&gt; &lt;default&gt; &lt;{comment}&gt;<br>
+&nbsp;&nbsp;...<br>
+endparam</tt></blockquote>
+<p class="zh">（上方为参数定义的基本格式：param 名、变量及控件类型/标题/默认值/注释、endparam 结束，保持原样。）</p>
+<blockquote><tt>param &lt;name&gt;<br>
+tab &lt;text&gt;<br>
+&nbsp;&nbsp;&lt;variable&gt; &lt;entry|text|checkbox|menu|comboxbox|open|save&gt; &lt;title&gt; &lt;default&gt; &lt;{comment}&gt;<br>
+&nbsp;&nbsp;...<br>
+endtab<br>
+tab &lt;text&gt;<br>
+&nbsp;&nbsp;&lt;variable&gt; &lt;entry|text|checkbox|menu|combobox|open|save&gt; &lt;title&gt; &lt;default&gt; &lt;{comment}&gt;<br>
+&nbsp;...<br>
+endtab<br>
+endparam</tt></blockquote>
+<p class="zh">（上方为带 tab 分页的参数定义格式，保持原样。）</p>
+<p>or</p>
+<p class="zh">或者：</p>
+<blockquote><tt>param &lt;name&gt;</tt><br>
+<tt>@&lt;iraf param filename&gt;</tt><br>
+<tt>end</tt></blockquote>
+<p class="zh">（上方为引用 IRAF 参数文件的参数定义格式，保持原样。）</p>
+<p>The definition either consists of a number of variables, one per row, or the name of an IRAF style parameter file. DS9 will look for the IRAF parameter file in:</p>
+<p class="zh">定义要么由若干变量组成（每行一个），要么是一个 IRAF 风格参数文件的文件名。DS9 会在以下位置查找该 IRAF 参数文件：</p>
+<blockquote><tt>./&lt;filename&gt;</tt><br>
+<tt>$UPARM/&lt;filename&gt;</tt><br>
+<tt>$HOME/iraf/&lt;filename&gt;</tt></blockquote>
+<p class="zh">（上方为查找位置列表，保持原样。）</p>
+<p>The following macros are supported if encountered in the default field:</p>
+<p class="zh">若默认字段中出现以下宏，则会被支持：</p>
+<blockquote><tt>$width<br>
+$height<br>
+$depth<br>
+$bitpix<br>
+$filename<br>
+$filename[region]<br>
+$env<br></tt></blockquote>
+<p class="zh">（上方为默认字段中支持的宏列表，保持原样。）</p>
+<p>Example:</p>
+<p class="zh">示例：</p>
+<blockquote><tt>param foo<br>
+&nbsp;&nbsp;var1 entry {Variable 1} {default} {this is an entry}<br>
+&nbsp;&nbsp;var2 text {Variable 2} {static} {this is text}<br>
+&nbsp;&nbsp;var3 checkbox {Variable 3} 1 {this is a checkbox}<br>
+&nbsp;&nbsp;var4 menu {Variable 4} {AAA|BBB|CCC} {this is a menu}<br>
+&nbsp;&nbsp;var5 combobox {Variable 5} {XXX|YYY|ZZZ} {this is a combobox}<br>
+&nbsp;&nbsp;var6 open {Variable 6} {default} {this is an open file dialog}<br>
+&nbsp;&nbsp;var7 save {Variable 7} {default} {this is a save file dialog}<br>
+endparam<br>
+<br>
+param bar<br>
+&nbsp;&nbsp;tab {First Params}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;var1 entry {Variable 1} {default} {this is an entry}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;var2 text {Variable 2} {static} {this is text}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;var3 checkbox {Variable 3} 1 {this is a checkbox}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;var4 menu {Variable 4} {AAA|BBB|CCC} {this is a menu}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;var5 combobox {Variable 5} {XXX|YYY|ZZZ} {this is a combobox}<br>
+&nbsp;&nbsp;endtab<br>
+&nbsp;&nbsp;tab {Second Params}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;var6 open {Variable 6} {default} {this is an open file dialog}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;var7 save {Variable 7} {default} {this is a save file dialog}<br>
+&nbsp;&nbsp;endtab<br>
+endparam<br>
+<br>
+param foobar<br>
+&nbsp;&nbsp;var1 entry {filename} {$filename} {image filename}<br>
+&nbsp;&nbsp;var2 text {width} {$width} {image width}<br>
+&nbsp;&nbsp;var3 text {height} {$height} {image height}<br>
+&nbsp;&nbsp;var4 text {depth} {$depth} {image depth}<br>
+&nbsp;&nbsp;var5 entry {bitpix} {$bitpix} {image bitpix}<br>
+endparam<br></tt></blockquote>
+<p class="zh">（上面为参数定义综合示例：含 entry/text/checkbox/menu/combobox/open/save 控件、tab 分页及宏默认值，保持原样。）</p>
+<p>To use parameters, specify the param name at the beginning of your command line:</p>
+<p class="zh">要使用参数，在命令行开头指定 param 名：</p>
+<blockquote><tt>Parameter Test</tt><br>
+<tt>*</tt><br>
+<tt>menu</tt><br>
+<tt>$param(foobar); echo "$var1 $var2 $var3 $var4 $var5" | $text</tt></blockquote>
+<p class="zh">（上面为在命令行中用 $param(foobar) 引用参数的示例，保持原样。）</p>
+<p>When the menu item is selected, the user will be presented with a dialog box that contains <i>entry, text, open, save, checkbox, or menu</i> choices for each variable specified. If the user clicks ok, the values are substituted in the command line before execution.</p>
+<p class="zh">当选中该菜单项时，会弹出一个对话框，对每个指定变量提供 <i>输入框、文本、打开、保存、复选框或菜单</i> 选择。若用户点击确定，这些值会在执行前代入命令行。</p>
+<p><b><a name="HierarchicalMenus" id="HierarchicalMenus"></a>Hierarchical Menus</b></p>
+<p class="zh"><b>分层菜单</b></p>
+<p>The user may define hierarchical menus. Use this to organize crowded menus. To do this, frame menu entries with <tt>hmenu &lt;label&gt;</tt> and <tt>endhmenu</tt>. Hierarchical menu labels may contain spaces. Multiple levels may be implemented.</p>
+<p class="zh">用户可以定义分层菜单（hierarchical menus），用以组织拥挤的菜单。做法是用 <tt>hmenu &lt;标签&gt;</tt> 和 <tt>endhmenu</tt> 把菜单项括起来。分层菜单标签可以包含空格，可实现多层。</p>
+Example:<br>
+<p class="zh">示例：</p>
+<blockquote><tt>hmenu Stuff<br>
+&nbsp;&nbsp;hello<br>
+&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;echo "Hello" | $text<br>
+<br>
+&nbsp;&nbsp;world<br>
+&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;echo "World" | $text<br>
+<br>
+&nbsp;&nbsp;hmenu More Stuff<br>
+&nbsp;&nbsp;&nbsp;&nbsp;hello world<br>
+&nbsp;&nbsp;&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;&nbsp;&nbsp;echo "Hello World" | $text<br>
+&nbsp;&nbsp;endhmenu<br>
+endhmenu</tt></blockquote>
+<p class="zh">（上面为分层菜单示例：Stuff 下含 hello、world 及嵌套的 More Stuff，保持原样。）</p>
+<p>Will create an hierarchical menu with two members, <tt>hello</tt> and <tt>world</tt>.</p>
+<p class="zh">将创建一个含两个成员 <tt>hello</tt> 和 <tt>world</tt> 的分层菜单。</p>
+<p><b><a name="Sample" id="Sample"></a>Sample</b></p>
+<p class="zh"><b>完整示例</b></p>
+<tt># Analysis command descriptions:<br>
+#&nbsp;&nbsp;menu label<br>
+#&nbsp;&nbsp;file templates<br>
+#&nbsp;&nbsp;menu/bind<br>
+#&nbsp;&nbsp;analysis command line<br>
+<br>
+param foo<br>
+&nbsp;&nbsp;var1 entry {Variable 1} {default} {this is an entry}<br>
+&nbsp;&nbsp;var2 text {Variable 2} {static} {this is text}<br>
+&nbsp;&nbsp;var3 checkbox {Variable 3} 1 {this is a checkbox}<br>
+&nbsp;&nbsp;var4 menu {Variable 4} {AAA|BBB|CCC} {this is a menu}<br>
+&nbsp;&nbsp;var5 combobox {Variable 5} {XXX|YYY|ZZZ} {this is a combobox}<br>
+&nbsp;&nbsp;var6 open {Variable 6} {default} {this is an open file dialog}<br>
+&nbsp;&nbsp;var7 save {Variable 7} {default} {this is a save file dialog}<br>
+endparam<br>
+<br>
+param bar<br>
+&nbsp;&nbsp;tab {First Params}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;var1 entry {Variable 1} {default} {this is an entry}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;var2 text {Variable 2} {static} {this is text}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;var3 checkbox {Variable 3} 1 {this is a checkbox}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;var4 menu {Variable 4} {AAA|BBB|CCC} {this is a menu}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;var5 combobox {Variable 5} {XXX|YYY|ZZZ} {this is a combobox}<br>
+&nbsp;&nbsp;endtab<br>
+&nbsp;&nbsp;tab {Second Params}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;var6 open {Variable 6} {default} {this is an open file dialog}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;var7 save {Variable 7} {default} {this is a save file dialog}<br>
+&nbsp;&nbsp;endtab<br>
+endparam<br>
+<br>
+param foobar<br>
+&nbsp;&nbsp;var1 entry {filename} {$filename} {image filename}<br>
+&nbsp;&nbsp;var2 text {width} {$width} {image width}<br>
+&nbsp;&nbsp;var3 text {height} {$height} {image height}<br>
+&nbsp;&nbsp;var4 text {depth} {$depth} {image depth}<br>
+&nbsp;&nbsp;var5 entry {bitpix} {$bitpix} {image bitpix}<br>
+endparam<br>
+<br>
+param barfoo<br>
+&nbsp;&nbsp;&nbsp; @analysis.par<br>
+endparam<br>
+<br>
+# Help Main Help<br>
+<br>
+help Main Help<br>
+These menus contain a test for each possible feature<br>
+<br>
+supported by the ds9 (blank line above)<br>
+endhelp<br>
+---<br>
+<br>
+hmenu Test Web<br>
+&nbsp;&nbsp;help Web Help<br>
+&nbsp;&nbsp;Help for web features<br>
+&nbsp;&nbsp;endhelp<br>
+<br>
+&nbsp;&nbsp;Web Test url<br>
+&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;web<br>
+&nbsp;&nbsp;http://hea-www.harvard.edu/RD/ds9/<br>
+<br>
+&nbsp;&nbsp;Web Test file<br>
+&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;web<br>
+&nbsp;&nbsp;file:/home/joye/saods9/ds9/tests/hv.html<br>
+endhmenu<br>
+<br>
+hmenu Test Basics<br>
+&nbsp;&nbsp;help Basic Help<br>
+&nbsp;&nbsp;Help for basic features<br>
+&nbsp;&nbsp;endhelp<br>
+&nbsp;&nbsp;---<br>
+&nbsp;&nbsp;Test escape char # this is a comment<br>
+&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;echo "this is not a macro $$xpa" | $text<br>
+<br>
+&nbsp;&nbsp;Test pass thru # this is a comment<br>
+&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;echo "this is not a macro $foo" | $text<br>
+<br>
+&nbsp;&nbsp;Test $xpa # this is a comment<br>
+&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;echo $xpa | $text<br>
+<br>
+&nbsp;&nbsp;Test $xpa_method<br>
+&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;echo $xpa_method | $text<br>
+<br>
+&nbsp;&nbsp;Test $vo_method<br>
+&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;echo $vo_method | $text<br>
+<br>
+&nbsp;&nbsp;Test $filename<br>
+&nbsp;&nbsp;*.fits<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;echo $filename | $text<br>
+<br>
+&nbsp;&nbsp;Test $filename(root)<br>
+&nbsp;&nbsp;*.fits<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;echo $filename(root) | $text<br>
+<br>
+&nbsp;&nbsp;Test $xdim $ydim $bitpix<br>
+&nbsp;&nbsp;*.fits<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;echo "$xdim $ydim $bitpix" | $text<br>
+<br>
+&nbsp;&nbsp;Test $xcen $ycen<br>
+&nbsp;&nbsp;*.fits<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;echo "$xcen $ycen" | $text<br>
+<br>
+&nbsp;&nbsp;Test $dir<br>
+&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;echo $dir | $text<br>
+<br>
+&nbsp;&nbsp;Test $env<br>
+&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;echo $env(PATH) | $text<br>
+endhmenu<br>
+<br>
+hmenu Test Regions<br>
+&nbsp;&nbsp;help Regions Help<br>
+&nbsp;&nbsp;Help for regions features<br>
+&nbsp;&nbsp;endhelp<br>
+&nbsp;&nbsp;---<br>
+&nbsp;&nbsp;Test $regions<br>
+&nbsp;&nbsp;*.fits<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;echo "$regions ds9_s:$regions(ds9,source,image) ciao_b:$regions(ciao,background) saotng_i:$regions(saotng,include,wcs,fk5) pros_e:$regions(pros,exclude,wcs,fk5,sexagesimal) xy_be:$regions(xy,background,exclude,wcs,fk4,hms)" | $text<br>
+<br>
+&nbsp;&nbsp;Test $regions wcs<br>
+&nbsp;&nbsp;*.fits<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;echo "$regions(ds9,wcs) $regions(ds9,wcs,fk5,sexagesimal) $regions(ds9,wcsa) " | $text<br>
+<br>
+&nbsp;&nbsp;Test $include_regions_pixels<br>
+&nbsp;&nbsp;*.fits<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;echo "ds9_s: $source_regions ds9_b: $background_regions_pixels ds9_i: $include_regions_degrees ds9_e: $exclude_regions_hms" | $text<br>
+<br>
+&nbsp;&nbsp;Test $filename $regions<br>
+&nbsp;&nbsp;*.fits<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;echo "$filename[$regions]" | $text<br>
+<br>
+&nbsp;&nbsp;Test $filename $regions()<br>
+&nbsp;&nbsp;*.fits<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;echo "$filename[$regions()]" | $text<br>
+endhmenu<br>
+<br>
+hmenu Test Output<br>
+&nbsp;&nbsp;help Output Help<br>
+&nbsp;&nbsp;Help for output features<br>
+&nbsp;&nbsp;endhelp<br>
+&nbsp;&nbsp;---<br>
+&nbsp;&nbsp;Test $null<br>
+&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;echo "This is Text" &gt;/dev/null | $null<br>
+<br>
+&nbsp;&nbsp;Test $text<br>
+&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;echo "This is Text" | $text<br>
+<br>
+&nbsp;&nbsp;Test $text stderr<br>
+&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;ls foofoofoo | $text<br>
+<br>
+&nbsp;&nbsp;Test $plot<br>
+&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;cat xy.dat | $plot<br>
+<br>
+&nbsp;&nbsp;Test $plot(title,x,y,xyey)<br>
+&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;cat xye.dat | $plot(Title,X Axis,Y Axis,xyey)<br>
+<br>
+&nbsp;&nbsp;Test $plot(title,x,y,xyexey)<br>
+&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;cat xyee.dat | $plot(Title,X Axis,Y Axis,xyexey)<br>
+<br>
+&nbsp;&nbsp;Test $plot(title,x,y,4)<br>
+&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;cat xyey.dat | $plot(Title,X Axis,Y Axis,4)<br>
+<br>
+&nbsp;&nbsp;Test $plot(title,x,y,5)<br>
+&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;cat xyeye.dat | $plot(Title,X Axis,Y Axis,5)<br>
+<br>
+&nbsp;&nbsp;Test $plot(stdin)<br>
+&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;cat xye.stdin.dat | $plot(stdin)<br>
+<br>
+&nbsp;&nbsp;Test $plot(stdin) text<br>
+&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;cat xye.stdin.text.dat | $plot(stdin)<br>
+<br>
+&nbsp;&nbsp;Test $plot(stdin) error<br>
+&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;cat xy.stdin.error.dat | $plot(stdin)<br>
+<br>
+&nbsp;&nbsp;Test $data<br>
+&nbsp;&nbsp;*.fits<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;$data | $image(new)<br>
+<br>
+&nbsp;&nbsp;Test $image<br>
+&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;cat img16.fits | $image<br>
+endhmenu<br>
+<br>
+hmenu Test Dialogs<br>
+&nbsp;&nbsp;help Dialogs Help<br>
+&nbsp;&nbsp;Help for dialog features<br>
+&nbsp;&nbsp;endhelp<br>
+&nbsp;&nbsp;---<br>
+&nbsp;&nbsp;Test $message(message)<br>
+&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;$message(ok,This is a Message) | echo "hello" | $text<br>
+<br>
+&nbsp;&nbsp;Test $message(ok,message)<br>
+&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;$message(ok,This is a Message) | echo "World" | $text<br>
+<br>
+&nbsp;&nbsp;Test $entry(message)<br>
+&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;echo "$entry(Enter Something)" | $text<br>
+endhmenu<br>
+<br>
+hmenu Test Params<br>
+&nbsp;&nbsp;help Param Help<br>
+&nbsp;&nbsp;Help for param features<br>
+&nbsp;&nbsp;endhelp<br>
+&nbsp;&nbsp;---<br>
+&nbsp;&nbsp;Test $param<br>
+&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;$param(foo);echo "$var1 $var2 $var3 $var4 $var5 $var6" | $text<br>
+<br>
+&nbsp;&nbsp;Test $param tab<br>
+&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;$param(bar);echo "$var1 $var2 $var3 $var4 $var5 $var6" | $text<br>
+<br>
+&nbsp;&nbsp;Test $param macro<br>
+&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;$param(foobar);echo "$var1 $var2 $var3 $var4 $var5" | $text<br>
+<br>
+&nbsp;&nbsp;Test $param @file<br>
+&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;$param(barfoo);echo "$var1 $var2 $var3" | $text<br>
+endhmenu<br>
+<br>
+hmenu Test Network<br>
+&nbsp;&nbsp;help Network Help<br>
+&nbsp;&nbsp;Help for network features<br>
+&nbsp;&nbsp;endhelp<br>
+&nbsp;&nbsp;---<br>
+&nbsp;&nbsp;Test $url(http://)<br>
+&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;$url(http://legacy.gsfc.nasa.gov/FTP/rosat/data/cdrom/vol1/IMAGES/00h/p000s26b.img.Z) | gunzip | $image<br>
+<br>
+&nbsp;&nbsp;Test $url(ftp://)<br>
+&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;$url(ftp://legacy.gsfc.nasa.gov/rosat/data/hri/images/fits/rh100193_img.fits) | $image<br>
+<br>
+&nbsp;&nbsp;Test $geturl $text<br>
+&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;$geturl(http://hea-www.harvard.edu/RD/saord-cgi/funtools?funcnts+$filename+$regions(source,,)+$regions(background,,))|$text<br>
+<br>
+&nbsp;&nbsp;Test $geturl $plotstd<br>
+&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;$param(ltc);$geturl(http://hea-www.harvard.edu/RD/saord-cgi/funtools?funhist_plot+$filename[$regions]+time+$bins)|$plot(stdin)<br>
+endhmenu<br>
+<br>
+hmenu Test Other<br>
+&nbsp;&nbsp;help Other Help<br>
+&nbsp;&nbsp;Help for other features<br>
+&nbsp;&nbsp;endhelp<br>
+&nbsp;&nbsp;---<br>
+&nbsp;&nbsp;hmenu Test MultiLevel<br>
+&nbsp;&nbsp;&nbsp;&nbsp;test<br>
+&nbsp;&nbsp;&nbsp;&nbsp;*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;menu<br>
+&nbsp;&nbsp;&nbsp;&nbsp;echo "Hello World" | $text<br>
+&nbsp;&nbsp;endhmenu<br>
+endhmenu<br>
+<br>
+$x $y<br>
+*.fits<br>
+bind x<br>
+echo "$x $y" | $text<br>
+<br>
+$x(fk5,hms) $y(fk5,hms)<br>
+*.fits<br>
+bind y<br>
+echo "$x(fk5,hms) $y(fk5,hms)" | $text<br>
+<br>
+$x(wcs,fk5,hms) $y(wcs,fk5,hms)<br>
+*.fits<br>
+bind z<br>
+echo "$x(wcs,fk5,hms) $y(wcs,fk5,hms)" | $text</tt></blockquote>
+<p class="zh">（上方为一个完整的分析命令描述文件示例：演示参数定义、help 消息、分层菜单 Test Web/Basics/Regions/Output/Dialogs/Params/Network/Other、各类宏的实际用法以及按键绑定。该示例为命令文本，保持原样不翻译。）</p>
+</body>
+</html>

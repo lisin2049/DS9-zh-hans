@@ -1,0 +1,51 @@
+<!DOCTYPE doctype PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta name="generator" content="HTML Tidy for Mac OS X (vers 31 October 2006 - Apple Inc. build 17.1), see www.w3.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="GENERATOR" content="Mozilla/4.78 [en] (X11; U; Linux 2.4.7-10 i686) [Netscape]">
+<title>Backup（备份与恢复）</title>
+<style type="text/css">
+.zh { color: #333333; border-left: 3px solid #cccccc; padding-left: 8px; margin: 2px 0 10px 0; font-family: "Microsoft YaHei", "PingFang SC", sans-serif; }
+h2 .zh, h3 .zh, h4 .zh { color: #555555; font-weight: normal; border-left: none; padding-left: 6px; }
+li .zh { display: block; }
+</style>
+</head>
+<body alink="#FF0000" bgcolor="#FFFFFF" link="#0000EE" text="#000000" vlink="#551A8B">
+<h3><img alt="" src="../sun.png" align="middle" > Backup and Restore <span class="zh">备份与恢复</span></h3>
+<blockquote>
+<p>DS9 now supports Backup and Restore. When a backup is invoked, DS9 will save in a backup save set all files needed to restore DS9 to that state, including geometry, data files, colormaps, catalogs, contours, and regions.<br></p>
+<p class="zh">DS9 现在支持备份与恢复（Backup and Restore）功能。执行备份时，DS9 会将恢复至该状态所需的全部文件（包括几何信息、数据文件、颜色映射、星表、等高线和区域）保存到备份保存集（backup save set）中。</p>
+<p>If the user specifies <tt>-title Foo</tt>, DS9 will use <tt>.Foo.bck</tt> for automatic backups.</p>
+<p class="zh">如果用户指定了 <tt>-title Foo</tt>，DS9 将使用 <tt>.Foo.bck</tt> 进行自动备份。</p>
+<p><b>Backup Save Set</b></p>
+<p class="zh"><b>备份保存集</b></p>
+<p>A backup save set consists of a text file, called a backup script, and an optional directory, which will contain auxiliary data files needed to restore DS9 to a previous state. The backup file and the auxiliary directory may be moved across file systems, or even platforms, but must remain together in the same directory.<br></p>
+<p class="zh">备份保存集由一个称为备份脚本（backup script）的文本文件和一个可选目录组成，该目录包含恢复 DS9 至先前状态所需的辅助数据文件。备份文件和辅助目录可以跨文件系统甚至跨平台移动，但必须一起保留在同一目录中。</p>
+<p><b>Image data files</b></p>
+<p class="zh"><b>图像数据文件</b></p>
+<p>By default, all data image files are saved within the backup save set. However, the user has the option, via the Preferences, to save only an absolute pathname to the data file, and not the data file itself. This option will dramatically reduce the size of a backup save set, but will restrict the usage to a particular file system and platform.<br></p>
+<p class="zh">默认情况下，所有数据图像文件都会保存到备份保存集中。但用户可以通过“首选项”（Preferences）选择只保存数据文件的绝对路径名，而不保存数据文件本身。此选项将大幅减小备份保存集的大小，但会将用途限制在特定的文件系统和平台上。</p>
+<p>Image files that have been loaded into DS9 via XPA, SAMP, or from a URL will always be saved into the save set.<br></p>
+<p class="zh">通过 XPA、SAMP 或从 URL 加载到 DS9 的图像文件将始终保存到保存集中。</p>
+<p><b>Caveats</b></p>
+<p class="zh"><b>注意事项</b></p>
+<p>There are several caveats in the usage of Backup and Restore. In particular:<br></p>
+<p class="zh">使用备份与恢复功能时有几点注意事项，特别是：</p>
+<blockquote>
+<p><tt>Currently, there is no support for masks.<br>
+External Analysis menus will not be saved.<br>
+Plot Tool windows will not be saved.<br>
+IIS frames (IRAF) will not be saved.<br>
+SAMP and XPA sessions will not be saved.</tt></p>
+</blockquote>
+<p class="zh">目前不支持掩模（masks）；外部分析（External Analysis）菜单不会保存；绘图工具（Plot Tool）窗口不会保存；IIS 帧（IRAF）不会保存；SAMP 和 XPA 会话不会保存。</p>
+<p>And finally, if the image data has been loaded into DS9 via XPA, SAMP, or from a URL, the following complex load operations are not supported:</p>
+<p class="zh">最后，如果图像数据已通过 XPA、SAMP 或 URL 加载到 DS9，则以下复杂的加载操作不受支持：</p>
+<blockquote><tt>Open Mosaic IRAF Image<br>
+Open Mosaic IRAF Segment Open Mosaic WCS Image<br>
+Open Mosaic WCS Segment Open Mosaic WFPC2 Open RGB Fits Image Open RGB Fits Cube Open RGB Array Open Multi Ext Data Cube Open Multi Ext Multiple Frames</tt></blockquote>
+<p class="zh">打开 IRAF 拼接图像、打开 IRAF 拼接分段、打开 WCS 拼接图像、打开 WCS 拼接分段、打开 WFPC2 拼接、打开 RGB FITS 图像、打开 RGB FITS 立方体、打开 RGB 数组、打开多扩展数据立方体、打开多扩展多帧。</p>
+</blockquote>
+</body>
+</html>

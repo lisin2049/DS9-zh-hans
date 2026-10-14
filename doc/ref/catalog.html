@@ -1,0 +1,81 @@
+<!DOCTYPE doctype PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta name="generator" content="HTML Tidy for Mac OS X (vers 31 October 2006 - Apple Inc. build 17.1), see www.w3.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="GENERATOR" content="Mozilla/4.78 [en] (X11; U; Linux 2.4.7-10 i686) [Netscape]">
+<title>Catalogs（星表）</title>
+<style type="text/css">
+.zh { color: #333333; border-left: 3px solid #cccccc; padding-left: 8px; margin: 2px 0 10px 0; font-family: "Microsoft YaHei", "PingFang SC", sans-serif; }
+h2 .zh, h3 .zh, h4 .zh { color: #555555; font-weight: normal; border-left: none; padding-left: 6px; }
+li .zh { display: block; }
+</style>
+</head>
+<body link="#0000EE" alink="#FF0000" bgcolor="#FFFFFF" text="#000000" vlink="#551A8B">
+<h3><img alt="" src="../sun.png" align="middle"> Catalogs <span class="zh">星表</span></h3>
+<blockquote>
+<p>DS9 provides full support for loading, displaying, filtering, and saving catalogs. DS9 allows you to overlay symbols from multiple catalogs on the current image.</p>
+<p class="zh">DS9 完整支持星表（catalog）的加载、显示、筛选和保存。DS9 允许你将多个星表的符号叠加显示在当前图像上。</p>
+<p>Local and on-line catalog access is supported. Most major catalogs can be retrieved from online servers. Both the CDS and SDSS catalog servers are now supported. Local catalog files in starbase (rdb) or CSV (with or without header) are supported.</p>
+<p class="zh">支持本地和在线两种星表访问方式。大多数主流星表都可从在线服务器获取。目前同时支持 CDS 和 SDSS 星表服务器。本地星表文件支持 starbase（rdb）格式以及 CSV 格式（带表头或不带表头均可）。</p>
+<p>On-line catalogs are available via services provided by the VizieR catalog access tool, CDS, Strasbourg, France (VizieR is a joint effort of the Centre de Donnees Astronomiques de Strasbourg and ESA-ESRIN Information Systems Division) and by the Sloan Digital Sky Survey.</p>
+<p class="zh">在线星表通过以下服务提供：法国斯特拉斯堡 CDS 的 VizieR 星表访问工具（VizieR 由斯特拉斯堡天文数据中心与 ESA-ESRIN 信息系统部合作开发），以及斯隆数字巡天（Sloan Digital Sky Survey，SDSS）。</p>
+<p>A selection of popular catalogs is provided in the Analysis menu. In addition, you can search for other catalogs based on title, keywords, mission, wavelength, and object type.</p>
+<p class="zh">“分析”（Analysis）菜单中提供了一组常用星表。此外，你还可以按标题、关键词、巡天任务、波长和天体类型搜索其他星表。</p>
+<p>When a catalog is overlayed on an image, each displayed catalog symbol consists of a shape, color, and text. An advanced symbol editor is available that allows you to specify the shape, size, color, and text of each symbol, based on catalog column values. These symbol expressions can be saved for future use.</p>
+<p class="zh">当星表叠加显示在图像上时，每个星表符号由形状、颜色和文字组成。DS9 提供高级符号编辑器，可根据星表列的值来指定每个符号的形状、大小、颜色和文字。这些符号表达式可以保存下来供以后使用。</p>
+<p>Along with the overlay display, a catalog list is provided in a separate window. It displays the column values for each catalog object. The catalog list can be sorted and filtered, and the catalog display will be automatically updated. Advanced filtering options are available. Catalogs can be loaded and saved as local files in ASCII Starbase format. Each catalog contains header information which can be displayed. The list can be printed separately from the image.</p>
+<p class="zh">除叠加显示外，星表还会在一个独立窗口中以列表形式呈现，显示每个星表天体的各列取值。星表列表可排序和筛选，星表显示会自动更新。还提供高级筛选选项。星表可以 ASCII Starbase 格式作为本地文件加载和保存。每个星表都包含可显示的表头信息。该列表可与图像分开打印。</p>
+<p>An interactive connection between the displayed catalog symbols and the catalog list is provided. When you select one or more rows within the catalog list, the corresponding symbols are highlighted on the image display. Conversely, selecting multiple symbols on the image display will highlight the corresponding rows within the catalog list. Catalog symbols can be converted to regions for use with analysis tasks.</p>
+<p class="zh">显示的星表符号与星表列表之间存在交互式联动。在星表列表中选中一行或多行时，图像显示上对应的符号会高亮；反之，在图像显示上选中多个符号时，星表列表中对应的行也会高亮。星表符号可以转换为区域（region），供分析任务使用。</p>
+<p><b>Region Statistics Catalogs</b></p>
+<p class="zh"><b>区域统计星表（Region Statistics Catalogs）</b></p>
+<p><tt>Analysis -&gt; Make Catalog</tt>, or <tt>catalog make</tt> from the command line, XPA, or SAMP, creates a live catalog of measurements for supported regions in the current frame. See <a href="region.html#StatisticsCatalog">Region Statistics Catalog</a> for supported shapes, fields, units, component rows, update triggers, threading behavior, and mosaic limitations.</p>
+<p class="zh">通过 <tt>Analysis -&gt; Make Catalog</tt>，或在命令行、XPA、SAMP 中使用 <tt>catalog make</tt>，可为当前帧中受支持的区域创建一个实时测量星表。支持的形状、字段、单位、分量行、更新触发条件、线程行为以及拼接限制，请参见 <a href="region.html#StatisticsCatalog">区域统计星表（Region Statistics Catalog）</a>。</p>
+<p>A generated statistics catalog uses the normal Catalog Tool table, sort, filter, plot, print, and export operations. It intentionally creates no catalog symbols: selecting a row does not select or highlight the source region, and the Symbol menu is unavailable. <tt>Preferences -&gt; Pan To</tt> remains available for table and plot selections and uses the selected row's stored center coordinates.</p>
+<p class="zh">生成的统计星表使用正常的星表工具表格、排序、筛选、绘图、打印和导出操作。它刻意不创建任何星表符号：选中一行不会选中或高亮对应的源区域，符号菜单也不可用。<tt>Preferences -&gt; Pan To</tt> 仍可用于表格和绘图中的选中操作，并使用所选行存储的中心坐标。</p>
+<p>The catalog is owned by its image frame and remains live only while both exist. Closing the tool detaches it; deleting the frame closes it. Catalog data may be exported like another table, but the live catalog and its frame association are not stored in a DS9 backup session. Use <tt>Make Catalog</tt> after restoring a session to recreate it.</p>
+<p class="zh">该星表归其所在图像帧所有，且只有在两者都存在时才保持实时状态。关闭工具会将其分离；删除帧则会将其关闭。星表数据可以像其他表格一样导出，但实时星表及其与帧的关联不会存入 DS9 备份会话。恢复会话后，请使用 <tt>Make Catalog</tt> 重新创建它。</p>
+<p><b>Filter Option</b></p>
+<p class="zh"><b>筛选选项（Filter Option）</b></p>
+<p>The catalog list can be sorted and filtered, and the catalog display will be automatically updated. A filter is conditional expression, when evaluated for each row of the catalog, if true, the row is displayed, and if false, the row is not displayed. The conditional expression can be any valid TCL expression. The value of a column may be indicated with <tt>$&lt;column name&gt;</tt>.</p>
+<p class="zh">星表列表可排序和筛选，星表显示会自动更新。筛选条件是一个条件表达式：对星表的每一行求值，结果为真则显示该行，为假则不显示。条件表达式可以是任何合法的 TCL 表达式。某一列的值可用 <tt>$&lt;column name&gt;</tt> 表示。</p>
+<blockquote><tt>$_RAJ2000&gt;180. &amp;&amp; $_RAJ2000&lt;270.</tt><br>
+<tt>$Jmag&gt;11</tt><br>
+<tt>log($Kmag*10)&lt;.3<br></tt> <tt>[string equal $OTYPE_S SNR]</tt><br></blockquote>
+<p class="zh">上面是筛选表达式示例：分别筛选赤经在 180°–270° 之间、J 星等大于 11、log(K 星等×10) 小于 0.3，以及 OTYPE_S 列等于 SNR（超新星遗迹）的行。</p>
+<p><b>Advanced Symbol Editor</b></p>
+<p class="zh"><b>高级符号编辑器（Advanced Symbol Editor）</b></p>
+<p>An advanced symbol editor is available that allows you to specify the shape, size, color, and text of each symbol, based on catalog column values. For each row of the catalog, one or more conditional expressions are evaluated. For the first expression to evaluate true, a given symbol is displayed, with the specified shape, color, size and text properties. As with the filter, the value of a particular column can be indicated as <tt>$&lt;column name&gt;.</tt></p>
+<p class="zh">DS9 提供高级符号编辑器，可根据星表列的值指定每个符号的形状、大小、颜色和文字。对星表的每一行，会对一个或多个条件表达式求值；第一个求值为真的表达式对应显示一个给定符号，并采用其指定的形状、颜色、大小和文字属性。与筛选一样，某一列的值可用 <tt>$&lt;column name&gt;</tt> 表示。</p>
+<p>For the condition entry, the expression you type in is automatically evaluated via TCL <tt>expr</tt> after macro expansion.</p>
+<p class="zh">对于条件输入框，你输入的表达式会在宏展开后通过 TCL 的 <tt>expr</tt> 自动求值。</p>
+<blockquote><tt>1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# always</tt><br>
+<tt>0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# never</tt><br>
+<tt>true&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# always</tt><br>
+<tt>false&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# never</tt><br>
+<tt>$Jmag&gt;2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# conditional</tt><br>
+<tt>sin($Jmag)&gt;.5 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # conditional</tt><br>
+<tt>[string equal $Class SNR]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# conditional</tt><br>
+<tt>[regexp {*SNR*} $Class]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# conditional</tt><br></blockquote>
+<p class="zh">上面是条件表达式示例：<tt>1</tt> 或 <tt>true</tt> 恒为真（始终显示），<tt>0</tt> 或 <tt>false</tt> 恒为假（从不显示）；其余为按列取值求值的条件表达式。</p>
+<p>For the size, size2, and angle entries, the expression you type in is also automatically evaluated via TCL <tt>expr</tt> after macro expansion.</p>
+<p class="zh">对于大小（size）、size2 和角度（angle）输入框，你输入的表达式同样会在宏展开后通过 TCL 的 <tt>expr</tt> 自动求值。</p>
+<blockquote><tt>2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# value of '2' is used</tt><br>
+<tt>$Jmag&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# value of column Jmag is used</tt><br>
+<tt>$Jmag/2.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# value of column Jmag div 2 is used</tt><br>
+<tt>(4+2)/3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# value of '2' is used</tt><br></blockquote>
+<p class="zh">上面是大小/角度表达式示例：直接写常数则使用该常数；写列名（如 <tt>$Jmag</tt>）则使用该列的取值；写算式则先求值再使用。</p>
+<p>For the text portion, this is not true. It is assumed to be text, unless you explicitly use an <tt>expr</tt> operator.</p>
+<p class="zh">对于文字部分则不然：默认输入内容被当作文字处理，除非你显式使用 <tt>expr</tt> 运算。</p>
+<blockquote><tt>foo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# will put 'foo' above the symbol</tt><br>
+<tt>$Jmag&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# will put the value of column Jmag above the symbol</tt><br>
+<tt>(4+2)/3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# will put the text '(4+2)/3' above the symbol</tt><br>
+<tt>[expr (4+2)/3]&nbsp;&nbsp;# will put the text '2' above the symbol</tt><br>
+<tt>[expr $Jmag/2.]&nbsp;# will take the value of Jmag and div by 2</tt><br></blockquote>
+<p class="zh">上面是文字部分示例：直接写内容会作为文字显示在符号旁；用 <tt>[expr ...]</tt> 包裹才会先求值再显示结果。</p>
+<p>And finally, one special case for shape = text and text = empty. In this case, the row number is displayed.</p>
+<p class="zh">最后，有一种特殊情况：当形状为 text 且文字为空时，DS9 会显示行号。</p>
+&nbsp;</blockquote>
+</body>
+</html>

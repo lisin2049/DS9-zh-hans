@@ -1,0 +1,465 @@
+<!DOCTYPE doctype PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta name="generator" content="HTML Tidy for Mac OS X (vers 31 October 2006 - Apple Inc. build 17.1), see www.w3.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="GENERATOR" content="Mozilla/4.78 [en] (X11; U; Linux 2.4.7-10 i686) [Netscape]">
+<title>DS9 FAQ（常见问题）</title>
+<style type="text/css">
+  .zh { color: #333333; border-left: 3px solid #cccccc; padding-left: 8px; margin: 2px 0 10px 0; font-family: "Microsoft YaHei", "PingFang SC", sans-serif; }
+  b .zh { color: #555555; font-weight: normal; border-left: none; padding-left: 6px; }
+</style>
+</head>
+<body link="#0000EE" bgcolor="#FFFFFF" alink="#FF0000" vlink="#551A8B" text="#000000">
+<h3><img alt="" src="sun.png" align="middle"> SAOImageDS9 FAQ <span class="zh">常见问题</span></h3>
+<blockquote>
+<p>This FAQ is a new, on going project, and it is far from being complete. But as common questions on DS9 are received, the FAQ will be updated.</p>
+<p class="zh">本 FAQ 是一个新的、持续进行中的项目，远未完备。但随着 DS9 常见问题的不断收集，本 FAQ 会持续更新。</p>
+<p><b>Contents</b></p>
+<p class="zh"><b>目录</b></p>
+<blockquote><a href="#Copyright">Copyright</a> <span class="zh">版权</span><br>
+<a href="#General">General</a> <span class="zh">常规</span><br>
+<a href="#Fonts">Fonts</a> <span class="zh">字体</span><br>
+<a href="faq.html#Linux">Linux</a><br>
+<a href="faq.html#Windows">Windows</a><br>
+<a href="#MacOSX">MacOSX</a><br>
+<a href="faq.html#X11">X11</a><br>
+<a href="#IRAF">IRAF</a><br>
+<a href="#Coordinates">Coordinates</a> <span class="zh">坐标</span><br>
+<a href="#Regions">Regions</a> <span class="zh">区域</span><br>
+<a href="#Printing">Printing</a> <span class="zh">打印</span><br>
+<a href="#XPA">XPA</a><br>
+<a href="#VO">VO</a> <span class="zh">虚拟天文台</span><br></blockquote>
+</blockquote>
+<blockquote>
+<p><b><a name="Copyright" id="Copyright"></a>Copyright</b></p>
+<p class="zh"><b><a name="Copyright_zh" id="Copyright_zh"></a>版权</b></p>
+<blockquote>
+<p>DS9 is composed of approximately 20 open source packages, all of which are distributed under their own open source license agreements, usually GPL, LGPL, or BSD. In addition, several open source packages have been developed here at the Smithsonian Astrophysical Observatory, Cambridge, MA, USA and are distributed under the terms of the GNU General Public License as published by the Free Software Foundation. As long as you continue to adhere to the provisions of the licenses, you are free to distribute DS9 along with your software.</p>
+<p class="zh">DS9 由大约 20 个开源软件包组成，所有这些软件包都依据各自的开源许可协议发布，通常是 GPL、LGPL 或 BSD。此外，还有几个开源软件包是在美国马萨诸塞州剑桥的史密松天体物理台（Smithsonian Astrophysical Observatory）开发的，并按照自由软件基金会（Free Software Foundation）发布的 GNU 通用公共许可证条款分发。只要您持续遵守许可证条款，就可以自由地将 DS9 与您的软件一起分发。</p>
+<p>The <a href="http://www.gnu.org/copyleft/gpl.html">GNU site</a> contains an excellent FAQ on the the dos and donts of GPL.</p>
+<p class="zh"><a href="http://www.gnu.org/copyleft/gpl.html">GNU 网站</a>上有一份关于 GPL 使用注意事项的出色 FAQ。</p>
+</blockquote>
+<p><b><a name="General" id="General"></a>General</b></p>
+<p class="zh"><b><a name="General_zh" id="General_zh"></a>常规</b></p>
+<blockquote>
+<p><b>The web browser, catalog tool, image server, and other Analysis functions don't appear to work. Whats going on?<br></b></p>
+<p class="zh"><b>Web 浏览器、星表工具、图像服务器和其他"分析（Analysis）"功能似乎都不工作，这是怎么回事？</b></p>
+<p>For a number of the Analysis functions, DS9 requires temporary disk space to download and store data. By default, this directory is defined by the TMP or TEMP environment variable. This is usually defined as <tt>/tmp</tt> for Linux and MacOSX users. For Windows users, this will vary, depending on which version of Windows you have. In any case, if the temp directory is not writable, or you have specified an invalid directory in the preferences, these functions will fail with a variety of error messages.<br></p>
+<p class="zh">对于多项"分析（Analysis）"功能，DS9 需要临时磁盘空间来下载和存储数据。默认情况下，该目录由 TMP 或 TEMP 环境变量定义。对于 Linux 和 MacOSX 用户，通常定义为 <tt>/tmp</tt>。对于 Windows 用户，则取决于您使用的 Windows 版本。无论如何，如果临时目录不可写，或者您在首选项中指定了无效目录，这些功能就会以各种错误消息失败。</p>
+<p><b>My system admin stripped the DS9 binary and now DS9 fails to start with the following error message:</b></p>
+<p class="zh"><b>我的系统管理员对 DS9 二进制文件执行了 strip 剥离操作，现在 DS9 启动失败，并出现以下错误消息：</b></p>
+<p><tt>Application initialization failed: Can't find a usable tk.tcl in the following directories...</tt></p>
+<p class="zh"><tt>应用程序初始化失败：在以下目录中找不到可用的 tk.tcl…</tt></p>
+<p>DS9 is based on tcl/tk which is a scripting language which requires many support files. To create a stand alone application, we <i>fool</i> tcl/tk into thinking that it has a valid installation. To do this, DS9 is really an application, along with an zip archive attached. The first thing DS9 does is to create a virtual file system in memory and unpack that archive into memory. The application DS9 is already stripped of debugging symbols when built.</p>
+<p class="zh">DS9 基于 tcl/tk——一种需要大量支持文件的脚本语言。为了创建独立的应用程序，我们"骗过"tcl/tk，让它以为有一个有效的安装。为此，DS9 实际上是一个应用程序，并附带一个 zip 归档。DS9 启动后做的第一件事就是在内存中创建一个虚拟文件系统，并将该归档解包到内存中。构建时 DS9 应用程序本身已剥离了调试符号。</p>
+<p>It appears that the <tt>strip</tt> command is <i>stripping</i> part of the archive, hence DS9 is unable to un-compress it. In summary, don't <tt>strip</tt> the DS9 binary and everything works fine.</p>
+<p class="zh">问题在于 <tt>strip</tt> 命令"剥离"了归档的一部分，导致 DS9 无法解压它。总之，不要对 DS9 二进制文件执行 <tt>strip</tt>，一切就会正常。</p>
+<p><b>When I open my FITS image, all I see is 'white'. Yet everything, including the color bar seems to work?</b></p>
+<p class="zh"><b>当我打开 FITS 图像时，看到的全是"白色"。但包括颜色条在内的一切似乎都正常？</b></p>
+<p>New with version 2.1, is support for the DATASEC keyword. This keyword specifies what portion of the image is valid data, for calculating min / max and for displaying. This is very important for images created from CCDs with over scan and bias strips. By default, this support is enabled. However, a number of fits images with this keyword, have invalid values. Therefor, when DS9 opens the image, it finds no valid data to display. To correct this problem, either disable DATASEC support, via the Scale menu, or correct the the value of DATASEC in the fits header. You can also change the default behavior by disabling DATASEC from the preferences menu.<br></p>
+<p class="zh">从 2.1 版开始新增了对 DATASEC 关键字（用于 FITS 头）的支持。该关键字指定图像的哪一部分是有效数据，用于计算最小/最大值和显示。这对于带超扫描（over scan）和偏置条（bias strips）的 CCD 生成的图像非常重要。默认情况下，此支持是启用的。然而，许多带此关键字的 FITS 图像其中的值无效。因此，DS9 打开图像时找不到可显示的有效数据。要解决此问题，可以通过"灰度拉伸（Scale）"菜单禁用 DATASEC 支持，或者修正 FITS 头中 DATASEC 的值。您也可以在首选项菜单中禁用 DATASEC 来更改默认行为。</p>
+</blockquote>
+<p><b><a name="Fonts" id="Fonts"></a>Fonts</b></p>
+<p class="zh"><b><a name="Fonts_zh" id="Fonts_zh"></a>字体</b></p>
+<blockquote>
+<p><b>Where is the Symbol Font? How do I enter special characters into an entry dialog?</b></p>
+<p class="zh"><b>符号字体（Symbol Font）在哪里？如何将特殊字符输入到条目对话框中？</b></p>
+<p>The concept of a separate <tt>SYMBOL</tt> font is no longer implemented with the latest OS font and scripting support, especially with scalable anti-alias fonts such as Xft for Linux. Most newer fonts (if not all) now have greek characters as part of the font. The greek chars start at unicode \u0391 for 'A' and \u03b1 for 'a'. Each OS has a tool used to build and copy a string of characters. Then use the Edit:Paste menu of DS9 to insert the character string.</p>
+<p class="zh">独立 <tt>SYMBOL</tt> 字体的概念已不再随最新操作系统字体和脚本支持提供，尤其是对于可缩放抗锯齿字体，如 Linux 的 Xft。大多数较新的字体（如果不是全部）现在都将希腊字符作为字体的一部分。希腊字符从 Unicode \u0391（'A'）和 \u03b1（'a'）开始。每个操作系统都有用于构造和复制字符字符串的工具。然后使用 DS9 的"编辑：粘贴（Edit:Paste）"菜单插入该字符串。</p>
+<p>Linux- Gnome: <b>gucharmap<br></b> Linux- KDE: <b>kcharselect<br></b> MacOSX: <b>Character Viewer</b> (Select <tt>Edit:Special Characters</tt>) Now click and drag the characters to a terminal window. Then select the string and select <tt>Edit:Copy</tt>.<br>
+Windows: <b>Character Map</b> (from <tt>Start</tt> button, select <tt>All Programs</tt>, <tt>Accessories</tt>, <tt>System Tools</tt> and then <tt>Character Map</tt>)<br></p>
+<p class="zh">Linux-Gnome：<b>gucharmap</b><br>Linux-KDE：<b>kcharselect</b><br>MacOSX：<b>字符查看器（Character Viewer）</b>（选择 <tt>编辑：特殊字符（Edit:Special Characters）</tt>），然后点击并将字符拖到终端窗口，选中字符串后选择 <tt>编辑：复制（Edit:Copy）</tt>。<br>Windows：<b>字符映射表（Character Map）</b>（从 <tt>开始</tt> 按钮选择 <tt>所有程序</tt>、<tt>附件</tt>、<tt>系统工具</tt>，然后选择 <tt>字符映射表</tt>）</p>
+</blockquote>
+<p><b><a name="Linux" id="Linux"></a>Linux</b></p>
+<blockquote>
+<p><b>My /tmp directory is mounted -noexec and bin table filtering does not work.</b></p>
+<p class="zh"><b>我的 /tmp 目录以 -noexec 方式挂载，分箱表筛选（bin table filtering）不工作。</b></p>
+<p>Set the environment variable FILTER_TMPDIR to a directory that is both writable and can execute.<br></p>
+<p class="zh">将环境变量 FILTER_TMPDIR 设置为一个既可写又可执行的目录。</p>
+<p><b>I have Red Hat 7, and I'm running KDE. The magnifier keeps going blank after a few seconds, what's going on?</b></p>
+<p class="zh"><b>我使用 Red Hat 7 并运行 KDE，放大镜（magnifier）几秒钟后总是变空白，怎么回事？</b></p>
+<p>The problem was in KDE. If the user has decided to hide the panel taskbar and&nbsp; sets a delay time for when it appears if the mouse is moved to the panel&nbsp; location, then it appears that KDE creates mouse events that fool DS9 into&nbsp; thinking the mouse is outside and it blanks the magnifier. By turning off the&nbsp; hide panel, the effect goes away. The alternative is to update to KDE2.1Beta&nbsp; where this method of dealing with the hidden panel is not used and all is&nbsp; well, as it was for KDE</p>
+<p class="zh">问题出在 KDE 上。如果用户选择隐藏面板任务栏，并设置了鼠标移到面板位置时出现的延迟时间，那么 KDE 似乎会产生鼠标事件，使 DS9 误以为鼠标在窗口外，从而将放大镜清空。关闭"隐藏面板"功能后，该现象消失。另一种选择是升级到 KDE 2.1 Beta，该版本不再使用这种处理隐藏面板的方式，一切恢复正常（如同 KDE 之前的版本那样）。</p>
+<p><b>I have FreeBSD. When I run ds9, I get the following error:</b> <tt>&nbsp; <b>ELF binary type "0" not known</b></tt> <b>Whats going on?</b></p>
+<p class="zh"><b>我使用 FreeBSD。运行 ds9 时出现以下错误：</b> <tt><b>ELF binary type "0" not known（未知的 ELF 二进制类型 "0"）</b></tt> <b>怎么回事？</b></p>
+<p>The solution was to use the <b><tt>brandelf</tt></b> utility on the file to ensure that the machine understood that it &nbsp;was a Linux program.</p>
+<p class="zh">解决办法是对该文件使用 <b><tt>brandelf</tt></b> 工具，确保机器明白这是一个 Linux 程序。</p>
+<p><tt>% brandelf -t Linux (file name)<br></tt></p>
+<p class="zh"><tt>% brandelf -t Linux （文件名）</tt></p>
+</blockquote>
+<p><b><a name="Windows" id="Windows"></a>Windows</b></p>
+<blockquote>
+<p><b>When I do Save Image, I get the same result (and this is true for either .gif, .jpeg, .tiff, .png and .ppm) : it saves only a stripe at the top of my image.<br></b></p>
+<p class="zh"><b>当我执行"保存图像（Save Image）"时，得到相同的结果（.gif、.jpeg、.tiff、.png 和 .ppm 都是如此）：只保存了我图像顶部的一条。</b></p>
+<p>This problem seems to be caused by running DS9 in Windows XP compatibility mode. Please un-check the compatibility option in the properties dialog.<br></p>
+<p class="zh">此问题似乎是由在 Windows XP 兼容模式下运行 DS9 引起的。请在属性对话框中取消勾选兼容性选项。</p>
+<p><b>How can I open a FITS file with an extension name?</b></p>
+<p class="zh"><b>如何打开带扩展名的 FITS 文件？</b></p>
+<p>By default, the windows port of DS9 uses the Windows standard dialog box to open and save files. This can be a problem in that the native Windows dialog will not allow extensions to the file name, such as <tt>foo.fits[2]</tt>. You must use the Unix like standard dialogs to be able to specify an extension. Select <tt>Edit-&gt;Preferences-&gt;General:Dialogbox</tt> to change the default standard dialog.</p>
+<p class="zh">默认情况下，DS9 的 Windows 版本使用 Windows 标准对话框打开和保存文件。这可能带来一个问题：Windows 原生对话框不允许文件名带扩展名，例如 <tt>foo.fits[2]</tt>。您必须使用类 Unix 的标准对话框才能指定扩展名。选择 <tt>编辑→首选项→常规：对话框（Edit-&gt;Preferences-&gt;General:Dialogbox）</tt> 更改默认的标准对话框。</p>
+<p><b>Every time I create an auxiliary window in ds9, such as a Pixel Table, or Analysis Plot, it will retreat behind the main ds9 window. Then, when I bring the auxiliary window to the front and move the mouse out of it, it automatically goes behind the main ds9 window again. What can I do to fix things so that the auxiliary window stays on top of the ds9 window?</b></p>
+<p class="zh"><b>每次我在 ds9 中创建辅助窗口（如像素表 Pixel Table 或分析绘图 Analysis Plot）时，它都会退到主 ds9 窗口后面。然后，当我将辅助窗口置于前台并把鼠标移出时，它又自动回到主 ds9 窗口后面。我该怎么做才能让辅助窗口保持在 ds9 窗口之上？</b></p>
+<p>To fix things so that the auxiliary window stays on top of the ds9 window, do the following:</p>
+<p class="zh">要让辅助窗口保持在 ds9 窗口之上，请执行以下操作：</p>
+<blockquote>
+<p><tt>Go to the icon task bar at the bottom of the screen.</tt> <tt>Bring the auxiliary window to the front by clicking on its icon in the icon task bar.</tt> <tt>While the mouse still is on the aux window icon, press the mouse button, and keeping it pressed, move the mouse off the task bar.</tt> <tt>Release the mouse while off the task bar.</tt> <tt>The auxiliary window will now stay on top of the main ds9 window.</tt></p>
+<p class="zh"><tt>转到屏幕底部的图标任务栏。</tt> <tt>单击图标任务栏中辅助窗口的图标，将其置于前台。</tt> <tt>鼠标仍在辅助窗口图标上时按住鼠标按钮，保持按住并将鼠标移出任务栏。</tt> <tt>在任务栏外释放鼠标。</tt> <tt>辅助窗口现在将保持在主 ds9 窗口之上。</tt></p>
+</blockquote>
+</blockquote>
+<p><b><a name="MacOSX" id="MacOSX"></a>MacOSX</b><br></p>
+<p class="zh"><b><a name="MacOSX_zh" id="MacOSX_zh"></a>MacOSX</b></p>
+<blockquote>
+<p><b>I can't invoke the 'Save Image' function from the MacOSX X11 version. I get an error message "An error has occurred while creating the image. Please make sure entire image is visible on screen."<br></b></p>
+<p class="zh"><b>我无法从 MacOSX X11 版本调用"保存图像（Save Image）"功能，出现错误消息"创建图像时发生错误。请确保整个图像在屏幕上可见。"</b></p>
+<p>Up until MacOSX 10.8 (Mountain Lion), Apple provided their own version of a X11 server. At first, it was based on XFree86 (X11R6.6) and available with versions up to MacOSX 10.4. Later with MacOSX versions 10.5 to 10.7, the Apple's X11 server was based upon X.org (X11R7.2).<br>
+<br>
+The Apple version of X11 server for MacOSX 10.5 to 10.7 contains a bug which fails if you invoke certain X11 calls on a window if its location is not at 0,0 on the screen. Hence, within DS9, if you 'Save Image' and your window is not exactly in the upper left corner, it will fail.<br>
+<br>
+Again, this only affects users of MacOSX 10.5 to 10.7.<br>
+<br>
+Starting with MacOSX 10.8, Apple no longer provides a X11 window server. The user must go to the XQuartz site and download/install directly. The current version is 2.7.3.<br></p>
+<p class="zh">在 MacOSX 10.8（Mountain Lion）之前，Apple 提供自己的 X11 服务器版本。最初基于 XFree86（X11R6.6），适用于 MacOSX 10.4 及更早版本。后来在 MacOSX 10.5 到 10.7 中，Apple 的 X11 服务器基于 X.org（X11R7.2）。<br><br>Apple 为 MacOSX 10.5 到 10.7 提供的 X11 服务器版本包含一个 bug：如果窗口位置不在屏幕的 0,0 处，调用某些 X11 函数会失败。因此在 DS9 中，如果您执行"保存图像（Save Image）"时窗口不在左上角，就会失败。<br><br>同样，这只影响 MacOSX 10.5 到 10.7 的用户。<br><br>从 MacOSX 10.8 开始，Apple 不再提供 X11 窗口服务器。用户必须前往 XQuartz 网站直接下载/安装。当前版本为 2.7.3。</p>
+<p><b>When I invoke DS9 MacOSX Aqua from the command line, I get weird errors such as<tt>:</tt></b></p>
+<p class="zh"><b>当我从命令行调用 DS9 MacOSX Aqua 版本时，出现奇怪的错误，例如：</b></p>
+<blockquote>
+<p><tt>The document "foo.fits" could not be opened. SAOImage DS9 cannot open files in the "Flexible Image Transport System" format.</tt></p>
+<p class="zh"><tt>无法打开文档 "foo.fits"。SAOImage DS9 无法打开"柔性图像传输系统（Flexible Image Transport System）"格式的文件。</tt></p>
+</blockquote>
+<p>When opening MacOSX Aqua from the command line, it is better to use the <tt>OPEN</tt> application as opposed to specifying the binary directly. The <tt>OPEN</tt> application sets up the environment just as it is when a user double clicks.</p>
+<p class="zh">从命令行打开 MacOSX Aqua 版本时，最好使用 <tt>OPEN</tt> 应用程序，而不是直接指定二进制文件。<tt>OPEN</tt> 应用程序会像用户双击时那样设置环境。</p>
+<tt># good</tt><br>
+<tt>% open /Applications/SAOImage\ DS9.app foo.fits<br>
+<br>
+# bad<br>
+% /Applications/SAOImage\ DS9.app/Contents/MacOS/ds9 bar.fits</tt><br>
+<p class="zh"><tt># 正确写法</tt><br><tt>% open /Applications/SAOImage\ DS9.app foo.fits</tt><br><br><tt># 错误写法</tt><br><tt>% /Applications/SAOImage\ DS9.app/Contents/MacOS/ds9 bar.fits</tt></p>
+<p><b>How can I open a FITS file with an extension name?</b></p>
+<p class="zh"><b>如何打开带扩展名的 FITS 文件？</b></p>
+<p>By default, DS9 MacOSX Aqua uses the MacOSX standard dialog box to open and save files. This can be a problem in that the native MacOSX dialog will not allow extensions to the file name, such as <tt>foo.fits[2]</tt>. You must use the Unix like standard dialogs to be able to specify an extension. Select <tt>Edit-&gt;Preferences-&gt;General</tt> to change the default standard dialog.</p>
+<p class="zh">默认情况下，DS9 MacOSX Aqua 使用 MacOSX 标准对话框打开和保存文件。这可能带来一个问题：MacOSX 原生对话框不允许文件名带扩展名，例如 <tt>foo.fits[2]</tt>。您必须使用类 Unix 的标准对话框才能指定扩展名。选择 <tt>编辑→首选项→常规（Edit-&gt;Preferences-&gt;General）</tt> 更改默认的标准对话框。</p>
+<p><b>How do I set my PATH environment variable under MacOSX for use with external analysis programs, such as funtools?<br></b></p>
+<p class="zh"><b>如何在 MacOSX 下设置 PATH 环境变量，以便与 funtools 等外部分析程序一起使用？</b></p>
+<p>When you double click on a MacOSX application, it does not parse any shell startup files, such as ~/.profile. Instead, the environment is defined using a special environment file, <tt>.MacOSX/environment.plist</tt>. This file can be created with the MacOSX utility <tt>/Developer/Applications/PropertyListEditor.app.</tt> For further information, please click <a href="http://developer.apple.com/qa/qa2001/qa1067.html">here</a>.<br></p>
+<p class="zh">当您双击 MacOSX 应用程序时，它不会解析任何 shell 启动文件，如 ~/.profile。而是使用一个特殊的环境文件 <tt>.MacOSX/environment.plist</tt> 定义环境。可以使用 MacOSX 工具 <tt>/Developer/Applications/PropertyListEditor.app</tt> 创建该文件。更多信息请点击<a href="http://developer.apple.com/qa/qa2001/qa1067.html">此处</a>。</p>
+</blockquote>
+<p><b><a name="X11" id="X11"></a>X11</b><br></p>
+<p class="zh"><b><a name="X11_zh" id="X11_zh"></a>X11</b></p>
+<blockquote>
+<p><b>Is it possible to work in batch mode without a physical display?<br></b></p>
+<p class="zh"><b>没有物理显示器时能否以批处理模式工作？</b></p>
+<p>DS9 is written as an interactive, window client program, and as a result, does require a window server to be available for rendering (X11, Windows, or MacOSX).<br>
+<br>
+Therefore, using DS9 as a batch process can be cumbersome. We recommend using <tt>xvfb</tt> under X11. Just set up a virtual display buffer, reset your DISPLAY variable, then invoke DS9 with a number of command line options or use xpa from a shell script as a batch processor. Example:<br></p>
+<p class="zh">DS9 被编写为交互式窗口客户端程序，因此确实需要一个可用的窗口服务器进行渲染（X11、Windows 或 MacOSX）。<br><br>因此，将 DS9 用作批处理进程可能比较麻烦。我们建议在 X11 下使用 <tt>xvfb</tt>。只需设置一个虚拟显示缓冲，重置 DISPLAY 变量，然后带多个命令行选项调用 DS9，或从 shell 脚本中使用 xpa 作为批处理器。例如：</p>
+<p><tt>% export DISPLAY=:1</tt><tt><br></tt> <tt>% Xvfb :1 -screen 0 1024x768x16 &amp;</tt><tt><br></tt> <tt>% ds9 -file cmap.fits -zoom to fit -cmap b -grid skyformat degrees -grid yes -regions ../EMS-names.reg -saveimage png mytest.png -exit</tt><br></p>
+<p class="zh"><tt>% export DISPLAY=:1</tt><br><tt>% Xvfb :1 -screen 0 1024x768x16 &amp;</tt><br><tt>% ds9 -file cmap.fits -zoom to fit -cmap b -grid skyformat degrees -grid yes -regions ../EMS-names.reg -saveimage png mytest.png -exit</tt></p>
+<p><b>When I start DS9, I get the following error message:</b></p>
+<p class="zh"><b>当我启动 DS9 时，出现以下错误消息：</b></p>
+<tt>_X11TransSocketINETConnect: Can't get address for foo.bar.edu</tt><br>
+<tt>couldn't connect to display "foo.bar.edu:0.0"</tt> &nbsp;<br>
+<p class="zh"><tt>_X11TransSocketINETConnect: 无法获取 foo.bar.edu 的地址</tt><br><tt>无法连接到显示器 "foo.bar.edu:0.0"</tt></p>
+<p>DS9 is unable to determine a valid X11 Display server, because of a number of reasons. Most often this is seen when you have a laptop configured for a network, but is not physically connected. You need to set the DISPLAY environment variable to :0.0</p>
+<p class="zh">由于多种原因，DS9 无法确定有效的 X11 显示服务器。最常见的情况是笔记本电脑配置了网络但未实际连接。您需要将 DISPLAY 环境变量设置为 :0.0</p>
+<blockquote><tt>$ xhost +</tt><br>
+<tt>$ set DISPLAY=:0.0</tt><br>
+<tt>$ export DISPLAY</tt><br></blockquote>
+<p class="zh"><tt>$ xhost +</tt><br><tt>$ set DISPLAY=:0.0</tt><br><tt>$ export DISPLAY</tt></p>
+<p><b>Under Solaris, when I start DS9, my twm window manager crashes!</b></p>
+<p class="zh"><b>在 Solaris 下，当我启动 DS9 时，我的 twm 窗口管理器崩溃了！</b></p>
+<p>TWM distributed with X11R5 had a major bug, that was corrected around 1996. DS9 will trigger this bug, and will cause TWM to crash. If you are running Solaris, and have X11R5 installed, be sure that /usr/openwin/bin is in your path before X11R5/bin. This will insure that you are running the correct version of TWM .</p>
+<p class="zh">随 X11R5 分发的 TWM 有一个重大 bug，大约在 1996 年被修复。DS9 会触发这个 bug，导致 TWM 崩溃。如果您运行 Solaris 且安装了 X11R5，请确保 /usr/openwin/bin 在路径中位于 X11R5/bin 之前。这样可以保证运行正确版本的 TWM。</p>
+<p><b>When I run ds9 with the tvtwm window manager, sometimes the open file dialog box does not appear?</b></p>
+<p class="zh"><b>当我使用 tvtwm 窗口管理器运行 ds9 时，有时打开文件对话框不出现？</b></p>
+<p>If you are running tvtwm, and you are currently viewing a virtual screen other than the first, when you open a file, the dialog box will appear in the first virtual screen, not your current. This is a bug with tvtwm and not ds9.</p>
+<p class="zh">如果您运行的是 tvtwm，并且当前查看的不是第一个虚拟屏幕，那么打开文件时，对话框会出现在第一个虚拟屏幕上，而不是您当前的屏幕。这是 tvtwm 的 bug，不是 ds9 的。</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p><b><a name="IRAF" id="IRAF"></a>IRAF</b></p>
+<p class="zh"><b><a name="IRAF_zh" id="IRAF_zh"></a>IRAF</b></p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><b>I can't use more than 9 frames with the IMEXAMINE task?</b><br></p>
+<p class="zh"><b>使用 IMEXAMINE 任务时不能超过 9 个帧？</b></p>
+<p>The task <tt>IMEXAMINE</tt> can not be used with frame numbers greater than 9.</p>
+<p class="zh"><tt>IMEXAMINE</tt> 任务不能用于帧号大于 9 的情况。</p>
+<p><b>Can I display from IRAF to DS9 running under Windows or MacOSX?</b></p>
+<p class="zh"><b>我能否从 IRAF 显示到运行在 Windows 或 MacOSX 下的 DS9？</b></p>
+<p>Yes, DS9 for Windows and MacOSX is also a fully functional IRAF display server. To direct image output from IRAF to DS9 running under Windows or MacOSX, use the IMTDEV environment variable. For example, if the machine is named 'foo.bar.edu', define IMTDEV to the follow value before entering IRAF.</p>
+<p class="zh">可以。适用于 Windows 和 MacOSX 的 DS9 同样是功能完整的 IRAF 显示服务器。要将图像输出从 IRAF 定向到运行在 Windows 或 MacOSX 下的 DS9，请使用 IMTDEV 环境变量。例如，如果机器名为 'foo.bar.edu'，请在进入 IRAF 前将 IMTDEV 定义为以下值。</p>
+<blockquote><tt>$ setenv IMTDEV inet:5137:foo.bar.edu</tt><br>
+<tt>$ cl</tt><br>
+<tt>cl&gt; display dev$pix</tt><br></blockquote>
+<p><b>I'm having problems with</b> <b>mscred task</b> <b>msczero?</b></p>
+<p class="zh"><b>我在使用 mscred 任务的 msczero 时遇到问题？</b></p>
+<p>DS9 now supports IRAF's new IIS image display protocol. However, there is one minor problem with the <b>mscred</b> task <b>msczero.</b> Before using <b>msczero</b>, issue the following command in the cl:<br>
+<br>
+<tt>cl&gt; set disable_wcs_maps=""<br>
+cl&gt; flpr</tt><br></p>
+<p class="zh">DS9 现在支持 IRAF 新的 IIS 图像显示协议。不过，<b>mscred</b> 任务的 <b>msczero</b> 有一个小问题。在使用 <b>msczero</b> 之前，请在 cl 中执行以下命令：<br><br><tt>cl&gt; set disable_wcs_maps=""</tt><br><tt>cl&gt; flpr</tt></p>
+<p><b>I find that there is a frustrating delay in performing operations on images displayed from IRAF - there's a wait of a second or two before an image is (re)displayed, whereas <i>saoimage</i> reacts virtually instantly for the same type of operation. This makes running imexamine on a batch of images a pain, and using the mouse to change color gamma/bias to desired values basically impossible.</b></p>
+<p class="zh"><b>我发现对 IRAF 显示的图像执行操作时有令人沮丧的延迟——图像（重新）显示前要等一两秒，而 <i>saoimage</i> 对同类操作几乎即时响应。这让在一批图像上运行 imexamine 很痛苦，用鼠标将颜色伽马/偏压（gamma/bias）调整到所需值也基本不可能。</b></p>
+<p>DS9 and <i>saoimage</i> are similar in speed when working with IRAF. In fact, DS9 uses&nbsp; the same code to interface with IRAF as saoimage and ximtool. The only&nbsp; difference is that DS9 is double buffered, whereas, <i>saoimage</i> and <i>ximtool</i> only&nbsp; use a single buffer. So with <i>saoimage</i> and <i>ximtool</i>, you see incremental progress,&nbsp; where DS9 will render the image all at one time. However, the overall time to&nbsp; finish rendering should almost be the same.</p>
+<p class="zh">DS9 与 <i>saoimage</i> 在与 IRAF 配合时速度相似。实际上，DS9 使用与 saoimage 和 ximtool 相同的代码与 IRAF 对接。唯一的区别是 DS9 是双缓冲的，而 <i>saoimage</i> 和 <i>ximtool</i> 只使用单缓冲。因此使用 <i>saoimage</i> 和 <i>ximtool</i> 时您会看到逐步的进度，而 DS9 则一次性渲染整幅图像。但完成渲染的总体时间应几乎相同。</p>
+<p>DS9 runs in both 8 bit and 24 bit environments, but <i>saoimage</i> is restricted to 8 bit. If you are running DS9 and <i>saoimage</i> at the same time, then you must be in 8 bit mode. You should not see any&nbsp; delay in changing the color bias/contrast between the two.</p>
+<p class="zh">DS9 可在 8 位和 24 位环境下运行，但 <i>saoimage</i> 仅限于 8 位。如果您同时运行 DS9 和 <i>saoimage</i>，则必须处于 8 位模式。两者之间切换颜色偏压/对比度时不应看到任何延迟。</p>
+<p>However, if you are running DS9 in 24 bit mode, then you will see slower&nbsp; performance in changing the bias/contrast, as compared to 8 bit mode. Instead of&nbsp; changing a color look up table, as in 8 bit mode, DS9 has to update every pixel&nbsp; on the screen. If your cpu speed is slow, you can select the&nbsp; Edit:Preferences:True Colorbar to tell DS9 not to update the entire screen,&nbsp; only a part of the screen. This should only be needed if your machine is slower&nbsp; than 200 MHz. Again <i>saoimage</i> does not even run in 24 bit mode, so there are no&nbsp; comparisons.</p>
+<p class="zh">然而，如果您以 24 位模式运行 DS9，与 8 位模式相比，更改偏压/对比度时性能会较慢。与 8 位模式只需更改颜色查找表不同，DS9 必须更新屏幕上的每个像素。如果您的 CPU 速度较慢，可以选择"编辑：首选项：真彩色条（Edit:Preferences:True Colorbar）"，告诉 DS9 不更新整个屏幕，只更新部分屏幕。这通常只在机器慢于 200 MHz 时才需要。同样，<i>saoimage</i> 甚至不能以 24 位模式运行，因此无从比较。</p>
+<p><b>I try to display an image from IRAF and I get the following error message:</b></p>
+<p class="zh"><b>我尝试显示来自 IRAF 的图像，但出现以下错误消息：</b></p>
+<p><tt>Cannot open device (node!imtool,,512,512)</tt></p>
+<p class="zh"><tt>无法打开设备（node!imtool,,512,512）</tt></p>
+<p>DS9 works the same way as <tt>ximtool,</tt> <tt>saoimage,</tt> and <tt>saotng.</tt> No special scripts&nbsp; should be needed. If you have one of the above currently working, DS9 should&nbsp; work <i>out of the box</i>.</p>
+<p class="zh">DS9 的工作方式与 <tt>ximtool</tt>、<tt>saoimage</tt> 和 <tt>saotng</tt> 相同，无需特殊脚本。如果您当前有一个上述工具可以正常工作，DS9 应该也能<i>开箱即用</i>。</p>
+<p>IRAF can use one of three methods to communicate with DS9: fifo, socket, and unix&nbsp; domain name. The DS9 defaults are:</p>
+<p class="zh">IRAF 可以使用三种方式之一与 DS9 通信：fifo、socket（套接字）和 unix 域名。DS9 的默认值为：</p>
+<blockquote><tt>fifo /dev/imt1</tt><br>
+<tt>port 5137</tt><br>
+<tt>unix /tmp/.IMT%d</tt></blockquote>
+<p class="zh"><tt>fifo /dev/imt1</tt><br><tt>端口 5137</tt><br><tt>unix /tmp/.IMT%d</tt></p>
+<p>If your IRAF configuration is set up different (i.e., a different port number, or&nbsp; via a fifo), you need to tell DS9 how to communicate with iraf. DS9 uses the same&nbsp; command line options as XIMTOOL:</p>
+<p class="zh">如果您的 IRAF 配置不同（即使用不同的端口号，或通过 fifo），您需要告诉 DS9 如何与 IRAF 通信。DS9 使用与 XIMTOOL 相同的命令行选项：</p>
+<blockquote><tt>-fifo</tt><br>
+<tt>-fifo_only</tt><br>
+<tt>-inet_only</tt><br>
+<tt>-port</tt><br>
+<tt>-port_only</tt><br>
+<tt>-unix</tt><br>
+<tt>-unix_only</tt></blockquote>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><b>I try to display an image, I see something, but it's corrupted and I get multiple error messages from DS9...</b></p>
+<p class="zh"><b>我尝试显示图像，能看到一些内容，但它是损坏的，并且 DS9 出现多条错误消息……</b></p>
+<p>An IRAF image server (<i>ximtool</i>, <i>saoimage</i>, DS9, etc...) uses a configuration file&nbsp; to specify the number of available buffers and their sizes. What actually passes&nbsp; from IRAF is not the buffer size, but an index number into this file.</p>
+<p class="zh">IRAF 图像服务器（<i>ximtool</i>、<i>saoimage</i>、DS9 等）使用配置文件指定可用缓冲区的数量和大小。从 IRAF 实际传递的并不是缓冲区大小，而是该文件中的一个索引号。</p>
+<p>So when an image server starts (DS9), it will attempt to locate this file as&nbsp; $HOME/.imtoolrc and /usr/local/lib/imtoolrc. If not found, it will look for shell&nbsp; environment variables IMTOOLRC and imtoolrc, that contains the name of the configuration file.</p>
+<p class="zh">因此当图像服务器（DS9）启动时，它会尝试在 $HOME/.imtoolrc 和 /usr/local/lib/imtoolrc 中定位该文件。如果找不到，它会查找包含配置文件名称的 shell 环境变量 IMTOOLRC 和 imtoolrc。</p>
+<p>If no configuration file is found, DS9 will assume the following default configuration:</p>
+<p class="zh">如果找不到配置文件，DS9 将采用以下默认配置：</p>
+<blockquote><tt>&nbsp;1&nbsp; 2&nbsp; 512&nbsp; 512&nbsp; # imt1|imt512</tt><br>
+<tt>&nbsp;2&nbsp; 2&nbsp; 800&nbsp; 800&nbsp; # imt2|imt800</tt><br>
+<tt>&nbsp;3&nbsp; 2 1024 1024&nbsp; # imt3|imt1024</tt><br>
+<tt>&nbsp;4&nbsp; 1 1600 1600&nbsp; # imt4|imt1600</tt><br>
+<tt>&nbsp;5&nbsp; 1 2048 2048&nbsp; # imt5|imt2048</tt><br>
+<tt>&nbsp;6&nbsp; 1 4096 4096&nbsp; # imt6|imt4096</tt><br>
+<tt>&nbsp;7&nbsp; 1 8192 8192&nbsp; # imt7|imt8192</tt><br>
+<tt>&nbsp;8&nbsp; 1 1024 4096&nbsp; # imt8|imt1x4</tt><br>
+<tt>&nbsp;9&nbsp; 2 1144&nbsp; 880&nbsp; # imt9|imtfs full screen (1152x900 minus frame)</tt><br>
+<tt>10&nbsp; 2 1144&nbsp; 764&nbsp; # imt10|imtfs35 full screen at 35mm film aspect ratio</tt><br>
+<tt>11&nbsp; 2&nbsp; 128&nbsp; 128&nbsp; # imt11|imt128</tt><br>
+<tt>12&nbsp; 2&nbsp; 256&nbsp; 256&nbsp; # imt12|imt256</tt><br>
+<tt>13&nbsp; 2&nbsp; 128 1056&nbsp; # imt13|imttall128 tall &amp; narrow for spectro.</tt><br>
+<tt>14&nbsp; 2&nbsp; 256 1056&nbsp; # imt14|imttall256 tall &amp; wider for spectro.</tt><br>
+<tt>15&nbsp; 2 1056&nbsp; 128&nbsp; # imt15|imtwide128 wide &amp; thin for spectro.</tt><br>
+<tt>16&nbsp; 2 1056&nbsp; 256&nbsp; # imt16|imtwide256 wide &amp; fatter for spectro.</tt><br>
+<tt>17&nbsp; 2 1008&nbsp; 648&nbsp; # imt17|imtssy Solitaire fmt w/ imtool border</tt><br>
+<tt>18&nbsp; 2 1024&nbsp; 680&nbsp; # imt18|imtssn Solitaire fmt w/out imtool border</tt><br>
+<tt>19&nbsp; 1 4096 1024&nbsp; # imt19|imt4x1</tt><br></blockquote>
+<p>If on the other hand, IRAF assumes a different buffer size, the image will appear corrupted and DS9 may issue a number of error messages.</p>
+<p class="zh">另一方面，如果 IRAF 采用了不同的缓冲区大小，图像就会显示为损坏，DS9 也可能会发出多条错误消息。</p>
+<p>Another problem is that this file must be in sync with dev$graphcap. If your&nbsp; system administrator has made changes to graphcap, they must also be implemented in imtoolrc.</p>
+<p class="zh">另一个问题是，该文件必须与 dev$graphcap 保持同步。如果您的系统管理员修改了 graphcap，也必须相应地修改 imtoolrc。</p>
+<p>Here is a note from NOAO:</p>
+<p class="zh">以下是 NOAO 的说明：</p>
+<blockquote>
+<p><tt>The messages means that there is no /usr/local/lib/imtoolrc file</tt> <tt>on the machine. This is created as a symlink to dev$imtoolrc by the</tt> <tt>iraf install script but only if the /usr/local/lib dir already exists on the</tt> <tt>machine. The fix is the create the dir and rerun the install script or</tt> <tt>else make the link by hand.&nbsp; Users can also just copy dev$imtoolrc</tt> <tt>to $HOME/.imtoolrc and restart the server to also workaround it. Note</tt> <tt>that an existing .imtoolrc might define old frame buffer configs which</tt> <tt>might confuse things, so if the system file exists check for a private</tt> <tt>copy screwing things up.</tt></p>
+<p class="zh"><tt>这些消息意味着机器上没有 /usr/local/lib/imtoolrc 文件。该文件本应由 iraf 安装脚本创建为指向 dev$imtoolrc 的符号链接，但只有在机器上已存在 /usr/local/lib 目录时才会创建。解决办法是创建该目录并重新运行安装脚本，或者手动创建链接。用户也可以直接将 dev$imtoolrc 复制到 $HOME/.imtoolrc 并重启服务器来绕过此问题。注意：已有的 .imtoolrc 可能定义了旧的帧缓冲配置并导致混乱，因此如果系统文件存在，请检查是否有私人副本造成问题。</tt></p>
+</blockquote>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><b>Where do I find this .imtoolrc file?</b></p>
+<p class="zh"><b>在哪里能找到这个 .imtoolrc 文件？</b></p>
+<p>Again, here a note from NOAO concerning this issue:</p>
+<p class="zh">同样，以下是 NOAO 关于此问题的说明：</p>
+<blockquote>
+<p><tt>In a smooth installation the imtoolrc file is installed as a</tt> <tt>/usr/local/lib/imtoolrc symlink pointing to the dev$imtoolrc file in the</tt> <tt>iraf system.&nbsp; This is normally what's used but XImtool (and DS9?) also</tt> <tt>allow a $HOME/.imtoolrc and IMTOOLRC environment variable defining the</tt> <tt>path as fallbacks.&nbsp; There are several practical problems with&nbsp; this:&nbsp; for</tt> <tt>some reason (I'm trying to fix) the imtoolrc link won't be created if</tt> <tt>the /usr/local/lib directory doesn't exist when the install script is</tt> <tt>run on the machine, even though it's run as root and the file can be</tt> <tt>directory easily.&nbsp; On PC-IRAF systems there is also a typo in the install</tt> <tt>script (extra logical or at line 515) which causes it to exit before</tt> <tt>the display setup is run (i.e. no /dev fifos or imtoolrc). If users don't</tt> <tt>catch this or see it in the README file they'll think everything went</tt> <tt>fine. Lastly, the local iraf admin might not have run the install script</tt> <tt>on the local iraf NFS client machine at all.</tt></p>
+<p class="zh"><tt>在顺利的安装中，imtoolrc 文件以 /usr/local/lib/imtoolrc 符号链接的形式安装，指向 iraf 系统中的 dev$imtoolrc 文件。这通常是实际使用的文件，但 XImtool（以及 DS9？）也允许使用 $HOME/.imtoolrc 和定义路径的 IMTOOLRC 环境变量作为后备。这里有几个实际问题：出于某种原因（我正在尝试修复）——当在机器上运行安装脚本时，如果 /usr/local/lib 目录不存在，imtoolrc 链接就不会被创建，即使脚本以 root 身份运行且该目录很容易创建。在 PC-IRAF 系统中，安装脚本还有一个笔误（第 515 行多了一个逻辑或），导致它在显示设置运行前就退出（即没有 /dev fifo 或 imtoolrc）。如果用户没有发现这一点，或在 README 文件中没有看到，就会以为一切正常。最后，本地 iraf 管理员可能根本没有在本地 iraf NFS 客户端机器上运行安装脚本。</tt></p>
+</blockquote>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><b>When I display an image from IRAF, the SCALE menu option is not active, Why?</b></p>
+<p class="zh"><b>当我显示来自 IRAF 的图像时，"灰度拉伸（SCALE）"菜单选项不可用，为什么？</b></p>
+<p>When you display an image from IRAF into DS9, IRAF actually does the color scale&nbsp; distribution. In Display, use the ztrans and z1,z2 parameters to set the upper/lower bounds and distribution. You can also use the zscale parameter to auto determine z1,z2.Here are the DISPLAY parameters in question:</p>
+<p class="zh">当您将 IRAF 的图像显示到 DS9 中时，实际上是 IRAF 完成了颜色灰度拉伸分布。在 Display（显示）任务中，使用 ztrans 和 z1、z2 参数设置上下限和分布。也可以使用 zscale 参数自动确定 z1、z2。以下是相关的 DISPLAY 参数：</p>
+<blockquote><tt>ztrans=[linear|log|none|user]</tt><br>
+<tt>z1=min</tt><br>
+<tt>z2=max</tt><br>
+<tt>zscale=[yes|no]</tt></blockquote>
+<p>What actually is sent from IRAF to DS9 is one byte per pixel, values 0-200,&nbsp; which already has applied both the upper and lower clipping bounds and the distribution. So this is why, the SCALE menu is disabled in DS9 when it receives a image from IRAF.</p>
+<p class="zh">从 IRAF 发送到 DS9 的实际上是每像素一个字节、值 0-200 的数据，这些数据已经应用了上下裁剪边界和分布。因此，DS9 收到来自 IRAF 的图像时，"灰度拉伸（SCALE）"菜单会被禁用，原因就在这里。</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p><b><a name="Coordinates" id="Coordinates"></a>Coordinates</b></p>
+<p class="zh"><b><a name="Coordinates_zh" id="Coordinates_zh"></a>坐标</b></p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><b>Why don't I see PHYSICAL/WCS/WCSA...WCSZ coordinates displayed when I load my image?</b></p>
+<p class="zh"><b>为什么我加载图像时看不到 PHYSICAL/WCS/WCSA…WCSZ 坐标显示？</b></p>
+<p>DS9 supports the following coordinate systems:</p>
+<p class="zh">DS9 支持以下坐标系：</p>
+<blockquote><tt>WCS Sky coords (fk4,fk5,icrs,galactic,ecliptic)<br></tt> <tt>WCS Linear coords<br></tt> <tt>Image (also known as Logical)<br></tt> <tt>Physical (also known as CCD)<br>
+Detector<br>
+Amplifier &nbsp;</tt><br></blockquote>
+<p class="zh"><tt>WCS 天球坐标（fk4、fk5、icrs、galactic 银道、ecliptic 黄道）</tt><br><tt>WCS 线性坐标</tt><br><tt>图像坐标（Image，也称为逻辑坐标 Logical）</tt><br><tt>物理坐标（Physical，也称为 CCD）</tt><br><tt>探测器坐标（Detector）</tt><br><tt>放大器坐标（Amplifier）</tt></p>
+<p>DS9 uses the following FITS keywords in the header to define a coordinate system: &nbsp;</p>
+<p class="zh">DS9 使用 FITS 头中的以下关键字来定义坐标系：</p>
+</blockquote>
+<center>
+<table summary="" cellpadding="4" border="1" width="75%">
+<tbody>
+<tr>
+<td><b>Coordinate System</b></td>
+<td><b>Keyword Values</b></td>
+</tr>
+<tr>
+<td><b>坐标系</b></td>
+<td><b>关键字值</b></td>
+</tr>
+<tr>
+<td><tt>WCS / WCSA...WCSZ</tt></td>
+<td><tt>CRVAL,CRPIX,CRDELT,CD... (for images)<br>
+TCRVL,TCRPX,TCDLT,... (for tables)</tt></td>
+</tr>
+<tr>
+<td><tt>图像坐标 Image</tt></td>
+<td><tt>none required（无需）</tt></td>
+</tr>
+<tr>
+<td><tt>物理坐标 Physical</tt></td>
+<td><tt>WCSNAMEP='PHYSICAL' or LTMx_x/LTVx（或 LTMx_x/LTVx）</tt></td>
+</tr>
+<tr>
+<td valign="top"><tt>探测器坐标 Detector</tt><br></td>
+<td valign="top"><tt>DTMx_x/DTVx</tt><br></td>
+</tr>
+<tr>
+<td valign="top"><tt>放大器坐标 Amplifier</tt><br></td>
+<td valign="top"><tt>ATMx_x/ATVx</tt><br></td>
+</tr>
+</tbody>
+</table>
+</center>
+<blockquote>
+<p>If the required keywords are not present, values for those coordinates are not displayed.</p>
+<p class="zh">如果缺少所需的关键字，则不会显示相应坐标的值。</p>
+<p>Note: For PHYSICAL, DS9 will first look for an alternative WCS with WCSNAMEx='PHYSICAL'. If not found, DS9 will then look for the LTMx_x LTVx keywords.</p>
+<p class="zh">注意：对于物理坐标（PHYSICAL），DS9 会先查找 WCSNAMEx='PHYSICAL' 的备用 WCS。如果找不到，DS9 再查找 LTMx_x 和 LTVx 关键字。</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p><b><a name="Regions" id="Regions"></a>Regions</b></p>
+<p class="zh"><b><a name="Regions_zh" id="Regions_zh"></a>区域</b></p>
+<blockquote>
+<p><b>How do I indicate distance on my printed images?</b>&nbsp;</p>
+<p class="zh"><b>如何在打印的图像上标注距离？</b></p>
+<p>You have two choices, the RULER region and the LINE region. The ruler region is mainly used for interactive measurements. For printed output, use the LINE region to create a distance indicator. In the line region dialog, there is a read-only entry that indicates the length in pixels, degrees, arcmin, or arcsec. Edit to the desired distance and enter the desired label, including ' or ", in the region text labile entry. You have the option of arrows at each end of the line.</p>
+<p class="zh">您有两种选择：标尺（RULER）区域和线段（LINE）区域。标尺区域主要用于交互式测量。对于打印输出，请使用线段（LINE）区域创建距离指示。在线段区域对话框中，有一个只读条目显示以像素、度、角分或角秒为单位的长度。编辑为所需距离，并在区域文本标签条目中输入所需标签（可包含 ' 或 " 符号）。您还可以选择在线段两端添加箭头。</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p><b><a name="Printing" id="Printing"></a>Printing</b></p>
+<p class="zh"><b><a name="Printing_zh" id="Printing_zh"></a>打印</b></p>
+<blockquote>
+<p><b>I can make some wonderful color images in DS9 and save them as postscript files that look great, but often when I print them they appear washed out or very different than they do on the screen. My question then is what, if anything, can I do about this?</b></p>
+<p class="zh"><b>我可以在 DS9 中制作一些精美的彩色图像，并保存为看起来很棒的 PostScript 文件，但打印出来时它们往往显得发白或与屏幕上的效果相差很大。那么请问，我能做些什么（如果有的话）？</b></p>
+<p>The problem is that you create an image on a display, which is the product of&nbsp; RGB colors (red, green, and blue) and print the image on a printer, which is the&nbsp; product of CMYK colors (cyan, yellow, magenta, and black). Furthermore, every&nbsp; monitor is different in how it will display a certain color, and every printing&nbsp; technology is different in how well it will reproduce that color. And finally,&nbsp; the translation between RGB and CMYK is not symmetric, i.e. its not possible to&nbsp; translate some colors back and forth.</p>
+<p class="zh">问题是：您在显示器上创建图像，显示是 RGB 颜色（红、绿、蓝）的产物；而打印机的输出是 CMYK 颜色（青、黄、品红、黑）的产物。此外，每台显示器显示特定颜色的方式不同，每种打印技术再现该颜色的效果也不同。最后，RGB 与 CMYK 之间的转换不对称，即某些颜色无法来回转换。</p>
+<p>It's possible to calibrate your monitor and your printer, to create a&nbsp; translation matrix, to correct for problems outlined above (in the Macintosh&nbsp; world, this is what ColorSync does). The idea is to <i>apply</i> a gamma correction to the output of DS9, so&nbsp; that it will print much more in line with what you expect. To do this you'd need&nbsp; special software and hardware, and its only valid for your monitor and your&nbsp; printer.</p>
+<p class="zh">可以对显示器和打印机进行校准，创建一个转换矩阵来校正上述问题（在 Macintosh 世界中，这就是 ColorSync 所做的工作）。其思路是对 DS9 的输出<i>应用</i>伽马校正，使其打印效果更符合预期。这需要专门的软硬件，而且只对您的显示器和打印机有效。</p>
+<p>In summary, its not worth it. Especially in the case of publication, such as ApJ,&nbsp; where you have no idea on what printing technology will be used to reproduce&nbsp; your image. So the only control you have is to calibrate your monitor and to&nbsp; hope for the best.</p>
+<p class="zh">总之，这不值得。尤其是在出版的情况下（如 ApJ），您完全不知道会使用什么打印技术来再现您的图像。因此您唯一能做的就是把显示器校准好，然后希望结果最好。</p>
+<p>However, there are some <i>rules of thumb</i> that might help. First, printers have a very hard time with <i>blues</i> and <i>purples</i>, as they tend to be washed out. Either avoid these colors, or over compensate these colors.&nbsp;</p>
+<p class="zh">不过，有些<i>经验法则</i>可能有所帮助。首先，打印机很难处理好<i>蓝色</i>和<i>紫色</i>，因为它们往往会发白。要么避免使用这些颜色，要么对这些颜色进行过度补偿。</p>
+<p>ApJ has a good idea in that you send in both an electronic version and a hard copy of your color image. That way, they can manually adjust the printers to&nbsp; try to match your output.</p>
+<p class="zh">ApJ 有个好做法：您同时提交彩色图像的电子版和硬拷贝。这样他们可以手动调整打印机，尽量匹配您的输出。</p>
+<p><i>NOTE: Even though ApJ requests images in CMYK, we recommend RGB. From personal experience, if you send RGB, the printed results will be closer to the original.</i></p>
+<p class="zh"><i>注意：尽管 ApJ 要求 CMYK 图像，我们还是推荐使用 RGB。根据个人经验，如果提交 RGB，打印结果会更接近原始图像。</i></p>
+<p><b>We used DS9 to generate 300 dpi CMYK eps figures, as per the ApJ specifications, but the color scheme on&nbsp; our proofs is wrong.&nbsp; In the proofs, the violet is washed out and looks similar to the black, and the blue is not nearly as intense.</b></p>
+<p class="zh"><b>我们按照 ApJ 的规范使用 DS9 生成了 300 dpi 的 CMYK EPS 图，但校样上的配色不对。在校样中，紫色发白且看起来接近黑色，蓝色也远没有那么强烈。</b></p>
+<p>There are two issues here: first,&nbsp; color printers are notorious for failure to reproduce blues and purples correctly. Second,&nbsp; not all colors in RGB space can be reproduced correctly in CMYK space, blues being the prime example. Below is an excerpt from an industry pamphlet:</p>
+<p class="zh">这里有两个问题：第一，彩色打印机在正确再现蓝色和紫色方面是出了名的失败。第二，并非 RGB 空间中的所有颜色都能在 CMYK 空间中正确再现，蓝色就是最主要的例子。以下是行业手册的摘录：</p>
+<blockquote>
+<p><tt>Be aware that it is possible to see colors in RGB that you can't make with CMYK. They are said to be "out of the CMYK color gamut". What happens is that the RGB-to-CMYK translator just gets as close as possible to the appearance of the original and that's as good as it can be. It's something that everyone in the industry puts up with. So it's best to select any colors you use for fonts or other design elements in your layout using CMYK definitions instead of RGB. That way, you will have a better idea of how they will appear in your printed piece. Here's a common example: many programs translate the 100% Blue in RGB into a somewhat purple-looking color in CMYK. We recommend a CMYK value of 100-65-0-0 to get a nice clean blue.<font size="-1"><br></font></tt></p>
+<p class="zh"><tt>请注意，有些颜色在 RGB 中可以看到，但无法用 CMYK 制作出来。这些颜色被称为"超出 CMYK 色域（out of the CMYK color gamut）"。实际发生的情况是，RGB 到 CMYK 的转换器只是尽量接近原色的外观，这就是它能做到的最好程度。这是业内每个人都习以为常的事。因此，最好为布局中的字体或其他设计元素选择颜色时使用 CMYK 定义而不是 RGB。这样您就能更好地了解它们在印刷品中的呈现效果。这里有一个常见示例：许多程序将 RGB 中的 100% 纯蓝转换为 CMYK 中略显紫色的颜色。我们建议使用 100-65-0-0 的 CMYK 值，以获得漂亮的纯蓝色。</tt></p>
+</blockquote>
+<p>For this reason, you may wish to use the RGB color space or colormaps without deep blues and purples, such as <tt>BB</tt> or <tt>Heat.</tt></p>
+<p class="zh">因此，您可能希望使用不含深蓝和深紫的 RGB 色彩空间或颜色映射，例如 <tt>BB</tt> 或 <tt>Heat（热）</tt>。</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p><b><a name="XPA" id="XPA"></a>XPA</b></p>
+<blockquote>
+<p><b>How can I use XPA to display from a client machine to DS9 on a server machine?<br></b></p>
+<p class="zh"><b>如何使用 XPA 从客户端机器显示到服务器机器上的 DS9？</b></p>
+<p>Assuming you have direct IP reachability between the machines (i.e. one host can successfully connect() to the other), XPA does allow you to have an XPA-enabled server like DS9 on one machine and a client on another. To make this work, you need to do two things (let's assume DS9 is running on a machine called "server_host" and you want to send xpa commands from "client_host"):<br></p>
+<p class="zh">假设机器之间有直接的 IP 可达性（即一台主机可以成功 connect() 到另一台），XPA 确实允许您在一台机器上运行支持 XPA 的服务器（如 DS9），在另一台机器上运行客户端。要实现这一点，您需要做两件事（假设 DS9 运行在名为 "server_host" 的机器上，您想从 "client_host" 发送 xpa 命令）：</p>
+<ol>
+<li>The XPA server program (i.e. DS9) must allow the client host to send XPA commands. Access can be permitted in one of two ways:<br>
+<ol style="list-style-type: lower-alpha;">
+<li>Send the XPA server an acl request by running xpaset on the same host on which the server is running (i.e. on the server_host):<br>
+<br>
+<span style="font-family: monospace;">% xpaset -p ds9 -acl client_host +<br>
+<br></span></li>
+<li>For more permanent access, add permissions in ~acls.xpa:<br>
+<br>
+<span style="font-family: monospace;">% cat &gt; ~/acls.xpa</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">DS9:ds9 client_host +<br></span><br>
+You can check the acls for an XPA server using xpaget:<br>
+<br>
+<span style="font-family: monospace;">% xpaget ds9 -acl<br></span><br></li>
+</ol>
+</li>
+<li>On the client side, the client needs to communicate with the xpansname server program on the server machine to find the XPA server communication info. This also can be done in two ways:<br>
+<ol style="list-style-type: lower-alpha;">
+<li>use the -i [host] switch to override <span style="font-family: monospace;">XPA_NSINET</span> for this execution (The default port is 14285):<br>
+<span style="font-family: monospace;"><br>
+% xpaget -i 'server_host:14285<span style="font-family: monospace;">' ds9</span></span><br>
+<br></li>
+<li>Set the <span style="font-family: monospace;">XPA_NSINET</span> variable for more permanent selection of xpans on the server host:<br>
+<br>
+<span style="font-family: monospace;">% setenv XPA_NSINET 'server_host:14285'</span><br></li>
+</ol>
+</li>
+</ol>
+<p class="zh">1. XPA 服务器程序（即 DS9）必须允许客户端主机发送 XPA 命令。可以通过以下两种方式之一授予访问权限：<br>
+（a）在运行服务器的主机（即 server_host）上运行 xpaset，向 XPA 服务器发送 acl 请求：<br><br><span style="font-family: monospace;">% xpaset -p ds9 -acl client_host +</span><br><br>
+（b）要获得更持久的访问权限，可在 ~acls.xpa 中添加权限：<br><br><span style="font-family: monospace;">% cat &gt; ~/acls.xpa</span><br><span style="font-family: monospace;">DS9:ds9 client_host +</span><br><br>可以使用 xpaget 检查 XPA 服务器的 acl：<br><br><span style="font-family: monospace;">% xpaget ds9 -acl</span><br><br>
+2. 在客户端，客户端需要与服务器机器上的 xpans 名称服务器程序通信，以找到 XPA 服务器的通信信息。这也有两种方式：<br>
+（a）使用 -i [host] 开关，为此执行覆盖 <span style="font-family: monospace;">XPA_NSINET</span>（默认端口为 14285）：<br><br><span style="font-family: monospace;">% xpaget -i 'server_host:14285' ds9</span><br><br>
+（b）设置 <span style="font-family: monospace;">XPA_NSINET</span> 变量，以更持久地选择服务器主机上的 xpans：<br><br><span style="font-family: monospace;">% setenv XPA_NSINET 'server_host:14285'</span><br></p>
+<p>Once these two setup steps are performed, you should be able to send commands to DS9 and receive data from DS9.</p>
+<p class="zh">完成这两个设置步骤后，您就可以向 DS9 发送命令并从 DS9 接收数据了。</p>
+<p><b>I have a laptop, that most of the time, is connected to a network. DS9 runs fine. However, when I'm not connected to a network and I start DS9, it hangs. What's going on?</b></p>
+<p class="zh"><b>我有一台笔记本电脑，大部分时间连接着网络，DS9 运行正常。然而，当我没有连接网络并启动 DS9 时，它就卡住了。怎么回事？</b></p>
+<p>&nbsp;DS9 uses XPA for interprocess communication. When DS9 starts, XPA initializes itself. XPA uses either IP sockets or UNIX sockets, based if your machine is configured to connect to the internet. In the case where your machine is configured for the internet, but you are not currently connected, XPA gets very confused. So, you can define a shell variable, XPA_METHOD, that tells XPA which method to use.</p>
+<p class="zh">DS9 使用 XPA 进行进程间通信。DS9 启动时，XPA 会进行自我初始化。XPA 根据您的机器是否配置为连接互联网，使用 IP 套接字或 UNIX 套接字。如果您的机器配置了互联网但当前未连接，XPA 就会非常混乱。因此，您可以定义一个 shell 变量 XPA_METHOD，告诉 XPA 使用哪种方法。</p>
+<p>The following is from the XPA documentation:</p>
+<p class="zh">以下是 XPA 文档中的内容：</p>
+<blockquote>
+<p><tt>Determines the socket connection method used by this session of XPA. The choices are: inet (to use INET or Internet-based sockets) and local (unix) (to use UNIX sockets). The default is INET. Using the inet method will allow access from other machines (subject to access controls) but using local will not. Local is most useful for private access and when the machine in question is not connected to the Internet</tt></p>
+<p class="zh"><tt>确定本次 XPA 会话使用的套接字连接方法。可选值：inet（使用 INET 或基于互联网的套接字）和 local（unix）（使用 UNIX 套接字）。默认为 INET。使用 inet 方法允许其他机器访问（受访问控制约束），而使用 local 则不允许。local 最适用于私有访问以及相关机器未连接互联网的情况。</tt></p>
+</blockquote>
+</blockquote>
+</blockquote>
+<blockquote>
+<p><b><a name="VO" id="VO"></a>VO</b></p>
+<p class="zh"><b><a name="VO_zh" id="VO_zh"></a>虚拟天文台（VO）</b></p>
+<blockquote>
+<p><b>I can't connect to any of the virtual observatories. What do I do now?</b></p>
+<p class="zh"><b>我无法连接到任何虚拟天文台，现在该怎么办？</b></p>
+<p>The DS9 help facility now contains a tutorial on how to configure DS9 to by pass network firewalls. See <a href="ref/vo.html">Virtual Observatory Reference</a> for more information.</p>
+<p class="zh">DS9 帮助功能现在包含一个关于如何配置 DS9 以绕过网络防火墙的教程。更多信息请参阅<a href="ref/vo.html">虚拟天文台参考文档（Virtual Observatory Reference）</a>。</p>
+</blockquote>
+</blockquote>
+</body>
+</html>

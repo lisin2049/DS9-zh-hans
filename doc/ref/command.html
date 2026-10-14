@@ -1,0 +1,3116 @@
+<!DOCTYPE doctype PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta name="generator" content="HTML Tidy for Mac OS X (vers 31 October 2006 - Apple Inc. build 17.1), see www.w3.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="GENERATOR" content="Mozilla/4.78 [en] (X11; U; Linux 2.4.7-10 i686) [Netscape]">
+<title>Command Line Options（命令行选项）</title>
+<style type="text/css">
+.zh { color: #333333; border-left: 3px solid #cccccc; padding-left: 8px; margin: 2px 0 10px 0; font-family: "Microsoft YaHei", "PingFang SC", sans-serif; }
+h2 .zh, h3 .zh, h4 .zh { color: #555555; font-weight: normal; border-left: none; padding-left: 6px; }
+li .zh { display: block; }
+</style>
+</head>
+<body link="#0000FF" vlink="#551A8B" alink="#FF0000">
+<h3><img alt="" src="../sun.png" align="middle"> Command Line Options<span class="zh">命令行选项</span></h3>
+<blockquote>
+<p>DS9 will process each command line option, one at a time, as the last step in the initialization process. Therefore, it is possible to use command line options as a little script. For example, the following command line option is used:</p>
+<p class="zh">DS9 会在初始化过程的最后一步，逐个处理每一个命令行选项。因此，可以把命令行选项当作一小段脚本来使用。例如，使用如下命令行选项：</p>
+<tt>$ds9 -tile foo.fits -cmap Heat -zscale bar.fits -cmap I8</tt>
+<p>First DS9 is put in tile mode, then <tt>foo.fits</tt> is loaded. Then the colormap for <tt>foo.fits</tt> is changed to <tt>Heat</tt> and the scale changed to <tt>zscale</tt>. Next, <tt>bar.fits</tt> is loaded and the colormap for <tt>bar.fits</tt> is changed to <tt>I8.</tt></p>
+<p class="zh">首先 DS9 进入平铺（tile）模式，然后加载 <tt>foo.fits</tt>。接着把 <tt>foo.fits</tt> 的颜色映射改为 <tt>Heat</tt>，灰度拉伸改为 <tt>zscale</tt>。之后加载 <tt>bar.fits</tt>，并把 <tt>bar.fits</tt> 的颜色映射改为 <tt>I8</tt>。</p>
+<tt><a href="#twomass">2mass</a><br>
+<a href="#threed">3d</a><br>
+<a href="#about">about</a><br>
+<a href="#align">align</a><br>
+<a href="#analysis">analysis</a><br>
+<a href="#array">array</a><br>
+<a href="#asinh">asinh</a><br>
+<a href="#backup">backup</a><br>
+<a href="#bin">bin</a><br>
+<a href="#blink">blink</a><br>
+<a href="#block">block</a><br>
+<a href="#blue">blue</a><br>
+<a href="#bookmark">bookmark</a><br>
+<a href="#catalog">catalog</a><br>
+<a href="#cd">cd</a><br>
+<a href="#cmap">cmap</a><br>
+<a href="#colorbar">colorbar</a><br>
+<a href="#console">console</a><br>
+<a href="#contour">contour</a><br>
+<a href="#crop">crop</a><br>
+<a href="#crosshair">crosshair</a><br>
+<a href="#cube">cube</a><br>
+<a href="#cursor">cursor</a><br>
+<!--
+<a href="#dsssao">dsssao</a><br>
+-->
+<a href="#dsseso">dsseso</a><br>
+<a href="#dssstsci">dssstsci</a><br>
+<a href="#envi">envi</a><br>
+<a href="#exit">exit</a><br>
+<a href="#export">export</a><br>
+<a href="#fade">fade</a><br>
+<a href="#fifo">fifo</a><br>
+<a href="#fifo_only">fifo_only</a><br>
+<a href="#fits">fits</a><br>
+<a href="#footprint">footprint</a><br>
+<a href="#frame">frame</a><br>
+<a href="#geometry">geometry</a><br>
+<a href="#gif">gif</a><br>
+<a href="#green">green</a><br>
+<a href="#graph">graph</a><br>
+<a href="#grid">grid</a><br>
+<a href="#header">header</a><br>
+<a href="#height">height</a><br>
+<a href="#help">help</a><br>
+<a href="#histequ">histequ</a><br>
+<a href="#hls">hls</a><br>
+<a href="#hlsarray">hlsarray</a><br>
+<a href="#hlscube">hlscube</a><br>
+<a href="#hlsimage">hlsimage</a><br>
+<a href="#hsv">hsv</a><br>
+<a href="#hsvarray">hsvarray</a><br>
+<a href="#hsvcube">hsvcube</a><br>
+<a href="#hsvimage">hsvimage</a><br>
+<a href="#hue">hue</a><br>
+<a href="#iconify">iconify</a><br>
+<a href="#inet_only">inet_only</a><br>
+<a href="#invert">invert</a><br>
+<a href="#iis">iis</a><br>
+<a href="#illustrate">illustrate</a><br>
+<a href="#jpeg">jpeg</a><br>
+<a href="#language">language</a><br>
+<a href="#layer">layer</a><br>
+<a href="#linear">linear</a><br>
+<a href="#lightness">lightness</a><br>
+<a href="#lock">lock</a><br>
+<a href="#log">log</a><br>
+<a href="#lower">lower</a><br>
+<a href="#magnifier">magnifier</a><br>
+<a href="#mask">mask</a><br>
+<a href="#match">match</a><br>
+<a href="#mecube">mecube</a><br>
+<a href="#minmax">minmax</a><br>
+<a href="#mode">mode</a><br>
+<a href="#mosaic">mosaic</a><br>
+<a href="#mosaicimage">mosaicimage</a><br>
+<a href="#movie">movie</a><br>
+<a href="#msg">msg</a><br>
+<a href="#multiframe">multiframe</a><br>
+<a href="#multicolor">multicolor</a><br>
+<a href="#nameserver">nameserver</a><br>
+<a href="#notes">notes</a><br>
+<a href="#nrrd">nrrd</a><br>
+<a href="#nvss">nvss</a><br>
+<a href="#orient">orient</a><br>
+<a href="#pagesetup">pagesetup</a><br>
+<a href="#pan">pan</a><br>
+<a href="#pixeltable">pixeltable</a><br>
+<a href="#plot">plot</a><br>
+<a href="#png">png</a><br>
+<a href="#prefs">prefs</a><br>
+<a href="#preserve">preserve</a><br>
+<a href="#psprint">psprint</a><br>
+<a href="#print">print</a><br>
+<a href="#prism">prism</a><br>
+<a href="#port">port</a><br>
+<a href="#port_only">port_only</a><br>
+<a href="#pow">pow</a><br>
+<a href="#exit">quit</a><br>
+<a href="#raise">raise</a><br>
+<a href="#region">region</a><br>
+<a href="#red">red</a><br>
+<a href="#restore">restore</a><br>
+<a href="#reveal">reveal</a><br>
+<a href="#rgb">rgb</a><br>
+<a href="#rgbarray">rgbarray</a><br>
+<a href="#rgbcube">rgbcube</a><br>
+<a href="#rgbimage">rgbimage</a><br>
+<a href="#rotate">rotate</a><br>
+<a href="#samp">samp</a><br>
+<a href="#saturation">saturation</a><br>
+<a href="#save">save</a><br>
+<a href="#saveimage">saveimage</a><br>
+<a href="#scale">scale</a><br>
+<a href="#shm">shm</a><br>
+<a href="#sia">sia</a><br>
+<a href="#single">single</a><br>
+<a href="#sinh">sinh</a><br>
+<a href="#skyview">skyview</a><br>
+<a href="#sleep">sleep</a><br>
+<a href="#slice">slice</a><br>
+<a href="#smooth">smooth</a><br>
+<a href="#squared">squared</a><br>
+<a href="#sqrt">sqrt</a><br>
+<a href="#source">source</a><br>
+<a href="#tcl">tcl</a><br>
+<a href="#tiff">tiff</a><br>
+<a href="#tile">tile</a><br>
+<a href="#title">title</a><br>
+<a href="#unix">unix</a><br>
+<a href="#unix_only">unix_only</a><br>
+<a href="#update">update</a><br>
+<a href="#url">url</a><br>
+<a href="#value">value</a><br>
+<a href="#version">version</a><br>
+<a href="#view">view</a><br>
+<a href="#visual">visual</a><br>
+<a href="#vla">vla</a><br>
+<a href="#vlss">vlss</a><br>
+<a href="#vo">vo</a><br>
+<a href="#wcs">wcs</a><br>
+<a href="#web">web</a><br>
+<a href="#width">width</a><br>
+<a href="#xpa">xpa</a><br>
+<a href="#zmax">zmax</a><br>
+<a href="#zoom">zoom</a><br>
+<a href="#zscale">zscale</a></tt><br>
+<p class="zh">下表按字母顺序列出全部命令行选项。命令名本身（如 <tt>2mass</tt>、<tt>cmap</tt> 等）为专名，不翻译；其语法块（Syntax/Example）保持英文原样，仅对各命令的说明段落提供中文译文。</p>
+<p><b><a name="twomass" id="twomass"></a>2mass</b></p>
+<p>Support for 2MASS Digital Sky Survey.</p>
+<p class="zh">支持 2MASS 数字巡天（Digital Sky Survey）。</p>
+<tt>Syntax:<br>
+-2mass []<br>
+&nbsp;&nbsp;&nbsp; [&lt;object&gt;]<br>
+&nbsp;&nbsp;&nbsp; [name &lt;object&gt;|clear]<br>
+&nbsp;&nbsp;&nbsp; [&lt;ra&gt; &lt;dec&gt;] # in wcs fk5<br>
+&nbsp;&nbsp;&nbsp; [size &lt;width&gt; &lt;height&gt; degrees|arcmin|arcsec]<br>
+&nbsp;&nbsp;&nbsp; [save yes|no]<br>
+&nbsp;&nbsp;&nbsp; [frame new|current]<br>
+&nbsp;&nbsp;&nbsp; [update frame|crosshair]<br>
+&nbsp;&nbsp;&nbsp; [survey j|h|k]<br>
+&nbsp;&nbsp;&nbsp; [open|close]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -2mass<br>
+$ds9 -2mass m31<br>
+$ds9 -2mass name m31<br>
+$ds9 -2mass name clear<br>
+$ds9 -2mass 00:42:44.404 +41:16:08.78<br>
+$ds9 -2mass size 60 60 arcmin<br>
+$ds9 -2mass save yes<br>
+$ds9 -2mass frame current<br>
+$ds9 -2mass update frame<br>
+$ds9 -2mass survey j<br>
+$ds9 -2mass open<br>
+$ds9 -2mass close<br></tt>
+<p><b><a name="threed" id="threed"></a>3d</b></p>
+<p>Support for 3D frame.</p>
+<p class="zh">支持三维（3D）帧。</p>
+<tt>Syntax:<br>
+-3d []<br>
+&nbsp;&nbsp;&nbsp; [view &lt;az&gt; &lt;el&gt;]<br>
+&nbsp;&nbsp;&nbsp; [az &lt;az&gt;]<br>
+&nbsp;&nbsp;&nbsp; [el &lt;el&gt;]<br>
+&nbsp;&nbsp;&nbsp; [scale &lt;scale&gt;]<br>
+&nbsp;&nbsp;&nbsp; [method mip|aip|fip]<br>
+&nbsp;&nbsp;&nbsp; [shade yes|no]<br>
+&nbsp;&nbsp;&nbsp; [shade ambient &lt;0..1&gt;]<br>
+&nbsp;&nbsp;&nbsp; [shade strength &lt;0..1&gt;]<br>
+&nbsp;&nbsp;&nbsp; [shade normal yes|no]<br>
+&nbsp;&nbsp;&nbsp; [shade normal strength &lt;0..1&gt;]<br>
+&nbsp;&nbsp;&nbsp; [background none|azimuth|elevation]<br>
+&nbsp;&nbsp;&nbsp; [border yes|no]<br>
+&nbsp;&nbsp;&nbsp; [border color &lt;color&gt;]<br>
+&nbsp;&nbsp;&nbsp; [highlite yes|no]<br>
+&nbsp;&nbsp;&nbsp; [highlite color &lt;color&gt;]<br>
+&nbsp;&nbsp;&nbsp; [compass yes|no]<br>
+&nbsp;&nbsp;&nbsp; [compass color &lt;color&gt;]<br>
+&nbsp;&nbsp;&nbsp; [match]<br>
+&nbsp;&nbsp;&nbsp; [lock [yes|no]]<br>
+&nbsp;&nbsp;&nbsp; [open|close]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -3d # create new 3D frame<br>
+$ds9 -3d view 45 30<br>
+$ds9 -3d az 45<br>
+$ds9 -3d el 30<br>
+$ds9 -3d scale 10<br>
+$ds9 -3d method mip<br>
+$ds9 -3d shade yes<br>
+$ds9 -3d shade ambient 0.8<br>
+$ds9 -3d shade strength 1.0<br>
+$ds9 -3d shade normal yes<br>
+$ds9 -3d shade normal strength 1.0<br>
+$ds9 -3d background azimuth<br>
+$ds9 -3d border yes<br>
+$ds9 -3d border color red<br>
+$ds9 -3d highlite yes<br>
+$ds9 -3d highlite color red<br>
+$ds9 -3d compass yes<br>
+$ds9 -3d compass color red<br>
+$ds9 -3d match<br>
+$ds9 -3d lock yes<br>
+$ds9 -3d open<br>
+$ds9 -3d close</tt><br>
+<p><b><a name="about" id="about"></a>about</b></p>
+<p>Get DS9 credits.</p>
+<p class="zh">获取 DS9 的致谢与credits（ credits 信息）。</p>
+<tt>Syntax:<br>
+-about<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -about<br></tt>
+<p><b><a name="align" id="align"></a>align</b></p>
+<p>Controls the World Coordinate System alignment for the current frame.</p>
+<p class="zh">控制当前帧的世界坐标系（WCS）对齐。</p>
+<tt>Syntax:<br>
+-align [yes|no]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -align yes<br></tt>
+<p><b><a name="analysis" id="analysis"></a>analysis</b></p>
+<p>Control external analysis tasks. Tasks are numbered as they are loaded, starting with 0. Can also be used to display a message and display text in the text dialog window.</p>
+<p class="zh">控制外部分析任务。任务在加载时依次编号，从 0 开始。也可用于在文本对话框中显示一条消息或一段文本。</p>
+<tt>Syntax:<br>
+-analysis [&lt;task number&gt;]<br>
+&nbsp;&nbsp;&nbsp; [&lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [task &lt;task number&gt;|&lt;task name&gt;]<br>
+&nbsp;&nbsp;&nbsp; [load &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [clear]<br>
+&nbsp;&nbsp;&nbsp; [clear][load &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [message ok|okcancel|yesno &lt;message&gt;]<br>
+&nbsp;&nbsp;&nbsp; [entry &lt;message&gt;]<br>
+&nbsp;&nbsp;&nbsp; [text]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -analysis 0 # invoke first analysis task<br>
+$ds9 -analysis task 0<br>
+$ds9 -analysis task foobar<br>
+$ds9 -analysis task {foo bar}<br>
+$ds9 -analysis my.ans<br>
+$ds9 -analysis load my.ans<br>
+$ds9 -analysis clear<br>
+$ds9 -analysis clear load my.ans<br>
+$ds9 -analysis message {This is a message}<br>
+$ds9 -analysis text {This is text}<br></tt>
+<p><b><a name="array" id="array"></a>array</b></p>
+<p>Load raw data array into current frame.<br></p>
+<p class="zh">将原始数据数组加载到当前帧。</p>
+<tt>Syntax:<br>
+-array &lt;filename&gt; [[xdim=&lt;x&gt;,ydim=&lt;y&gt;|dim=&lt;dim&gt;],zdim=&lt;z&gt;,bitpix=&lt;b&gt;,skip=&lt;s&gt;,endian=[little|big]]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -array foo.arr[dim=512,bitpix=-32,endian=little]<br>
+$cat foo.arr | ds9 -array -[dim=512,bitpix=-32,endian=little]<br></tt>
+<p><b><a name="asinh" id="asinh"></a></b><b>asinh</b></p>
+<p>Select ASINH scale function for the current frame.</p>
+<p class="zh">为当前帧选择 ASINH（反双曲正弦）灰度拉伸函数。</p>
+<tt>Syntax:<br>
+-asinh<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -asinh</tt><br>
+<p><b><a name="backup" id="backup"></a>backup</b></p>
+<p>Create a backup save set.</p>
+<p class="zh">创建一个备份保存集（backup save set）。</p>
+<tt>Syntax:<br>
+-backup &lt;filename&gt;<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -backup ds9.bck</tt><br>
+<p><b><a name="bookmark" id="bookmark"></a>bookmark</b></p>
+<p>Controls bookmarks for the current frame. Bookmark numbers range from 1 to the number of bookmarks.</p>
+<p class="zh">控制当前帧的书签。书签编号从 1 开始，范围为 1 到书签总数。</p>
+<tt>Syntax:<br>
+-bookmark [add [&lt;name&gt;]]<br>
+&nbsp;&nbsp;&nbsp; [delete &lt;integer&gt;]<br>
+&nbsp;&nbsp;&nbsp; [clear]<br>
+&nbsp;&nbsp;&nbsp; [goto &lt;integer&gt;]<br>
+&nbsp;&nbsp;&nbsp; [save &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [load &lt;filename&gt;]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -bookmark add<br>
+$ds9 -bookmark add {Source A}<br>
+$ds9 -bookmark goto 1<br>
+$ds9 -bookmark delete 1<br>
+$ds9 -bookmark clear<br>
+$ds9 -bookmark save foo.bmrk<br>
+$ds9 -bookmark load foo.bmrk</tt><br>
+<p><b><a name="bin" id="bin"></a>bin</b></p>
+<p>Controls binning factor, binning buffer size, and&nbsp; binning function for binning FITS bin tables.</p>
+<p class="zh">控制分箱（binning）因子、分箱缓冲区大小以及用于分箱 FITS 二进制表的分箱函数。</p>
+<tt>Syntax:<br>
+-bin [about &lt;x&gt; &lt;y&gt;]<br>
+&nbsp;&nbsp;&nbsp; [about center]<br>
+&nbsp;&nbsp;&nbsp; [buffersize &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [cols &lt;x&gt; &lt;y&gt;]<br>
+&nbsp;&nbsp;&nbsp; [colsz &lt;x&gt; &lt;y&gt; &lt;z&gt;]<br>
+&nbsp;&nbsp;&nbsp; [factor &lt;value&gt; [&lt;value&gt;]]<br>
+&nbsp;&nbsp;&nbsp; [depth &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [filter &lt;string&gt;]<br>
+&nbsp;&nbsp;&nbsp; [filter clear]<br>
+&nbsp;&nbsp;&nbsp; [function average|sum]<br>
+&nbsp;&nbsp;&nbsp; [in]<br>
+&nbsp;&nbsp;&nbsp; [out]<br>
+&nbsp;&nbsp;&nbsp; [to fit]<br>
+&nbsp;&nbsp;&nbsp; [match]<br>
+&nbsp;&nbsp;&nbsp; [lock [yes|no]]<br>
+&nbsp;&nbsp;&nbsp; [open|close]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -bin about 4096 4096<br>
+$ds9 -bin about center<br>
+$ds9 -bin buffersize 512<br>
+$ds9 -bin cols detx dety<br>
+$ds9 -bin colsz detx dety time<br>
+$ds9 -bin factor 4<br>
+$ds9 -bin factor 4 2<br>
+$ds9 -bin depth 10<br>
+$ds9 -bin filter 'pha &gt; 5'<br>
+$ds9 -bin filter clear<br>
+$ds9 -bin function sum<br>
+$ds9 -bin in<br>
+$ds9 -bin out<br>
+$ds9 -bin to fit<br>
+$ds9 -bin match<br>
+$ds9 -bin lock yes<br>
+$ds9 -bin open<br>
+$ds9 -bin close<br></tt>
+<p><b><a name="blink" id="blink"></a>blink</b></p>
+<p>Blink mode parameters. Interval is in seconds.</p>
+<p class="zh">闪烁（blink）模式参数。间隔以秒为单位。</p>
+<tt>Syntax:<br>
+-blink []<br>
+&nbsp;&nbsp;&nbsp; [yes|no]<br>
+&nbsp;&nbsp;&nbsp; [interval &lt;value&gt;]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -blink<br>
+$ds9 -blink yes<br>
+$ds9 -blink interval 1</tt><br>
+<p><b><a name="block" id="block"></a>block</b></p>
+<p>Controls blocking parameters.</p>
+<p class="zh">控制块（block）参数。</p>
+<tt>Syntax:<br>
+-block[&lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [&lt;value&gt; &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [to &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [to &lt;value&gt; &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [in]<br>
+&nbsp;&nbsp;&nbsp; [out]<br>
+&nbsp;&nbsp;&nbsp; [to fit]<br>
+&nbsp;&nbsp;&nbsp; [match]<br>
+&nbsp;&nbsp;&nbsp; [lock [yes|no]]<br>
+&nbsp;&nbsp;&nbsp; [open|close]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -block 4<br>
+$ds9 -block 4 2<br>
+$ds9 -block to 4<br>
+$ds9 -block to 4 2<br>
+$ds9 -block in<br>
+$ds9 -block out<br>
+$ds9 -block to fit<br>
+$ds9 -block match<br>
+$ds9 -block lock yes<br>
+$ds9 -block open<br>
+$ds9 -block close<br></tt>
+<p><b><a name="blue" id="blue"></a>blue</b></p>
+<p>For RGB frames, sets the current color channel to blue.</p>
+<p class="zh">对于 RGB 帧，将当前颜色通道设为蓝色。</p>
+<tt>Syntax:<br>
+-blue<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -rgb -blue foo.fits<br></tt>
+<p><b><a name="catalog" id="catalog"></a>catalog<br>
+cat</b></p>
+<p>Support for catalogs. The first three commands will create a new catalog search. All other commands operate on the last search created, unless indicated otherwise. <tt>catalog make</tt> creates or raises the current frame's live <a href="region.html#StatisticsCatalog">Region Statistics Catalog</a>.</p>
+<p class="zh">支持星表（catalogs）。前三条命令会创建一次新的星表检索；除非另行指定，其余命令都作用于最近一次创建的检索。<tt>catalog make</tt> 用于创建或弹出当前帧的实时<a href="region.html#StatisticsCatalog">区域统计星表（Region Statistics Catalog）</a>。</p>
+<tt>Syntax:<br>
+-catalog [new]<br>
+&nbsp;&nbsp;&nbsp; [ned|simbad|denis|skybot]<br>
+&nbsp;&nbsp;&nbsp; [aavso|ac|ascss|cmc|gaia3|gsc|nomad|sao|sdss|ub1|ucac|urat1|panstarrs]<br>
+&nbsp;&nbsp;&nbsp; [galex]<br>
+&nbsp;&nbsp;&nbsp; [2mass|allwise]<br>
+&nbsp;&nbsp;&nbsp; [csc21|csc|xmm|rosat|erosita|swiftbat]<br>
+&nbsp;&nbsp;&nbsp; [first|nvss|vlss]<br>
+&nbsp;&nbsp;&nbsp; [chandralog|cfhtlog|esolog|hstlog|xmmlog]<br>
+&nbsp;&nbsp;&nbsp; [cds &lt;catalogname&gt;]<br>
+&nbsp;&nbsp;&nbsp; [cds &lt;catalogid&gt;]<br>
+<br>
+&nbsp;&nbsp;&nbsp; [load &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [save &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [import rdb|tsv|fits &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [export rdb|tsv &lt;filename&gt;]<br>
+<br>
+&nbsp;&nbsp;&nbsp; [allcols]<br>
+&nbsp;&nbsp;&nbsp; [allrows]<br>
+&nbsp;&nbsp;&nbsp; [cancel]<br>
+&nbsp;&nbsp;&nbsp; [clear]<br>
+&nbsp;&nbsp;&nbsp; [close]<br>
+&nbsp;&nbsp;&nbsp; [coordinate &lt;ra&gt; &lt;dec&gt; &lt;coordsys&gt;]<br>
+&nbsp;&nbsp;&nbsp; [crosshair]<br>
+&nbsp;&nbsp;&nbsp; [current &lt;ref&gt;]<br>
+&nbsp;&nbsp;&nbsp; [dec &lt;col&gt;]<br>
+&nbsp;&nbsp;&nbsp; [edit yes|no]<br>
+&nbsp;&nbsp;&nbsp; [filter &lt;string&gt;]<br>
+&nbsp;&nbsp;&nbsp; [filter load &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [header]<br>
+&nbsp;&nbsp;&nbsp; [histogram &lt;col&gt; &lt;numbins&gt; [&lt;min&gt; &lt;max&gt;]]<br>
+&nbsp;&nbsp;&nbsp; [location &lt;code&gt;]<br>
+&nbsp;&nbsp;&nbsp; [make]<br>
+&nbsp;&nbsp;&nbsp; [match &lt;ref&gt; &lt;ref&gt;]<br>
+&nbsp;&nbsp;&nbsp; [match]<br>
+&nbsp;&nbsp;&nbsp; [match error &lt;value&gt; degrees|arcmin|arcsec]<br>
+&nbsp;&nbsp;&nbsp; [match function 1and2|1not2|2not1]<br>
+&nbsp;&nbsp;&nbsp; [match return 1and2|1only|2only]<br>
+&nbsp;&nbsp;&nbsp; [match unique yes|no]<br>
+&nbsp;&nbsp;&nbsp; [maxrows &lt;number&gt;]<br>
+&nbsp;&nbsp;&nbsp; [name &lt;object&gt;]<br>
+&nbsp;&nbsp;&nbsp; [panto yes|no]<br>
+&nbsp;&nbsp;&nbsp; [plot &lt;xcol&gt; &lt;ycol&gt; &lt;xerrcol&gt; &lt;yerrcol&gt;]<br>
+&nbsp;&nbsp;&nbsp; [print]<br>
+&nbsp;&nbsp;&nbsp; [psky &lt;skyframe&gt;]<br>
+&nbsp;&nbsp;&nbsp; [psystem &lt;coordsys&gt;]<br>
+&nbsp;&nbsp;&nbsp; [ra &lt;col&gt;]<br>
+&nbsp;&nbsp;&nbsp; [regions]<br>
+&nbsp;&nbsp;&nbsp; [retrieve]<br>
+&nbsp;&nbsp;&nbsp; [samp]<br>
+&nbsp;&nbsp;&nbsp; [samp broadcast]<br>
+&nbsp;&nbsp;&nbsp; [samp send &lt;application&gt;]<br>
+&nbsp;&nbsp;&nbsp; [server cds|adac|sao|inasan|iucaa|bejing|saao]<br>
+&nbsp;&nbsp;&nbsp; [show yes|no]<br>
+&nbsp;&nbsp;&nbsp; [radius &lt;value&gt; degrees|arcmin|arcsec]<br>
+&nbsp;&nbsp;&nbsp; [sky &lt;skyframe&gt;]<br>
+&nbsp;&nbsp;&nbsp; [skyformat &lt;skyformat&gt;]<br>
+&nbsp;&nbsp;&nbsp; [sort &lt;col&gt; incr|decr]<br>
+&nbsp;&nbsp;&nbsp; [symbol [#] condition|shape|color|text|font|fontsize|fontweight|fontslant &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [symbol [#] text|size|size2|units|angle &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [symbol shape circle|ellipse|box|text|point]<br>
+&nbsp;&nbsp;&nbsp; [symbol shapecircle point|box point|diamond point|cross point|x point|arrow point|boxcircle point]<br>
+&nbsp;&nbsp;&nbsp; [symbol add| [#] remove]<br>
+&nbsp;&nbsp;&nbsp; [symbol save|load &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [system &lt;coordsys&gt;]<br>
+&nbsp;&nbsp;&nbsp; [update]<br>
+&nbsp;&nbsp;&nbsp; [x &lt;col&gt;]<br>
+&nbsp;&nbsp;&nbsp; [y &lt;col&gt;]<br>
+<br>
+Example:<br>
+$ds9 -catalog new<br>
+$ds9 -catalog 2mass<br>
+$ds9 -catalog cds 2mass<br>
+$ds9 -catalog cds "I/252"<br>
+<br>
+$ds9 -catalog load foo.xml<br>
+$ds9 -catalog import tsv foo.tsv<br>
+<br>
+$ds9 -catalog allrows<br>
+$ds9 -catalog allcols<br>
+$ds9 -catalog cancel<br>
+$ds9 -catalog clear<br>
+$ds9 -catalog close<br>
+$ds9 -catalog coordinate 202.48 47.21 fk5<br>
+$ds9 -catalog crosshair<br>
+$ds9 -catalog current 2mass<br>
+$ds9 -catalog dec DEC<br>
+$ds9 -catalog edit yes<br>
+$ds9 -catalog export tsv bar.tsv<br>
+$ds9 -catalog filter'\$Jmag&gt;15'<br>
+$ds9 -catalog filter load foo.flt<br>
+$ds9 -catalog header<br>
+$ds9 -catalog histogram Jmag 40<br>
+$ds9 -catalog histogram Jmag 40 0 20<br>
+$ds9 -catalog location 500<br>
+$ds9 -catalog make<br>
+$ds9 -catalog match error 2 arcsec<br>
+$ds9 -catalog match function 1and2<br>
+$ds9 -catalog match unique no<br>
+$ds9 -catalog match return 1only<br>
+$ds9 -catalog match # last two catalogs loaded<br>
+$ds9 -catalog match 2mass csc<br>
+$ds9 -catalog maxrows 2000<br>
+$ds9 -catalog name m51<br>
+$ds9 -catalog panto no<br>
+$ds9 -catalog plot'$Jmag' '$Hmag' '$e_Jmag' '$e_Hmag'<br>
+$ds9 -catalog print<br>
+$ds9 -catalog psky fk5<br>
+$ds9 -catalog psystem wcs<br>
+$ds9 -catalog ra RA<br>
+$ds9 -catalog regions<br>
+$ds9 -catalog retrieve<br>
+$ds9 -catalog samp broadcast<br>
+$ds9 -catalog samp send aladin<br>
+$ds9 -catalog save foo.xml<br>
+$ds9 -catalog server sao<br>
+$ds9 -catalog show yes<br>
+$ds9 -catalog radius 1 degrees<br>
+$ds9 -catalog symbol condition '\$Jmag&gt;15'<br>
+$ds9 -catalog symbol 2 shape "boxcircle point"<br>
+$ds9 -catalog symbol color red<br>
+$ds9 -catalog symbol font times<br>
+$ds9 -catalog symbol fontsize 14<br>
+$ds9 -catalog symbol fontweight bold<br>
+$ds9 -catalog symbol fontslant italic<br>
+$ds9 -catalog symbol add<br>
+$ds9 -catalog symbol 2 remove<br>
+$ds9 -catalog symbol load foo.sym<br>
+$ds9 -catalog symbol save bar.sym<br>
+$ds9 -catalog sky fk5<br>
+$ds9 -catalog skyformat degrees<br>
+$ds9 -catalog sort "Jmag" incr<br>
+$ds9 -catalog system wcs<br>
+$ds9 -catalog update<br>
+$ds9 -catalog x RA<br>
+$ds9 -catalog y DEC</tt><br>
+<p><b><a name="cd" id="cd"></a>cd</b></p>
+<p>Sets the current working directory.</p>
+<p class="zh">设置当前工作目录。</p>
+<tt>Syntax:<br>
+cd [&lt;directory&gt;]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -cd /home/mrbill<br></tt>
+<p><b><a name="cmap" id="cmap"></a>cmap</b></p>
+<p>Controls the colormap for the current frame. The colormap name is not case sensitive. A valid contrast value is&nbsp; from 0 to 10 and bias value from 0 to 1.</p>
+<p class="zh">控制当前帧的颜色映射（colormap）。颜色映射名称不区分大小写。对比度（contrast）的有效值为 0 到 10，偏置（bias）为 0 到 1。</p>
+<tt>Syntax:<br>
+-cmap [&lt;colormap&gt;]<br>
+&nbsp;&nbsp;&nbsp; [load &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [save &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [invert yes|no]<br>
+&nbsp;&nbsp;&nbsp; [&lt;contrast&gt; &lt;bias&gt;]<br>
+&nbsp;&nbsp;&nbsp; [tag [load|save] &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [tag delete]<br>
+&nbsp;&nbsp;&nbsp; [open|close]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -cmap Heat<br>
+$ds9 -cmap load foo.sao<br>
+$ds9 -cmap save bar.sao<br>
+$ds9 -cmap invert yes<br>
+$ds9 -cmap 5 .5<br>
+$ds9 -cmap tag load foo.tag<br>
+$ds9 -cmap tag save foo.tag<br>
+$ds9 -cmap tag delete<br>
+$ds9 -cmap open<br>
+$ds9 -cmap close<br></tt>
+<p><b><a name="colorbar" id="colorbar"></a>colorbar</b></p>
+<p>Controls colorbar parameters.</p>
+<p class="zh">控制颜色条（colorbar）参数。</p>
+<tt>Syntax:<br>
+-colorbar []<br>
+&nbsp;&nbsp;&nbsp; [yes|no]<br>
+&nbsp;&nbsp;&nbsp; [show yes|no]<br>
+&nbsp;&nbsp;&nbsp; [horizontal|vertical]<br>
+&nbsp;&nbsp;&nbsp; [orientation horizontal|vertical]<br>
+&nbsp;&nbsp;&nbsp; [position top|bottom|left|right]<br>
+&nbsp;&nbsp;&nbsp; [label position natural|opposite]<br>
+&nbsp;&nbsp;&nbsp; [numerics yes|no]<br>
+&nbsp;&nbsp;&nbsp; [space value|distance]<br>
+&nbsp;&nbsp;&nbsp; [foreground &lt;color|theme&gt;]<br>
+&nbsp;&nbsp;&nbsp; [background &lt;color|theme&gt;]<br>
+&nbsp;&nbsp;&nbsp; [font times|helvetica|courier]<br>
+&nbsp;&nbsp;&nbsp; [fontsize &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [fontweight normal|bold]<br>
+&nbsp;&nbsp;&nbsp; [fontslant roman|italic]<br>
+&nbsp;&nbsp;&nbsp; [center &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [size &lt;integer&gt;]<br>
+&nbsp;&nbsp;&nbsp; [ticks &lt;integer&gt;]<br>
+&nbsp;&nbsp;&nbsp; [width &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [match]<br>
+&nbsp;&nbsp;&nbsp; [lock [yes|no]]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -colorbar yes<br>
+$ds9 -colorbar show yes<br>
+$ds9 -colorbar vertical<br>
+$ds9 -colorbar orientation vertical<br>
+$ds9 -colorbar position top<br>
+$ds9 -colorbar label position opposite<br>
+$ds9 -colorbar numerics yes<br>
+$ds9 -colorbar space value<br>
+$ds9 -colorbar foreground white<br>
+$ds9 -colorbar background black<br>
+$ds9 -colorbar font times<br>
+$ds9 -colorbar fontsize 14<br>
+$ds9 -colorbar fontweight bold<br>
+$ds9 -colorbar fontslant italic<br>
+$ds9 -colorbar center 0.5<br>
+$ds9 -colorbar size 20<br>
+$ds9 -colorbar ticks 11<br>
+$ds9 -colorbar width 1<br>
+$ds9 -colorbar match<br>
+$ds9 -colorbar lock yes</tt><br>
+<p><b><a name="console" id="console"></a>console</b></p>
+<p>Display tcl console window.</p>
+<p class="zh">显示 Tcl 控制台窗口。</p>
+<tt>Syntax:<br>
+-console<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -console<br></tt>
+<p><b><a name="contour" id="contour"></a>contour<br></b></p>
+<p>Controls contours in the current frame.</p>
+<p class="zh">控制当前帧中的等高线（contours）。</p>
+<tt>Syntax:<br>
+-contour []<br>
+&nbsp;&nbsp;&nbsp; [yes|no]<br>
+&nbsp;&nbsp;&nbsp; [clear]<br>
+&nbsp;&nbsp;&nbsp; [generate]<br>
+&nbsp;&nbsp;&nbsp; [load &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [save &lt;filename&gt; [&lt;coordsys&gt; &lt;skyframe&gt;]]<br>
+&nbsp;&nbsp;&nbsp; [convert]<br>
+&nbsp;&nbsp;&nbsp; [load levels &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [save levels &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [copy]<br>
+&nbsp;&nbsp;&nbsp; [paste [&lt;coordsys&gt; &lt;color&gt; &lt;width&gt; yes|no]]<br>
+&nbsp;&nbsp;&nbsp; [color &lt;color&gt;]<br>
+&nbsp;&nbsp;&nbsp; [width &lt;width&gt;]<br>
+&nbsp;&nbsp;&nbsp; [dash yes|no]<br>
+&nbsp;&nbsp;&nbsp; [smooth &lt;smooth&gt;]<br>
+&nbsp;&nbsp;&nbsp; [method block|smooth]<br>
+&nbsp;&nbsp;&nbsp; [nlevels &lt;number of levels&gt;]<br>
+&nbsp;&nbsp;&nbsp; [scale linear|log|pow|squared|sqrt|asinh|sinh|histequ]<br>
+&nbsp;&nbsp;&nbsp; [log exp &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [mode minmax|&lt;value&gt;|zscale|zmax]<br>
+&nbsp;&nbsp;&nbsp; [scope global|local]<br>
+&nbsp;&nbsp;&nbsp; [limits &lt;min&gt; &lt;max&gt;]<br>
+&nbsp;&nbsp;&nbsp; [levels &lt;value value value...&gt;]<br>
+&nbsp;&nbsp;&nbsp; [open|close]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -contour<br>
+$ds9 -contour yes<br>
+$ds9 -contour generate<br>
+$ds9 -contour clear<br>
+$ds9 -contour load ds9.ctr<br>
+$ds9 -contour save ds9.ctr<br>
+$ds9 -contour save ds9.ctr wcs fk5<br>
+$ds9 -contour convert<br>
+$ds9 -contour load levels ds9.ctr<br>
+$ds9 -contour save levels ds9.lev<br>
+$ds9 -contour copy<br>
+$ds9 -contour paste<br>
+$ds9 -contour paste wcs red 2 no<br>
+$ds9 -contour color yellow<br>
+$ds9 -contour width 2<br>
+$ds9 -contour dash yes<br>
+$ds9 -contour smooth 5<br>
+$ds9 -contour method smooth<br>
+$ds9 -contour nlevels 10<br>
+$ds9 -contour scale sqrt<br>
+$ds9 -contour log exp 1000<br>
+$ds9 -contour mode zscale<br>
+$ds9 -contour scope local<br>
+$ds9 -contour limits 1 100<br>
+$ds9 -contour levels 1 10 100 1000<br>
+$ds9 -contour open<br>
+$ds9 -contour close<br></tt>
+<p><b><a name="crop" id="crop"></a>crop</b></p>
+<p>Set current image display area.</p>
+<p class="zh">设置当前图像的显示区域（裁剪区）。</p>
+<tt>Syntax:<br>
+-crop [&lt;x&gt; &lt;y&gt; &lt;width&gt; &lt;height&gt; [&lt;coordsys&gt;][&lt;skyframe&gt;][degrees|arcmin|arcsec]<br>
+&nbsp;&nbsp;&nbsp; [match &lt;coordsys&gt;]<br>
+&nbsp;&nbsp;&nbsp; [lock &lt;coordsys&gt;|none]<br>
+&nbsp;&nbsp;&nbsp; [reset]<br>
+&nbsp;&nbsp;&nbsp; [3d zmin zmax &lt;coordsys&gt;]<br>
+&nbsp;&nbsp;&nbsp; [open|close]<br>
+<br>
+Example:<br>
+$ds9 foo.fits -crop 40 30 10 20 # set crop in physical coords<br>
+$ds9 foo.fits -crop +104:51:06.915 +68:33:40.761&nbsp; 28.144405 22.000204 wcs galactic arcsec<br>
+$ds9 foo.fits -crop match wcs<br>
+$ds9 foo.fits -crop lock wcs<br>
+$ds9 foo.fits -crop reset<br>
+$ds9 foo.fits -crop 3d .25 .5 wcs<br>
+$ds9 foo.fits -crop open<br>
+$ds9 foo.fits -crop close<br></tt>
+<p><b><a name="crosshair" id="crosshair"></a>crosshair</b></p>
+<p>Controls the current position of the crosshair in the current frame. DS9 is placed in crosshair mode when the crosshair is set.</p>
+<p class="zh">控制当前帧中十字丝（crosshair）的当前位置。设置十字丝后，DS9 进入十字丝模式。</p>
+<tt>Syntax:<br>
+-crosshair [&lt;x&gt; &lt;h&gt; &lt;coordsys&gt; [&lt;skyframe&gt;]]<br>
+&nbsp;&nbsp;&nbsp;[match &lt;coordsys&gt;]<br>
+&nbsp;&nbsp;&nbsp; [lock &lt;coordsys&gt;|none]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -crosshair 100 100 physical # set crosshair in physical<br>
+$ds9 -crosshair 345 58.8 wcs fk5 # set crosshair in wcs coords<br>
+$ds9 -crosshair 23:01:00 +58:52:51 wcs fk5<br>
+$ds9 -crosshair match<br>
+$ds9 -crosshair lock wcs<br></tt>
+<p><b><a name="cube" id="cube"></a>cube<br></b></p>
+<p>Controls FITS cube.</p>
+<p class="zh">控制 FITS 数据立方体（cube）。</p>
+<tt>Syntax:<br>
+-cube []<br>
+&nbsp;&nbsp;&nbsp; [play|stop|next|prev|first|last]<br>
+&nbsp;&nbsp;&nbsp; [&lt;slice&gt; [&lt;coordsys&gt;]]<br>
+&nbsp;&nbsp;&nbsp; [interval &lt;numeric&gt;]<br>
+&nbsp;&nbsp;&nbsp; [match &lt;coordsys&gt;]<br>
+&nbsp;&nbsp;&nbsp; [lock &lt;coordsys&gt;|none]<br>
+&nbsp;&nbsp;&nbsp; [order 123|132|213|231|312|321]<br>
+&nbsp;&nbsp;&nbsp; [axes lock [yes|no]]<br>
+&nbsp;&nbsp;&nbsp; [axis &lt;axis&gt;]<br>
+&nbsp;&nbsp;&nbsp; [open|close]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -cube<br>
+$ds9 -cube play<br>
+$ds9 -cube last<br>
+$ds9 -cube 3<br>
+$ds9 -cube 4.5 wcs<br>
+$ds9 -cube interval 2<br>
+$ds9 -cube match wcs<br>
+$ds9 -cube lock wcs<br>
+$ds9 -cube order 123<br>
+$ds9 -cube axes lock yes<br>
+$ds9 -cube axis 3<br>
+$ds9 -cube open<br>
+$ds9 -cube close</tt><br>
+<p><b><a name="cursor" id="cursor"></a>cursor</b></p>
+<p>Move mouse pointer or crosshair in image pixels in the current frame. Note, this will move selected Regions also.</p>
+<p class="zh">以图像像素为单位移动当前帧中的鼠标指针或十字丝。注意：这也会移动已选中的区域（Regions）。</p>
+<tt>Syntax:<br>
+-cursor [&lt;x&gt; &lt;h&gt;]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -cursor 10 10<br></tt>
+<!--
+<p><b><a name="dsssao" id="dsssao"></a>dsssao<br>
+dss<br></b></p>
+<p>Support for Digital Sky Survey at SAO.</p>
+<tt>Syntax:<br>
+-dsssao []<br>
+&nbsp;&nbsp;&nbsp; [&lt;object&gt;]<br>
+&nbsp;&nbsp;&nbsp; [name &lt;object&gt;|clear]<br>
+&nbsp;&nbsp;&nbsp; [&lt;ra&gt; &lt;dec&gt;] # in wcs fk5<br>
+&nbsp;&nbsp;&nbsp; [size &lt;width&gt; &lt;height&gt; degrees|arcmin|arcsec]<br>
+&nbsp;&nbsp;&nbsp; [save yes|no]<br>
+&nbsp;&nbsp;&nbsp; [frame new|current]<br>
+&nbsp;&nbsp;&nbsp; [update frame|crosshair]<br>
+&nbsp;&nbsp;&nbsp; [open|close]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -dsssao<br>
+$ds9 -dsssao m31<br>
+$ds9 -dsssao name m31<br>
+$ds9 -dsssao name clear<br>
+$ds9 -dsssao 00:42:44.404 +41:16:08.78<br>
+$ds9 -dsssao size 60 60 arcmin<br>
+$ds9 -dsssao save yes<br>
+$ds9 -dsssao frame current<br>
+$ds9 -dsssao update frame<br>
+$ds9 -dsssao open<br>
+$ds9 -dsssao close<br></tt>
+-->
+<p><b><a name="dsseso" id="dsseso"></a>dsseso</b></p>
+<p>Support for Digital Sky Survey at ESO.</p>
+<p class="zh">支持 ESO 数字巡天（Digital Sky Survey）。</p>
+<tt>Syntax:<br>
+-dsseso []<br>
+&nbsp;&nbsp;&nbsp; [&lt;object&gt;]<br>
+&nbsp;&nbsp;&nbsp; [name &lt;object&gt;|clear]<br>
+&nbsp;&nbsp;&nbsp; [&lt;ra&gt; &lt;dec&gt;] # in wcs fk5<br>
+&nbsp;&nbsp;&nbsp; [size &lt;width&gt; &lt;height&gt; degrees|arcmin|arcsec]<br>
+&nbsp;&nbsp;&nbsp; [save yes|no]<br>
+&nbsp;&nbsp;&nbsp; [frame new|current]<br>
+&nbsp;&nbsp;&nbsp; [update frame|crosshair]<br>
+&nbsp;&nbsp;&nbsp; [survey DSS1|DSS2-red|DSS2-blue|DSS2-infrared]<br>
+&nbsp;&nbsp;&nbsp; [open|close]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -dsseso<br>
+$ds9 -dsseso m31<br>
+$ds9 -dsseso name m31<br>
+$ds9 -dsseso name clear<br>
+$ds9 -dsseso 00:42:44.404 +41:16:08.78<br>
+$ds9 -dsseso size 60 60 arcmin<br>
+$ds9 -dsseso save yes<br>
+$ds9 -dsseso frame current<br>
+$ds9 -dsseso update frame<br>
+$ds9 -dsseso survey DSS2-red<br>
+$ds9 -dsseso open<br>
+$ds9 -dsseso close</tt><br>
+<p><b><a name="dssstsci" id="dssstsci"></a>dssstsci</b></p>
+<p>Support for Digital Sky Survey at STSCI.</p>
+<p class="zh">支持 STScI 数字巡天（Digital Sky Survey）。</p>
+<tt>Syntax:<br>
+-dssstsci []<br>
+&nbsp;&nbsp;&nbsp; [&lt;object&gt;]<br>
+&nbsp;&nbsp;&nbsp; [name &lt;object&gt;|clear]<br>
+&nbsp;&nbsp;&nbsp; [&lt;ra&gt; &lt;dec&gt;] # in wcs fk5<br>
+&nbsp;&nbsp;&nbsp; [size &lt;width&gt; &lt;height&gt; degrees|arcmin|arcsec]<br>
+&nbsp;&nbsp;&nbsp; [save yes|no]<br>
+&nbsp;&nbsp;&nbsp; [frame new|current]<br>
+&nbsp;&nbsp;&nbsp; [update frame|crosshair]<br>
+&nbsp;&nbsp;&nbsp; [survey poss2ukstu_red|poss2ukstu_ir|poss2ukstu_blue]<br>
+&nbsp;&nbsp;&nbsp; [survey poss1_blue|poss1_red]<br>
+&nbsp;&nbsp;&nbsp; [survey all|quickv|phase2_gsc2|phase2_gsc1]<br>
+&nbsp;&nbsp;&nbsp; [open|close]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -dssstsci<br>
+$ds9 -dssstsci m31<br>
+$ds9 -dssstsci name m31<br>
+$ds9 -dssstsci name clear<br>
+$ds9 -dssstsci 00:42:44.404 +41:16:08.78<br>
+$ds9 -dssstsci size 60 60 arcmin<br>
+$ds9 -dssstsci save yes<br>
+$ds9 -dssstsci frame current<br>
+$ds9 -dssstsci update frame<br>
+$ds9 -dssstsci survey all<br>
+$ds9 -dssstsci open<br>
+$ds9 -dssstsci close</tt><br>
+<p><b><a name="envi" id="envi"></a>envi</b></p>
+<p>Load an ENVI header and file. Optional parameter: array endian.<br></p>
+<p class="zh">加载一个 ENVI 头文件和数据文件。可选参数：数组字节序（endian）。</p>
+<tt>Syntax:<br>
+-envi &lt;header&gt; [&lt;filename&gt;]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -envi foo.hdr<br>
+$ds9 -envi foo.hdr foo.bsq<br></tt>
+<p><b><a name="exit" id="exit"></a>exit<br>
+quit</b></p>
+<p>Quits DS9.</p>
+<p class="zh">退出 DS9。</p>
+<tt>Syntax:<br>
+-exit<br>
+-quit<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -exit<br></tt>
+<p><b><a name="export" id="export"></a>export<br></b></p>
+<p>Export loaded image data of current frame in specified image format, at native resolution, using current colormap and contrast/bias settings. NOTE: not scaling, rotation, or translation is applied. If no format specified, the file name extension is used to determine the output format. Optional parameters: jpeg quality int(1-100) and tiff compression method.<br></p>
+<p class="zh">以指定图像格式、在原始分辨率下、使用当前颜色映射与对比度/偏置设置，导出当前帧已加载的图像数据。注意：不施加任何缩放、旋转或平移。若未指定格式，则用文件扩展名判断输出格式。可选参数：jpeg 质量 int(1-100) 与 tiff 压缩方式。</p>
+<tt>Syntax:<br>
+-export [array|nrrd|envi|gif|tiff|jpeg|png] &lt;filename&gt;<br>
+-export array &lt;filename&gt;[big|little|native]<br>
+-export nrrd &lt;filename&gt;[big|little|native]<br>
+-export envi &lt;header&gt; &lt;filename&gt;[big|little|native]<br>
+-export &lt;filename&gt;.jpeg [int(1-100)]<br>
+-export &lt;filename&gt;.tiff [none|jpeg|packbits|deflate]<br>
+<br>
+Example:<br>
+$ds9 -export array foo.arr little<br>
+$ds9 -export nrrd foo.nrrd little<br>
+$ds9 -export envi foo.hdr foo.bsq little<br>
+$ds9 -export tiff foo.tiff jpeg<br>
+$ds9 -export jpeg foo.jpeg 75<br>
+$ds9 -export png foo.png</tt><br>
+<p><b><a name="fade" id="fade"></a>fade</b></p>
+<p>Fade mode parameters. Interval is in seconds.</p>
+<p class="zh">淡入淡出（fade）模式参数。间隔以秒为单位。</p>
+<tt>Syntax:<br>
+-fade []<br>
+&nbsp;&nbsp;&nbsp; [yes|no]<br>
+&nbsp;&nbsp;&nbsp; [interval &lt;value&gt;]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -fade<br>
+$ds9 -fade yes<br>
+$ds9 -fade interval 2</tt><br>
+<p><b><a name="fifo" id="fifo"></a>fifo</b></p>
+<p>Set the name of the IRAF input and output fifos. The default is /dev/imt1. These fifos are used by IRAF to communicate with DS9.</p>
+<p class="zh">设置 IRAF 输入/输出 fifo 的名称。默认为 /dev/imt1。这些 fifo 供 IRAF 与 DS9 通信使用。</p>
+<tt>Syntax:<br>
+-fifo name<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -fifo /dev/imt1</tt>
+<p><b><a name="fifo_only" id="fifo_only"></a>fifo_only</b></p>
+<p>Only use IRAF input and output fifos. Same as -port 0 -unix none.</p>
+<p class="zh">仅使用 IRAF 输入/输出 fifo。等同于 -port 0 -unix none。</p>
+<tt>Syntax:<br>
+-fifo_only<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -fifo_only<br></tt>
+<p><b><a name="fits" id="fits"></a>fits</b></p>
+<p>Load a FITS image into the current frame.<br></p>
+<p class="zh">将一个 FITS 图像加载到当前帧。</p>
+<tt>Syntax:<br>
+-fits&lt;filename&gt;<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -fits foo.fits<br>
+$ds9 -fits bar.fits[bin=detx,dety]<br>
+$cat foo.fits | ds9 -fits -<br>
+$cat bar.fits | ds9 -fits -[bin=detx,dety]<br></tt>
+<p><b><a name="footprint" id="footprint"></a>footprint<br>
+fp</b></p>
+<p>Support for Chandra (CXC) and Hubble Legacy Archive (HLA) footprint servers.</p>
+<p class="zh">支持 Chandra（CXC）与 Hubble Legacy Archive（HLA）足迹（footprint）服务器。</p>
+<tt>Syntax:<br>
+-footprint [cxc|hla]<br>
+&nbsp;&nbsp;&nbsp; [cancel]<br>
+&nbsp;&nbsp;&nbsp; [clear]<br>
+&nbsp;&nbsp;&nbsp; [close]<br>
+<br>
+&nbsp;&nbsp;&nbsp; [save &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [export rdb|tsv &lt;filename&gt;]<br>
+<br>
+&nbsp;&nbsp;&nbsp; [coordinate &lt;ra&gt; &lt;dec&gt; &lt;coordsys&gt;]<br>
+&nbsp;&nbsp;&nbsp; [crosshair]<br>
+&nbsp;&nbsp;&nbsp; [current &lt;ref&gt;]<br>
+&nbsp;&nbsp;&nbsp; [filter &lt;string&gt;]<br>
+&nbsp;&nbsp;&nbsp; [filter load &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [name &lt;object&gt;]<br>
+&nbsp;&nbsp;&nbsp; [panto yes|no]<br>
+&nbsp;&nbsp;&nbsp; [print]<br>
+&nbsp;&nbsp;&nbsp; [regions]<br>
+&nbsp;&nbsp;&nbsp; [retrieve]<br>
+&nbsp;&nbsp;&nbsp; [show yes|no]<br>
+&nbsp;&nbsp;&nbsp; [radius &lt;value&gt; degrees|arcmin|arcsec]<br>
+&nbsp;&nbsp;&nbsp; [sky &lt;skyframe&gt;]<br>
+&nbsp;&nbsp;&nbsp; [skyformat &lt;skyformat&gt;]<br>
+&nbsp;&nbsp;&nbsp; [sort &lt;col&gt; incr|decr]<br>
+&nbsp;&nbsp;&nbsp; [system &lt;coordsys&gt;]<br>
+&nbsp;&nbsp;&nbsp; [update]<br>
+<br>
+Example:<br>
+$ds9 -footprint cxc<br>
+<br>
+$ds9 -footprint cancel<br>
+$ds9 -footprint clear<br>
+$ds9 -footprint close<br>
+$ds9 -footprint coordinate 202.48 47.21 fk5<br>
+$ds9 -footprint crosshair<br>
+$ds9 -footprint current cxc<br>
+$ds9 -footprint export tsv foo.tsv<br>
+$ds9 -footprint filter'\$ObsId&lt;10000'<br>
+$ds9 -footprint filter load foo.flt<br>
+$ds9 -footprint name m51<br>
+$ds9 -footprint panto no<br>
+$ds9 -footprint print<br>
+$ds9 -footprint regions<br>
+$ds9 -footprint retrieve<br>
+$ds9 -footprint save foo.xml<br>
+$ds9 -footprint show yes<br>
+$ds9 -footprint radius 1 degrees<br>
+$ds9 -footprint sky fk5<br>
+$ds9 -footprint skyformat degrees<br>
+$ds9 -footprint sort "ObsId" incr<br>
+$ds9 -footprint system wcs<br>
+$ds9 -footprint update</tt><br>
+<p><b><a name="frame" id="frame"></a>frame</b></p>
+<p>Controls frame functions. Frames may be created, deleted, reset, and centered. While return the current frame number. If you goto a frame that does not exists, it will be created. If the frame is hidden, it will be shown. The 'frameno' option is available for backward compatibility.</p>
+<p class="zh">控制帧（frame）功能。可创建、删除、重置和居中帧；不带参数时返回当前帧编号。如果跳转到一个不存在的帧，会自动创建它；如果该帧被隐藏，则会显示它。<tt>frameno</tt> 选项为向后兼容而保留。</p>
+<tt>Syntax:<br>
+-frame [center [&lt;integer&gt;|all]]<br>
+&nbsp;&nbsp;&nbsp; [clear [&lt;integer&gt;|all]]<br>
+&nbsp;&nbsp;&nbsp; [new [rgb|hls|hsv|3d]]<br>
+&nbsp;&nbsp;&nbsp; [delete [&lt;integer&gt;|all]]<br>
+&nbsp;&nbsp;&nbsp; [reset [&lt;integer&gt;|all]]<br>
+&nbsp;&nbsp;&nbsp; [refresh [&lt;integer&gt;|all]]<br>
+&nbsp;&nbsp;&nbsp; [hide [&lt;integer&gt;|all]]<br>
+&nbsp;&nbsp;&nbsp; [show [&lt;integer&gt;|all]]<br>
+&nbsp;&nbsp;&nbsp; [move first]<br>
+&nbsp;&nbsp;&nbsp; [move back]<br>
+&nbsp;&nbsp;&nbsp; [move forward]<br>
+&nbsp;&nbsp;&nbsp; [move last]<br>
+&nbsp;&nbsp;&nbsp; [first|next|prev|last]<br>
+&nbsp;&nbsp;&nbsp; [frameno &lt;integer&gt;]<br>
+&nbsp;&nbsp;&nbsp; [&lt;integer&gt;]<br>
+&nbsp;&nbsp;&nbsp; [match &lt;coordsys&gt;]<br>
+&nbsp;&nbsp;&nbsp; [lock &lt;coordsys&gt;|none]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -frame center # center current frame<br>
+$ds9 -frame center 1 # center 'Frame1'<br>
+$ds9 -frame center all # center all frames<br>
+$ds9 -frame clear # clear current frame<br>
+$ds9 -frame new # create new frame<br>
+$ds9 -frame new rgb # create new rgb frame<br>
+$ds9 -frame delete # delete current frame<br>
+$ds9 -frame reset # reset current frame<br>
+$ds9 -frame refresh # refresh current frame<br>
+$ds9 -frame hide # hide current frame<br>
+$ds9 -frame show 1 # show frame 'Frame1'<br>
+$ds9 -frame move first # move frame to first in order<br>
+$ds9 -frame move back # move frame back in order<br>
+$ds9 -frame move forward # move frame forward in order<br>
+$ds9 -frame move last # move frame to last in order<br>
+$ds9 -frame first # goto first frame<br>
+$ds9 -frame prev # goto prev frame<br>
+$ds9 -frame next # goto next frame<br>
+$ds9 -frame last # goto last frame<br>
+$ds9 -frame frameno 4 # goto frame 'Frame4', create if needed<br>
+$ds9 -frame 3 # goto frame 'Frame3', create if needed<br>
+$ds9 -frame lock wcs</tt><br>
+<p><b><a name="gif" id="gif"></a>gif</b></p>
+<p>Load GIF image into current frame.</p>
+<p class="zh">将 GIF 图像加载到当前帧。</p>
+<tt>Syntax:<br>
+-gif &lt;filename&gt;<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -gif foo.gif<br>
+$cat foo.gif | ds9 -gif -<br></tt>
+<p><b><a name="geometry" id="geometry"></a>geometry</b></p>
+<p>Define the initial window geometry. This includes all of the ds9 window, not just the image space. see X(1).</p>
+<p class="zh">定义初始窗口几何尺寸。它包含整个 ds9 窗口，而不仅是图像区域。参见 X(1)。</p>
+<tt>Syntax:<br>
+-geometry value<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -geometry 640x480</tt>
+<p><b><a name="green" id="green"></a>green</b></p>
+<p>For RGB frames, sets the current color channel to green.</p>
+<p class="zh">对于 RGB 帧，将当前颜色通道设为绿色。</p>
+<tt>Syntax:<br>
+-green<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -rgb -green foo.fits</tt>
+<p><b><a name="graph" id="graph"></a>graph</b></p>
+<p>Controls horizontal and vertical cut graphs.</p>
+<p class="zh">控制水平与垂直切片图（cut graphs）。</p>
+<tt>Syntax:<br>
+-graph [grid yes|no]<br>
+&nbsp;&nbsp;&nbsp; [log yes|no]<br>
+&nbsp;&nbsp;&nbsp; [method average|sum]<br>
+&nbsp;&nbsp;&nbsp; [font times|helvetica|courier]<br>
+&nbsp;&nbsp;&nbsp; [fontsize &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [fontweight normal|bold]<br>
+&nbsp;&nbsp;&nbsp; [fontslant roman|italic]<br>
+&nbsp;&nbsp;&nbsp; [size &lt;integer&gt;]<br>
+&nbsp;&nbsp;&nbsp; [thickness &lt;integer&gt;]<br>
+&nbsp;&nbsp;&nbsp; [open|close]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -graph grid yes<br>
+$ds9 -graph log no<br>
+$ds9 -graph method average<br>
+$ds9 -graph font helvetica<br>
+$ds9 -graph fontsize 9<br>
+$ds9 -graph fontweight normal<br>
+$ds9 -graph fontslant roman<br>
+$ds9 -graph size 150<br>
+$ds9 -graph thickness 1<br>
+$ds9 -graph open<br>
+$ds9 -graph close<br></tt>
+<p><b><a name="grid" id="grid"></a>grid</b></p>
+<p>Controls coordinate grid. For grid numeric format syntax,&nbsp; click <a href="grid.html#Format">here</a>.</p>
+<p class="zh">控制坐标网格（grid）。关于网格数值格式语法，<a href="grid.html#Format">请点击此处</a>。</p>
+<tt>Syntax:<br>
+-grid []<br>
+&nbsp;&nbsp;&nbsp; [yes|no]<br>
+&nbsp;&nbsp;&nbsp; [type analysis|publication]<br>
+&nbsp;&nbsp;&nbsp; [system &lt;coordsys&gt;]<br>
+&nbsp;&nbsp;&nbsp; [sky &lt;skyframe&gt;]<br>
+&nbsp;&nbsp;&nbsp; [skyformat &lt;skyformat&gt;]<br>
+&nbsp;&nbsp;&nbsp; [grid yes|no]<br>
+&nbsp;&nbsp;&nbsp; [grid color &lt;color&gt;]<br>
+&nbsp;&nbsp;&nbsp; [grid width &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [grid dash yes|no]<br>
+&nbsp;&nbsp;&nbsp; [grid gap1 &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [grid gap2 &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [grid gap3 &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [axes yes|no]<br>
+&nbsp;&nbsp;&nbsp; [axes color &lt;color&gt;]<br>
+&nbsp;&nbsp;&nbsp; [axes width &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [axes dash yes|no]<br>
+&nbsp;&nbsp;&nbsp; [axes type interior|exterior]<br>
+&nbsp;&nbsp;&nbsp; [axes origin lll|llu|lul|luu|ull|ulu|uul|uuu]<br>
+&nbsp;&nbsp;&nbsp; [format1 &lt;format&gt;]<br>
+&nbsp;&nbsp;&nbsp; [format2 &lt;format&gt;]<br>
+&nbsp;&nbsp;&nbsp; [tickmarks yes|no]<br>
+&nbsp;&nbsp;&nbsp; [tickmarks color &lt;color&gt;]<br>
+&nbsp;&nbsp;&nbsp; [tickmarks width &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [tickmarks dash yes|no]<br>
+&nbsp;&nbsp;&nbsp; [border yes|no]<br>
+&nbsp;&nbsp;&nbsp; [border color &lt;color&gt;]<br>
+&nbsp;&nbsp;&nbsp; [border width &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [border dash yes|no]<br>
+&nbsp;&nbsp;&nbsp; [numerics yes|no]<br>
+&nbsp;&nbsp;&nbsp; [numerics font times|helvetica|courier]<br>
+&nbsp;&nbsp;&nbsp; [numerics fontsize &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [numerics fontweight normal|bold]<br>
+&nbsp;&nbsp;&nbsp; [numerics fontslant roman|italic]<br>
+&nbsp;&nbsp;&nbsp; [numerics color &lt;color&gt;]<br>
+&nbsp;&nbsp;&nbsp; [numerics gap1 &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [numerics gap2 &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [numerics gap3 &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [numerics type interior|exterior]<br>
+&nbsp;&nbsp;&nbsp; [numerics vertical yes|no]<br>
+&nbsp;&nbsp;&nbsp; [title yes|no]<br>
+&nbsp;&nbsp;&nbsp; [title text &lt;text&gt;]<br>
+&nbsp;&nbsp;&nbsp; [title def yes|no]<br>
+&nbsp;&nbsp;&nbsp; [title gap &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [title font times|helvetica|courier]<br>
+&nbsp;&nbsp;&nbsp; [title fontsize &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [title fontweight normal|bold]<br>
+&nbsp;&nbsp;&nbsp; [title fontslant roman|italic]<br>
+&nbsp;&nbsp;&nbsp; [title color &lt;color&gt;]<br>
+&nbsp;&nbsp;&nbsp; [labels yes|no]<br>
+&nbsp;&nbsp;&nbsp; [labels text1 &lt;text&gt;]<br>
+&nbsp;&nbsp;&nbsp; [labels text2 &lt;text&gt;]<br>
+&nbsp;&nbsp;&nbsp; [labels def1 yes|no]<br>
+&nbsp;&nbsp;&nbsp; [labels def2 yes|no]<br>
+&nbsp;&nbsp;&nbsp; [labels gap1 &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [labels gap2 &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [labels font times|helvetica|courier]<br>
+&nbsp;&nbsp;&nbsp; [labels fontsize &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [labels fontweight normal|bold]<br>
+&nbsp;&nbsp;&nbsp; [labels fontslant roman|italic]<br>
+&nbsp;&nbsp;&nbsp; [labels color &lt;color&gt;]<br>
+&nbsp;&nbsp;&nbsp; [reset]<br>
+&nbsp;&nbsp;&nbsp; [load &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [save &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [open|close]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -grid<br>
+$ds9 -grid yes<br>
+$ds9 -grid type analysis<br>
+$ds9 -grid system wcs<br>
+$ds9 -grid sky fk5<br>
+$ds9 -grid skyformat degrees<br>
+$ds9 -grid grid yes<br>
+$ds9 -grid grid color red<br>
+$ds9 -grid grid width 2<br>
+$ds9 -grid grid dash yes<br>
+$ds9 -grid grid gap1 10<br>
+$ds9 -grid grid gap2 10<br>
+$ds9 -grid grid gap3 10<br>
+$ds9 -grid axes yes<br>
+$ds9 -grid axes color red<br>
+$ds9 -grid axes width 2<br>
+$ds9 -grid axes dash yes<br>
+$ds9 -grid axes type exterior<br>
+$ds9 -grid axes origin lll<br>
+$ds9 -grid format1 d.2<br>
+$ds9 -grid format2 d.2<br>
+$ds9 -grid tickmarks yes<br>
+$ds9 -grid tickmarks color red<br>
+$ds9 -grid tickmarks width 2<br>
+$ds9 -grid tickmarks dash yes<br>
+$ds9 -grid border yes<br>
+$ds9 -grid border color red<br>
+$ds9 -grid border width 2<br>
+$ds9 -grid border dash yes<br>
+$ds9 -grid numerics yes<br>
+$ds9 -grid numerics font courier<br>
+$ds9 -grid numerics fontsize 12<br>
+$ds9 -grid numerics fontweight bold<br>
+$ds9 -grid numerics fontslant italic<br>
+$ds9 -grid numerics color red<br>
+$ds9 -grid numerics gap1 10<br>
+$ds9 -grid numerics gap2 10<br>
+$ds9 -grid numerics gap3 10<br>
+$ds9 -grid numerics type exterior<br>
+$ds9 -grid numerics vertical yes<br>
+$ds9 -grid title yes<br>
+$ds9 -grid title text {Hello World}<br>
+$ds9 -grid title def yes<br>
+$ds9 -grid title gap 10<br>
+$ds9 -grid title font courier<br>
+$ds9 -grid title fontsize 12<br>
+$ds9 -grid title fontweight bold<br>
+$ds9 -grid title fontslant italic<br>
+$ds9 -grid title color red<br>
+$ds9 -grid labels yes<br>
+$ds9 -grid labels text1 {Hello World}<br>
+$ds9 -grid labels text2 {Hello World}<br>
+$ds9 -grid labels def1 yes<br>
+$ds9 -grid labels def2 yes<br>
+$ds9 -grid labels gap1 10<br>
+$ds9 -grid labels gap2 10<br>
+$ds9 -grid labels font courier<br>
+$ds9 -grid labels fontsize 12<br>
+$ds9 -grid labels fontweight bold<br>
+$ds9 -grid labels fontslant italic<br>
+$ds9 -grid labels color red<br>
+$ds9 -grid reset<br>
+$ds9 -grid load foo.grd<br>
+$ds9 -grid save foo.grd<br>
+$ds9 -grid open<br>
+$ds9 -grid close<br></tt>
+<p><b><a name="header" id="header"></a>header</b></p>
+<p>Display current fits header dialog. Optional extension number may be specified.</p>
+<p class="zh">显示当前 FITS 头对话框。可指定可选的扩展号（extension number）。</p>
+<tt>Syntax:<br>
+-header [&lt;ext&gt;]<br>
+&nbsp;&nbsp;&nbsp; [close [&lt;ext&gt;]]<br>
+&nbsp;&nbsp;&nbsp; [save [&lt;ext&gt;] &lt;filename&gt;]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -header<br>
+$ds9 -header 2<br>
+$ds9 -header close<br>
+$ds9 -header save 1 foo.txt<br></tt>
+<p><b><a name="height" id="height"></a>height</b></p>
+<p>Set the height of the image display window. Use the <a href="command.html#geometry">geometry</a> command to set the overall width and height of the ds9 window.</p>
+<p class="zh">设置图像显示窗口的高度。使用 <a href="command.html#geometry">geometry</a> 命令可设置 ds9 窗口整体的宽和高。</p>
+<tt>Syntax:<br>
+-height [&lt;value&gt;]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -height 512<br></tt>
+<p><b><a name="help" id="help"></a>help</b></p>
+<p>Display help information. To maintain backward compatibility, -help will display a brief help message and exit. --help will display all command line options within the built-in help facility.</p>
+<p class="zh">显示帮助信息。为保持向后兼容，<tt>-help</tt> 会显示简短帮助消息并退出；<tt>--help</tt>（以及 <tt>-?</tt>）会在内置帮助设施中列出全部命令行选项。</p>
+<tt>Syntax:<br>
+-help # Display brief help message and exit.<br>
+--help # Display command line options within help facility.<br>
+-? # Display command line options within help facility.<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -help # Display brief help message and exit.<br>
+$ds9 --help # Display command line options within help facility<br>
+$ds9 -? # Display command line options within help facility.<br></tt>
+<p><b><a name="histequ" id="histequ"></a>histequ</b></p>
+<p>Select histogram equalization scale function for the current frame.</p>
+<p class="zh">为当前帧选择直方图均衡化（histogram equalization）灰度拉伸函数。</p>
+<tt>Syntax:<br>
+-histequ<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -histequ<br></tt>
+<p><b><a name="hls" id="hls"></a>hls</b></p>
+<p>Create HLS frame and control HLS frame parameters.</p>
+<p class="zh">创建 HLS 帧并控制 HLS 帧参数。</p>
+<tt>Syntax:<br>
+-hls []<br>
+&nbsp;&nbsp;&nbsp; [hue|lightness|saturation]<br>
+&nbsp;&nbsp;&nbsp; [channel [hue|lightness|saturation]]<br>
+&nbsp;&nbsp;&nbsp; [view [hue|lightness|saturation] [yes|no]]<br>
+&nbsp;&nbsp;&nbsp; [system &lt;coordsys&gt;]<br>
+&nbsp;&nbsp;&nbsp; [lock wcs|crop|slice|bin|scale|scalelimits|colorbar|block|smooth [yes|no]]<br>
+&nbsp;&nbsp;&nbsp; [open|close]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -hls # create new hls frame<br>
+$ds9 -hls hue # set current channel to hue<br>
+$ds9 -hls channel hue # set current channel to hue<br>
+$ds9 -hls view saturation no # turn off saturation channel<br>
+$ds9 -hls system wcs # set hls coordinate system<br>
+$ds9 -hls lock wcs yes<br>
+$ds9 -hls lock crop yes<br>
+$ds9 -hls lock slice yes<br>
+$ds9 -hls lock bin yes<br>
+$ds9 -hls lock scale yes<br>
+$ds9 -hls lock scalelimits yes<br>
+$ds9 -hls lock colorbar yes<br>
+$ds9 -hls lock block yes<br>
+$ds9 -hls lock smooth yes<br>
+$ds9 -hls open<br>
+$ds9 -hls close</tt><br>
+<p><b><a name="hlsarray" id="hlsarray"></a>hlsarray</b></p>
+<p>Load raw data array cube into hls frame.<br></p>
+<p class="zh">将原始数据数组立方体加载到 HLS 帧。</p>
+<tt>Syntax:<br>
+-hlsarray &lt;filename&gt;[[xdim=&lt;x&gt;,ydim=&lt;y&gt;|dim=&lt;dim&gt;],[zdim=3],bitpix=&lt;b&gt;,skip=&lt;s&gt;,endian=[little|big]]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -hlsarray foo.arr[dim=512,zdim=3,bitpix=-32,endian=little]<br>
+$cat foo.arr | ds9 -hlsarray -[dim=512,zdim=3,bitpix=-32,endian=little]</tt><br>
+<p><b><a name="hlscube" id="hlscube"></a>hlscube</b></p>
+<p>Load FITS hlscube into hls frame.<br></p>
+<p class="zh">将 FITS HLS 立方体加载到 HLS 帧。</p>
+<tt>Syntax:<br>
+-hlscube &lt;filename&gt;<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -hlscube foo.fits<br>
+$cat foo.fits | ds9 -hlscube -</tt><br>
+<p><b><a name="hlsimage" id="hlsimage"></a>hlsimage</b></p>
+<p>Load FITS hlsimage into hls frame.<br></p>
+<p class="zh">将 FITS HLS 图像加载到 HLS 帧。</p>
+<tt>Syntax:<br>
+-hlsimage &lt;filename&gt;<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -hlsimage foo.fits<br>
+$cat foo.fits | ds9 -hlsimage -</tt><br>
+<p><b><a name="hsv" id="hsv"></a>hsv</b></p>
+<p>Create HSV frame and control HSV frame parameters.</p>
+<p class="zh">创建 HSV 帧并控制 HSV 帧参数。</p>
+<tt>Syntax:<br>
+-hsv []<br>
+&nbsp;&nbsp;&nbsp; [hue|saturation|value]<br>
+&nbsp;&nbsp;&nbsp; [channel [hue|saturation|value]]<br>
+&nbsp;&nbsp;&nbsp; [view [hue|saturation|value] [yes|no]]<br>
+&nbsp;&nbsp;&nbsp; [system &lt;coordsys&gt;]<br>
+&nbsp;&nbsp;&nbsp; [lock wcs|crop|slice|bin|scale|scalelimits|colorbar|block|smooth [yes|no]]<br>
+&nbsp;&nbsp;&nbsp; [open|close]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -hsv # create new hsv frame<br>
+$ds9 -hsv hue # set current channel to hue<br>
+$ds9 -hsv channel hue # set current channel to hue<br>
+$ds9 -hsv view saturation no # turn off saturation channel<br>
+$ds9 -hsv system wcs # set hsv coordinate system<br>
+$ds9 -hsv lock wcs yes<br>
+$ds9 -hsv lock crop yes<br>
+$ds9 -hsv lock slice yes<br>
+$ds9 -hsv lock bin yes<br>
+$ds9 -hsv lock scale yes<br>
+$ds9 -hsv lock scalelimits yes<br>
+$ds9 -hsv lock colorbar yes<br>
+$ds9 -hsv lock block yes<br>
+$ds9 -hsv lock smooth yes<br>
+$ds9 -hsv open<br>
+$ds9 -hsv close</tt><br>
+<p><b><a name="hsvarray" id="hsvarray"></a>hsvarray</b></p>
+<p>Load raw data array cube into hsv frame.<br></p>
+<p class="zh">将原始数据数组立方体加载到 HSV 帧。</p>
+<tt>Syntax:<br>
+-hsvarray &lt;filename&gt;[[xdim=&lt;x&gt;,ydim=&lt;y&gt;|dim=&lt;dim&gt;],[zdim=3],bitpix=&lt;b&gt;,skip=&lt;s&gt;,endian=[little|big]]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -hsvarray foo.arr[dim=512,zdim=3,bitpix=-32,endian=little]<br>
+$cat foo.arr | ds9 -hsvarray -[dim=512,zdim=3,bitpix=-32,endian=little]</tt><br>
+<p><b><a name="hsvcube" id="hsvcube"></a>hsvcube</b></p>
+<p>Load FITS hsvcube into hsv frame.<br></p>
+<p class="zh">将 FITS HSV 立方体加载到 HSV 帧。</p>
+<tt>Syntax:<br>
+-hsvcube &lt;filename&gt;<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -hsvcube foo.fits<br>
+$cat foo.fits | ds9 -hsvcube -</tt><br>
+<p><b><a name="hsvimage" id="hsvimage"></a>hsvimage</b></p>
+<p>Load FITS hsvimage into hsv frame.<br></p>
+<p class="zh">将 FITS HSV 图像加载到 HSV 帧。</p>
+<tt>Syntax:<br>
+-hsvimage &lt;filename&gt;<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -hsvimage foo.fits<br>
+$cat foo.fits | ds9 -hsvimage -</tt><br>
+<p><b><a name="hue" id="hue"></a>hue</b></p>
+<p>For HLS and HSV frames, sets the current color channel to hue.</p>
+<p class="zh">对于 HLS 和 HSV 帧，将当前颜色通道设为色相（hue）。</p>
+<tt>Syntax:<br>
+-hue<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -hsv -hue foo.fits</tt>
+<p><b><a name="iconify" id="iconify"></a>iconify</b></p>
+<p>Toggles iconification.</p>
+<p class="zh">切换最小化（iconify）状态。</p>
+<tt>Syntax:<br>
+-iconify []<br>
+&nbsp;&nbsp;&nbsp; [yes|no]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -iconify<br>
+$ds9 -iconify yes</tt><br>
+<p><b><a name="invert" id="invert"></a>invert</b></p>
+<p>Invert Colormap.</p>
+<p class="zh">反转颜色映射（Invert Colormap）。</p>
+<tt>Syntax:<br>
+-invert<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -invert<br></tt>
+<p><b><a name="iis" id="iis"></a>iis</b></p>
+<p>Set IIS Filename. Optional mosaic number may be supplied.</p>
+<p class="zh">设置 IIS 文件名。可提供可选的拼接（mosaic）编号。</p>
+<tt>Syntax:<br>
+-iis [filename &lt;filename&gt; [#]]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -iis filename foo.fits<br>
+$ds9 -iis filename bar.fits 4</tt><br>
+
+<p><b><a name="illustrate" id="illustrate"></a>illustrate</b></p>
+<p>Controls illustrations.</p>
+<p class="zh">控制插图（illustrations）/区域绘制。</p>
+<tt>Syntax:<br>
+-illustrate&nbsp;[&lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [load &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [save [select|all] &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [list [select|all]]<br>
+&nbsp;&nbsp;&nbsp; [select all|none|invert|front|back]<br>
+&nbsp;&nbsp;&nbsp; [move front|back]<br>
+&nbsp;&nbsp;&nbsp; [delete [select|all]]<br>
+&nbsp;&nbsp;&nbsp; [shape &lt;shape&gt;]<br>
+&nbsp;&nbsp;&nbsp; [color &lt;color&gt;]<br>
+&nbsp;&nbsp;&nbsp; [fill yes|no]<br>
+&nbsp;&nbsp;&nbsp; [width &lt;width&gt;]<br>
+&nbsp;&nbsp;&nbsp; [dash yes|no]<br>
+&nbsp;&nbsp;&nbsp; [command &lt;region command&gt;]<br>
+&nbsp;&nbsp;&nbsp; [copy]<br>
+&nbsp;&nbsp;&nbsp; [cut]<br>
+&nbsp;&nbsp;&nbsp; [paste]<br>
+&nbsp;&nbsp;&nbsp; [undo]<br>
+&nbsp;&nbsp;&nbsp; [open|close]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -illustrate foo.reg<br>
+$ds9 -illustrate load foo.reg # load foo.reg into current frame<br>
+$ds9 -illustrate save foo.reg<br>
+$ds9 -illustrate save select foo.reg<br>
+$ds9 -illustrate list<br>
+$ds9 -illustrate list select<br>
+$ds9 -illustrate list close<br>
+$ds9 -illustrate show yes<br>
+$ds9 -illustrate select all<br>
+$ds9 -illustrate select none<br>
+$ds9 -illustrate select invert<br>
+$ds9 -illustrate select front<br>
+$ds9 -illustrate select back<br>
+$ds9 -illustrate move back<br>
+$ds9 -illustrate move front<br>
+$ds9 -illustrate delete<br>
+$ds9 -illustrate delete select<br>
+$ds9 -illustrate color red<br>
+$ds9 -illustrate fill yes<br>
+$ds9 -illustrate width 3<br>
+$ds9 -illustrate dash no<br>
+$ds9 -illustrate command "circle 100 100 20 # color=red"<br>
+$ds9 -illustrate copy<br>
+$ds9 -illustrate cut<br>
+$ds9 -illustrate paste <br>
+$ds9 -illustrate undo<br>
+$ds9 -illustrate open<br>
+$ds9 -illustrate close<br></tt>
+<p><b><a name="jpeg" id="jpeg"></a>jpeg</b></p>
+<p>Load JPEG image into current frame.</p>
+<p class="zh">将 JPEG 图像加载到当前帧。</p>
+<tt>Syntax:<br>
+-jpeg &lt;filename&gt;<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -jpeg foo.jpeg<br>
+$cat foo.jpeg | ds9 -jpeg -</tt><br>
+<p><b><a name="language" id="language"></a>language</b></p>
+<p>Select current language.</p>
+<p class="zh">选择当前语言。</p>
+<tt>Syntax:<br>
+-language [locale|da|de|es|en|fr|ja|pt]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -language fr<br></tt>
+<p><b><a name="layer" id="layer"></a>layer</b></p>
+<p>Controls layers in a multi-color frame. If no frame exists, a multi-color frame is created. The layer option may also be used before loading an image to select which layer receives the next image.</p>
+<p class="zh">控制多色（multi-color）帧中的图层（layers）。若尚不存在帧，则创建一个多色帧。<tt>layer</tt> 选项也可在加载图像前使用，以指定下一张图像进入哪一个图层。</p>
+<tt>Syntax:<br>
+-layer [create]<br>
+&nbsp;&nbsp;&nbsp; [&lt;integer&gt;]<br>
+&nbsp;&nbsp;&nbsp; [layerno &lt;integer&gt;]<br>
+&nbsp;&nbsp;&nbsp; [[&lt;integer&gt;] color &lt;color&gt;]<br>
+&nbsp;&nbsp;&nbsp; [[&lt;integer&gt;] blend source|multiply|screen|overlay|darken|lighten|color-dodge|color-burn|hard-light|soft-light|difference|exclusion|hue|saturation|color|luminosity]<br>
+&nbsp;&nbsp;&nbsp; [[&lt;integer&gt;] transparency &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [[&lt;integer&gt;] view yes|no]<br>
+&nbsp;&nbsp;&nbsp; [[&lt;integer&gt;] delete|up|down|top|bottom]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -multicolor -layer color red foo.fits<br>
+$ds9 -layer create -layer color green bar.fits<br>
+$ds9 -layer 2 color blue<br>
+$ds9 -layer 2 blend screen<br>
+$ds9 -layer 2 transparency 35<br>
+$ds9 -layer 2 view no<br>
+$ds9 -layer 2 view yes<br>
+$ds9 -layer 2 up<br>
+$ds9 -layer layerno 1<br></tt>
+<p><b><a name="linear" id="linear"></a>linear</b></p>
+<p>Select linear scale function for the current frame.</p>
+<p class="zh">为当前帧选择线性（linear）灰度拉伸函数。</p>
+<tt>Syntax:<br>
+-linear<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -linear</tt>
+<p><b><a name="lightness" id="lightness"></a>lightness</b></p>
+<p>For HLS frames, sets the current color channel to lightness.</p>
+<p class="zh">对于 HLS 帧，将当前颜色通道设为亮度（lightness）。</p>
+<tt>Syntax:<br>
+-lightness<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -hls -lightness foo.fits</tt>
+<p><b><a name="lock" id="lock"></a>lock</b></p>
+<p>Lock all other frames to the current frame.</p>
+<p class="zh">将所有其他帧锁定到当前帧。</p>
+<tt>Syntax:<br>
+-lock[frame &lt;coordsys&gt;|none]<br>
+&nbsp;&nbsp;&nbsp; [crosshair &lt;coordsys&gt;|none]<br>
+&nbsp;&nbsp;&nbsp; [crop &lt;coordsys&gt;|none]<br>
+&nbsp;&nbsp;&nbsp; [slice &lt;coordsys&gt;|none]<br>
+&nbsp;&nbsp;&nbsp; [bin [yes|no]]<br>
+&nbsp;&nbsp;&nbsp; [axes [yes|no]]<br>
+&nbsp;&nbsp;&nbsp; [scale [yes|no]]<br>
+&nbsp;&nbsp;&nbsp; [scalelimits [yes|no]]<br>
+&nbsp;&nbsp;&nbsp; [colorbar [yes|no]]<br>
+&nbsp;&nbsp;&nbsp; [block [yes|no]]<br>
+&nbsp;&nbsp;&nbsp; [smooth [yes|no]]<br>
+&nbsp;&nbsp;&nbsp; [3d [yes|no]]<br>
+<br>
+Example:<br>
+$ds9 -lock frame wcs<br>
+$ds9 -lock crosshair wcs<br>
+$ds9 -lock crop wcs<br>
+$ds9 -lock slice wcs<br>
+$ds9 -lock bin yes<br>
+$ds9 -lock axes yes<br>
+$ds9 -lock scale yes<br>
+$ds9 -lock scalelimits yes<br>
+$ds9 -lock colorbar yes<br>
+$ds9 -lock block yes<br>
+$ds9 -lock smooth yes<br>
+$ds9 -lock 3d yes<br>
+<br></tt> <b><a name="log" id="log"></a>log</b>
+<p>Select log scale function for the current frame.<br></p>
+<tt>Syntax:<br>
+-log<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -log</tt>
+<p><b><a name="lower" id="lower"></a>lower</b></p>
+<p class="zh">为当前帧选择对数（log）灰度拉伸函数。</p>
+<p class="zh">在窗口堆叠顺序中向下移（lower）。</p>
+<p>Lower in the window stacking order.</p>
+<tt>Syntax:<br>
+-lower<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -lower<br></tt>
+<p><b><a name="magnifier" id="magnifier"></a>magnifier</b></p>
+<p>Controls the magnifier settings.</p>
+<p class="zh">控制放大镜（magnifier）设置。</p>
+<tt>Syntax:<br>
+magnifier [color &lt;color&gt;]<br>
+&nbsp;&nbsp;&nbsp; [zoom &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [cursor yes|no]<br>
+&nbsp;&nbsp;&nbsp; [region yes|no]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -magnifier color yellow<br>
+$ds9 -magnifier zoom 2<br>
+$ds9 -magnifier cursor no<br>
+$ds9 -magnifier region no<br></tt>
+<p><b><a name="mask" id="mask"></a>mask<br>
+nomask<br></b></p>
+<p>Controls mask parameters.</p>
+<p class="zh">控制遮罩（mask）参数。</p>
+<tt>Syntax:<br>
+-mask [color &lt;color&gt;]<br>
+&nbsp;&nbsp;&nbsp; [mark zero|nonzero|nan|nonnan|range]<br>
+&nbsp;&nbsp;&nbsp; [range &lt;low&gt; &lt;high&gt;]<br>
+&nbsp;&nbsp;&nbsp; [transparency &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [blend source|multiply|screen|overlay|darken|lighten|color-dodge|color-burn|hard-light|soft-light|difference|exclusion|hue|saturation|color|luminosity]<br>
+&nbsp;&nbsp;&nbsp; [system &lt;coordsys&gt;]<br>
+&nbsp;&nbsp;&nbsp; [clear]<br>
+&nbsp;&nbsp;&nbsp; [load &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [open|close]<br>
+-nomask<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -mask color red<br>
+$ds9 -mask mark zero<br>
+$ds9 -mask range 10 100<br>
+$ds9 -mask transparency 50<br>
+$ds9 -mask blend source<br>
+$ds9 -mask system wcs<br>
+$ds9 -mask clear<br>
+$ds9 -mask load foo.fits<br>
+$ds9 -mask open<br>
+$ds9 -mask close<br>
+$ds9 -nomask<br></tt>
+<p><b><a name="match" id="match"></a>match</b></p>
+<p>Match all other frames to the current frame.</p>
+<p class="zh">将所有其他帧匹配到当前帧。</p>
+<tt>Syntax:<br>
+-match[frame &lt;coordsys&gt;]<br>
+&nbsp;&nbsp;&nbsp; [crosshair &lt;coordsys&gt;]<br>
+&nbsp;&nbsp;&nbsp; [crop &lt;coordsys&gt;]<br>
+&nbsp;&nbsp;&nbsp; [slice &lt;coordsys&gt;]<br>
+&nbsp;&nbsp;&nbsp; [bin]<br>
+&nbsp;&nbsp;&nbsp; [axes]<br>
+&nbsp;&nbsp;&nbsp; [scale]<br>
+&nbsp;&nbsp;&nbsp; [scalelimits]<br>
+&nbsp;&nbsp;&nbsp; [colorbar]<br>
+&nbsp;&nbsp;&nbsp; [block]<br>
+&nbsp;&nbsp;&nbsp; [smooth]<br>
+&nbsp;&nbsp;&nbsp; [3d]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -match frame wcs<br>
+$ds9 -match crosshair wcs<br>
+$ds9 -match crop wcs<br>
+$ds9 -match slice wcs<br>
+$ds9 -match bin<br>
+$ds9 -match axes<br>
+$ds9 -match scale<br>
+$ds9 -match scalelimits<br>
+$ds9 -match colorbar<br>
+$ds9 -match block<br>
+$ds9 -match smooth<br>
+$ds9 -match 3d</tt><br>
+<tt>&nbsp;<br></tt> <b><a name="mecube" id="mecube"></a>mecube</b>
+<p>Load FITS multiple extension file as data cube.<br></p>
+<tt>Syntax:<br>
+mecube &lt;filename&gt;<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -mecube foo.fits<br>
+$cat foo.fits | ds9 -mecube -</tt><br>
+<p><b><a name="minmax" id="minmax"></a>minmax</b></p>
+<p class="zh">将 FITS 多扩展文件作为数据立方体加载。</p>
+<p class="zh">DS9 由此从数据中确定最小与最大数据值。<tt>SCAN</tt> 方式会扫描全部数据。</p>
+<p>This is how DS9 determines&nbsp; the min and max data values from the data. <tt>SCAN</tt> will scan all data.</p>
+<tt>Syntax:<br>
+-minmax [scan|sample|datamin|irafmin]<br>
+&nbsp;&nbsp;&nbsp; [mode scan|sample|datamin|irafmin]<br>
+&nbsp;&nbsp;&nbsp; [interval #]<br>
+&nbsp;&nbsp;&nbsp; [rescan]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -minmax scan<br>
+$ds9 -minmax mode scan<br>
+$ds9 -minmax interval 100<br></tt> $ds9 -minmax rescan<br>
+<p><b><a name="mode" id="mode"></a>mode</b></p>
+<p>Select the current mode.</p>
+<p class="zh">选择当前模式（mode）。</p>
+<tt>Syntax:<br>
+-mode [none|region|crosshair|colorbar|pan|zoom|rotate|catalog|examine|3d]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -mode crosshair</tt><br>
+<p><b><a name="mosaic" id="mosaic"></a>mosaic</b></p>
+<p>Load FITS mosaic segment into current frame.</p>
+<p class="zh">将 FITS 拼接（mosaic）分段加载到当前帧。</p>
+<tt>Syntax:<br>
+-mosaic [wcs|wcsa...wcsz|iraf] &lt;filename&gt;<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -mosaic foo.fits<br>
+$ds9 -mosaic wcs foo.fits<br>
+$cat foo.fits | ds9 -mosaic -<br>
+$cat foo.fits | ds9 -mosaic wcs -<br></tt>
+<p><b><a name="mosaicimage" id="mosaicimage"></a>mosaicimage</b></p>
+<p>Load FITS mosaic image into current frame.</p>
+<p class="zh">将 FITS 拼接图像（mosaic image）加载到当前帧。</p>
+<tt>Syntax:<br>
+-mosaicimage [wcs|wcsa...wcsz|iraf|wfpc2] &lt;filename&gt;<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -mosaicimage foo.fits<br>
+$ds9 -mosaicimage wcs foo.fits<br>
+$cat foo.fits | ds9 -mosaicimage<br>
+$cat foo.fits | ds9 -mosaiimage wcs<br></tt>
+<p><b><a name="movie" id="movie"></a>movie<br></b></p>
+<p>Create a movie from snap shots of the DS9 window. A <tt>slice</tt> movie cycles though all slices of a cube. A <tt>frame</tt> movie cycles through all active frames. A <tt>3d</tt> movie cycles through specified viewing angles.
+A <tt>script</tt> movie takes a snap shot of the DS9 window after executing each command in user supplied script.
+The default action is <tt>slice</tt>. Movie types are either <tt>MPEG</tt> or <tt>Animated GIF</tt>, with default <tt>MPEG</tt>. Optional parameters for <tt>3d</tt>: number of frames, azimuth from/to, elevation from/to, slice from/to, oscillate/repeat times.</p>
+<p class="zh">由 DS9 窗口的快照生成一段视频。<tt>slice</tt> 视频会遍历立方体的所有切片；<tt>frame</tt> 视频会遍历所有活动帧；<tt>3d</tt> 视频会按指定视角循环；<tt>script</tt> 视频会在用户提供的脚本中每条命令执行后对 DS9 窗口拍一次快照。默认动作是 <tt>slice</tt>。视频类型为 <tt>MPEG</tt> 或 <tt>Animated GIF</tt>，默认 <tt>MPEG</tt>。<tt>3d</tt> 的可选参数：帧数、方位角起止、俯仰角起止、切片起止、振荡/重复次数。</p>
+<tt>Syntax:<br>
+-movie [slice|frame] [mpeg|gif &lt;delay&gt; blink|fade] &lt;filename&gt;<br>
+-movie script [mpeg|gif &lt;delay&gt; blink|fade] &lt;script_name&gt; &lt;filename&gt;<br>
+-movie 3d [mpeg|gif &lt;delay&gt;] &lt;filename&gt; [number|az from|az to|el from|el to|slice from|slice to|zoom from|zoom to|oscillate|repeat &lt;#&gt;]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -movie slice mpeg ds9.mpg<br>
+$ds9 -movie frame gif ds9.gif<br>
+$ds9 -movie frame gif 100 fade ds9.gif<br>
+$ds9 -movie script gif pan_and_zoom.cmd ds9.gif<br>
+$ds9 -movie 3d mpeg ds9.mpg number 10 az from -60 az to 60 oscillate 1</tt><br>
+<p><b><a name="msg" id="msg"></a>msg</b></p>
+<p>Specify a directory of translation tables to be loaded.</p>
+<p class="zh">指定一个要加载的翻译表（语言包）目录。</p>
+<tt>Syntax:<br>
+-msg &lt;directory&gt;<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -msg $HOME/msgs</tt><br>
+<p><b><a name="multiframe" id="multiframe"></a>multiframe</b></p>
+<p>Load FITS multiple extension file as multiple images.<br></p>
+<p class="zh">将 FITS 多扩展文件作为多张图像加载。</p>
+<tt>Syntax:<br>
+-multiframe &lt;filename&gt;<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -multiframe foo.fits<br>
+$cat foo.fits | ds9 -multiframe -<br></tt>
+<p><b><a name="multicolor" id="multicolor"></a>multicolor</b></p>
+<p>Create a multi-color frame and control multi-color frame parameters. Subsequent image loads may be assigned to layers with the <a href="#layer">layer</a> option. Each layer has its own scale, limits, color, blend mode, transparency, and visibility.</p>
+<p class="zh">创建多色（multi-color）帧并控制其参数。后续加载的图像可通过 <a href="#layer">layer</a> 选项分配到不同图层。每个图层有各自的灰度拉伸、限幅、颜色、混合模式、透明度与可见性。</p>
+<tt>Syntax:<br>
+-multicolor [system &lt;coordsys&gt;]<br>
+&nbsp;&nbsp;&nbsp; [lock wcs|crop|slice|bin|scale|scalelimits|colorbar|block|smooth [yes|no]]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -multicolor foo.fits<br>
+$ds9 -multicolor -layer color red red.fits -layer create -layer color green green.fits<br>
+$ds9 -multicolor system wcs -layer color red red.fits -layer create -layer color green green.fits<br>
+$ds9 -multicolor lock scale yes<br>
+$ds9 -multicolor lock scalelimits yes<br></tt>
+<p><b><a name="nameserver" id="nameserver"></a>nameserver</b></p>
+<p>Support Name Server functions. Coordinates are in fk5.</p>
+<p class="zh">支持名称服务器（Name Server）功能。坐标以 fk5 表示。</p>
+<tt>Syntax:<br>
+-nameserver [&lt;object&gt;]<br>
+&nbsp;&nbsp;&nbsp; [name &lt;object&gt;]<br>
+&nbsp;&nbsp;&nbsp; [skyformat degrees|sexagesimal]<br>
+&nbsp;&nbsp;&nbsp; [pan]<br>
+&nbsp;&nbsp;&nbsp; [crosshair]<br>
+&nbsp;&nbsp;&nbsp; [open|close]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -nameserver m31<br>
+$ds9 -nameserver name m31<br>
+$ds9 -nameserver server ned-sao<br>
+$ds9 -nameserver skyformat sexagesimal<br>
+$ds9 -nameserver pan<br>
+$ds9 -nameserver crosshair<br>
+$ds9 -nameserver open<br>
+$ds9 -nameserver close<br></tt>
+<p><b><a name="notes" id="notes"></a>notes</b></p>
+<p>Display Notebook.<br></p>
+<p class="zh">显示笔记本（Notebook）。</p>
+<tt>Syntax:<br>
+notes [&lt;string&gt;]<br>
+&nbsp;&nbsp;&nbsp; [append &lt;string&gt;]<br>
+&nbsp;&nbsp;&nbsp; [insert &lt;string&gt;]<br>
+&nbsp;&nbsp;&nbsp; [clear]<br>
+&nbsp;&nbsp;&nbsp; [load &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [save &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [open|close]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -notes 'Hello World'<br>
+$ds9 -notes append 'Hello World'<br>
+$ds9 -notes insert 'Hello World'<br>
+$ds9 -notes clear<br>
+$ds9 -notes load foo.txt<br>
+$ds9 -notes save foo.txt<br>
+$ds9 -notes open<br>
+$ds9 -notes close<br>
+<p><b><a name="nrrd" id="nrrd"></a>nrrd</b></p>
+<p>Load an NRRD (Nearly Raw Raster Data) file.<br></p>
+<p class="zh">加载一个 NRRD（Nearly Raw Raster Data）文件。</p>
+<tt>Syntax:<br>
+-nrrd &lt;filename&gt;<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -nrrd foo.nrrd<br>
+$cat foo.nrrd | xpaset ds9 -nrrd-<br></tt>
+<p><b><a name="nvss" id="nvss"></a>nvss</b></p>
+<p>Support for NRAO VLA Sky Survey.</p>
+<p class="zh">支持 NRAO VLA 巡天（VLA Sky Survey）。</p>
+<tt>Syntax:<br>
+-nvss []<br>
+&nbsp;&nbsp;&nbsp; [&lt;object&gt;]<br>
+&nbsp;&nbsp;&nbsp; [name &lt;object&gt;|clear]<br>
+&nbsp;&nbsp;&nbsp; [&lt;ra&gt; &lt;dec&gt;] # in wcs fk5<br>
+&nbsp;&nbsp;&nbsp; [size &lt;width&gt; &lt;height&gt; degrees|arcmin|arcsec]<br>
+&nbsp;&nbsp;&nbsp; [save yes|no]<br>
+&nbsp;&nbsp;&nbsp; [frame new|current]<br>
+&nbsp;&nbsp;&nbsp; [update frame|crosshair]<br>
+&nbsp;&nbsp;&nbsp; [open|close]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -nvss<br>
+$ds9 -nvss m31<br>
+$ds9 -nvss name m31<br>
+$ds9 -nvss name clear<br>
+$ds9 -nvss 00:42:44.404 +41:16:08.78<br>
+$ds9 -nvss size 60 60 arcmin<br>
+$ds9 -nvss save yes<br>
+$ds9 -nvss frame current<br>
+$ds9 -nvss update frame<br>
+$ds9 -nvss open<br>
+$ds9 -nvess close<br></tt>
+<p><b><a name="orient" id="orient"></a>orient</b></p>
+<p>Controls the orientation of the current frame.</p>
+<p class="zh">控制当前帧的朝向（orientation）。</p>
+<tt>Syntax:<br>
+-orient [none|x|y|xy]<br>
+&nbsp;&nbsp;&nbsp; [open|close]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -orient xy<br>
+$ds9 -orient open<br>
+$ds9 -orient close<br></tt>
+<p><b><a name="pagesetup" id="pagesetup"></a>pagesetup</b></p>
+<p>Controls Page Setup options.<br></p>
+<p class="zh">控制页面设置（Page Setup）选项。</p>
+<tt>Syntax:<br>
+-pagesetup [orient portrait|landscape]<br>
+&nbsp;&nbsp;&nbsp; [scale &lt;numberic&gt;]<br>
+&nbsp;&nbsp;&nbsp; [size letter|legal|tabloid|poster|a4]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -pagesetup orient portrait<br>
+$ds9 -pagesetup scale 50<br>
+$ds9 -pagesetup size poster</tt><br>
+<p><b><a name="pan" id="pan"></a>pan</b></p>
+<p>Controls the current image cursor location for the current frame.</p>
+<p class="zh">控制当前帧中图像光标的当前位置（平移）。</p>
+<tt>Syntax:<br>
+-pan [&lt;x&gt; &lt;h&gt; &lt;coordsys&gt; [&lt;skyframe&gt;]] # relative<br>
+&nbsp;&nbsp;&nbsp; [to &lt;x&gt; &lt;h&gt; &lt;coordsys&gt; [&lt;skyframe&gt;]] # absolute<br>
+&nbsp;&nbsp;&nbsp; [open|close]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -pan 200 200 image# pan relative<br>
+$ds9 -pan to 400 400 physical# pan to physical coords<br>
+$ds9 -pan to 13:29:55 47:11:50 wcs fk# pan to wcs coords<br>
+$ds9 -pan open<br>
+$ds9 -pan close</tt><br>
+<p><b><a name="pixeltable" id="pixeltable"></a>pixeltable</b></p>
+<p>Display/Hide the pixel table.</p>
+<p class="zh">显示/隐藏像素表（pixel table）。</p>
+<tt>Syntax:<br>
+-pixeltable []<br>
+&nbsp;&nbsp;&nbsp; [yes|open]<br>
+&nbsp;&nbsp;&nbsp; [no|close]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -pixeltable<br>
+$ds9 -pixeltable yes<br>
+$ds9 -pixeltable open<br>
+$ds9 -pixeltable close<br></tt>
+<p><b><a name="plot" id="plot"></a>plot</b></p>
+<p>Display and configure data plots. The last plot created is assumed. Plot data is assumed to be a pair of coordinates, with optional error values. The follow are valid data descriptions:</p>
+<p class="zh">显示并配置数据图（plots）。默认作用于最近一次创建的图。图数据假定为一对坐标，并可带可选的误差值。以下是合法的数据描述类型：</p>
+<blockquote><tt>xy&nbsp;&nbsp;&nbsp;&nbsp; x and y coordinates<br>
+xyex&nbsp;&nbsp;&nbsp; x,y coordinates with x errors<br>
+xyey&nbsp;&nbsp;&nbsp; x,y coordinates with y errors<br>
+xyexey&nbsp;&nbsp;&nbsp; x,y coordinates with&nbsp; x and y errors<br></tt></blockquote>
+<p class="zh">上述数据描述类型分别表示：xy 为 x、y 坐标；xyex 为带 x 误差的 x,y 坐标；xyey 为带 y 误差的 x,y 坐标；xyexey 为同时带 x、y 误差的 x,y 坐标。</p>
+<tt>Syntax:<br>
+<p>
+# create new empty plot window<br>
+plot [line|bar [&lt;ref&gt;]]<br>
+&nbsp;&nbsp;&nbsp; [line|bar [&lt;ref&gt;] &lt;title&gt; &lt;xaxis label&gt; &lt;yaxis label&gt; xy|xyex|xyey|xyexey]<br>
+</p>
+<p>
+# create new plot from data file<br>
+plot [line|bar &lt;filename&gt; [&lt;ref&gt;] xy|xyex|xyey|xyexey]<br>
+&nbsp;&nbsp;&nbsp; [line|bar &lt;filename&gt; [&lt;ref&gt;] &lt;title&gt; &lt;xaxis label&gt; &lt;yaxis label&gt; xy|xyex|xyey|xyexey]<br>
+</p>
+<p>
+# existing plot<br>
+plot [gui]<br>
+&nbsp;&nbsp;&nbsp; [load &lt;filename&gt; xy|xyex|xyey|xyexey]<br>
+&nbsp;&nbsp;&nbsp; [save &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [current &lt;ref&gt;]<br>
+&nbsp;&nbsp;&nbsp; [layout grid|row|column|strip]<br>
+&nbsp;&nbsp;&nbsp; [layout strip scale &lt;percent&gt;]<br>
+&nbsp;&nbsp;&nbsp; [add graph line|bar]<br>
+&nbsp;&nbsp;&nbsp; [current graph &lt;graph&gt;]<br>
+&nbsp;&nbsp;&nbsp; [delete graph]<br>
+&nbsp;&nbsp;&nbsp; [current dataset &lt;dataset&gt;]<br>
+&nbsp;&nbsp;&nbsp; [delete dataset]<br>
+&nbsp;&nbsp;&nbsp; [duplicate]<br>
+&nbsp;&nbsp;&nbsp; [stats yes|no]<br>
+&nbsp;&nbsp;&nbsp; [list yes|no]<br>
+&nbsp;&nbsp;&nbsp; [backup &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [restore &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [pagesetup orient portrait|landscape]<br>
+&nbsp;&nbsp;&nbsp; [pagesetup size letter|legal|tabloid|poster|a4]<br>
+&nbsp;&nbsp;&nbsp; [print]<br>
+&nbsp;&nbsp;&nbsp; [print destination printer|file]<br>
+&nbsp;&nbsp;&nbsp; [print command &lt;command&gt;]<br>
+&nbsp;&nbsp;&nbsp; [print filename &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [print color rgb|gray]<br>
+&nbsp;&nbsp;&nbsp; [close]<br>
+&nbsp;&nbsp;&nbsp; [mode pointer|zoom]<br>
+</p>
+<p>
+# export<br>
+plot [export &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [export eps|pdf|gif|tiff|jpeg|png &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [export jpeg &lt;filename&gt; [int(1-100)]]<br>
+&nbsp;&nbsp;&nbsp; [export tiff &lt;filename&gt; none|jpeg|packbits|deflate]]<br>
+</p>
+<p>
+# configure graph<br>
+plot [axis x|y grid yes|no]<br>
+&nbsp;&nbsp;&nbsp; [axis x|y log yes|no]<br>
+&nbsp;&nbsp;&nbsp; [axis x|y flip yes|no]<br>
+&nbsp;&nbsp;&nbsp; [axis x|y auto yes|no]<br>
+&nbsp;&nbsp;&nbsp; [axis x|y min &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [axis x|y max &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [axis x|y format &lt;string&gt;]<br>
+&nbsp;&nbsp;&nbsp; [background &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [legend yes|no]<br>
+&nbsp;&nbsp;&nbsp; [legend position right|left|top|bottom|plotarea]<br>
+&nbsp;&nbsp;&nbsp; [font title|labels|numbers font times|helvetica|courier]<br>
+&nbsp;&nbsp;&nbsp; [font title|labels|numbers size &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [font title|labels|numbers weight normal|bold]<br>
+&nbsp;&nbsp;&nbsp; [font title|labels|numbers slant roman|italic]<br>
+&nbsp;&nbsp;&nbsp; [title &lt;string&gt;]<br>
+&nbsp;&nbsp;&nbsp; [title x|y &lt;string&gt;]<br>
+</p>
+<p>
+# dataset<br>
+plot [show yes|no]<br>
+&nbsp;&nbsp;&nbsp; [name &lt;string&gt;]<br>
+</p>
+<p>
+# line dataset<br>
+plot [line smooth step|linear|cubic|quadratic|catrom]<br>
+&nbsp;&nbsp;&nbsp; [line color &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [line width &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [line dash yes|no]<br>
+&nbsp;&nbsp;&nbsp; [line fill yes|no]<br>
+&nbsp;&nbsp;&nbsp; [line fill color &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [line shape symbol none|circle|square|diamond|plus|splus|scross|triangle|arrow]<br>
+&nbsp;&nbsp;&nbsp; [line shape size &lt;integer&gt;]<br>
+&nbsp;&nbsp;&nbsp; [line shape color &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [line shape fill yes|no]<br>
+</p>
+<p>
+# bar dataset<br>
+plot [bar border color &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [bar border width &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [bar fill yes|no]<br>
+&nbsp;&nbsp;&nbsp; [bar color &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [bar width &lt;value&gt;]<br>
+</p>
+<p>
+# error bar<br>
+plot [error yes|no]<br>
+&nbsp;&nbsp;&nbsp; [error color &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [error cap yes|no]<br>
+&nbsp;&nbsp;&nbsp; [error width &lt;value&gt;]<br>
+</p>
+<p>
+Example:<br>
+<p>
+# create new empty plot window<br>
+$ds9 -plot line<br>
+$ds9 -plot bar<br>
+</p>
+<p>
+# create new plot from data file<br>
+$ds9 -plot line xy.dat xy<br>
+$ds9 -plot line xy.dat 'The Title' 'X Axis' 'Y Axis' xy <br>
+</p>
+<p>
+# existing plot<br>
+$ds9 -plot gui<br>
+$ds9 -plot load xy.dat xy<br>
+$ds9 -plot save foo.dat<br>
+$ds9 -plot current foo<br>
+$ds9 -plot layout strip<br>
+$ds9 -plot layout strip scale 30<br>
+$ds9 -plot add graph bar<br>
+$ds9 -plot current graph 1<br>
+$ds9 -plot delete graph<br>
+$ds9 -plot current dataset 1<br>
+$ds9 -plot delete dataset<br>
+$ds9 -plot duplicate<br>
+$ds9 -plot stats yes<br>
+$ds9 -plot list yes<br>
+$ds9 -plot backup foo.bck<br>
+$ds9 -plot restore foo.bck<br>
+$ds9 -plot pagesetup orient portrait<br>
+$ds9 -plot pagesetup size letter<br>
+$ds9 -plot print<br>
+$ds9 -plot print destination file<br>
+$ds9 -plot print command lp<br>
+$ds9 -plot print filename foo.ps<br>
+$ds9 -plot print color rgb<br>
+$ds9 -plot close<br>
+$ds9 -plot mode pointer<br>
+</p>
+<p>
+# export plot<br>
+$ds9 -plot export tiff foo.tiff jpeg<br>
+$ds9 -plot export pdf foo.pdf<br>
+$ds9 -plot export jpeg foo.jpeg 75<br>
+$ds9 -plot export png foo.png<br>
+</p>
+<p>
+# configure graph<br>
+$ds9 -plot axis x grid yes<br>
+$ds9 -plot axis x log yes<br>
+$ds9 -plot axis x flip yes<br>
+$ds9 -plot axis x auto no<br>
+$ds9 -plot axis x min 1<br>
+$ds9 -plot axis x max 100<br>
+$ds9 -plot axis x format '%f'<br>
+$ds9 -plot background white<br>
+$ds9 -plot legend yes<br>
+$ds9 -plot legend position left<br>
+$ds9 -plot font numbers font times<br>
+$ds9 -plot font numbers size 12<br>
+$ds9 -plot font numbers weight bold<br>
+$ds9 -plot font numbers slant italic<br>
+$ds9 -plot title 'This is a Title'<br>
+$ds9 -plot title x 'X Axis'<br>
+$ds9 -plot title y 'Y Axis'<br>
+$ds9 -plot title legend 'This is the Legend'<br>
+</p>
+<p>
+# configure current dataset<br>
+$ds9 -plot show yes<br>
+$ds9 -plot name 'My Data'<br>
+</p>
+<p>
+# line dataset<br>
+$ds9 -plot line smooth step<br>
+$ds9 -plot line color red<br>
+$ds9 -plot line width 2<br>
+$ds9 -plot line dash yes<br>
+$ds9 -plot line fill no<br>
+$ds9 -plot line fill color red<br>
+$ds9 -plot line shape symbol circle<br>
+$ds9 -plot line shape size 5<br>
+$ds9 -plot line shape color cyan<br>
+$ds9 -plot line shape fill no<br>
+</p>
+<p>
+# bar dataset<br>
+$ds9 -plot bar border color red<br>
+$ds9 -plot bar border width 2<br>
+$ds9 -plot bar fill no<br>
+$ds9 -plot bar color red<br>
+$ds9 -plot bar width 10<br>
+</p>
+<p>
+$ds9 -plot error yes<br>
+$ds9 -plot error color red<br>
+$ds9 -plot error cap yes<br>
+$ds9 -plot error width 2<br>
+</p>
+<br></tt> <b><a name="png" id="png"></a>png</b>
+<p>Load PNG image into current frame.<br></p>
+<tt>Syntax:<br>
+-png &lt;filename&gt;<br>
+&nbsp;<br>
+Example:<br>
+$ds9 png foo.png<br>
+$cat foo.png | ds9 -png -<br></tt>
+<p><b><a name="port" id="port"></a>port</b></p>
+<p class="zh">将 PNG 图像加载到当前帧。</p>
+<p class="zh">设置 IRAF 端口号，供 IRAF 与 DS9 通信使用。默认为 5137，即 <i>ximtool</i> 使用的标准 IRAF 端口。</p>
+<p>Set the IRAF port number, used by IRAF to communicate with DS9. The default is 5137, the standard IRAF port used by <i>ximtool</i>.</p>
+<tt>Syntax:<br>
+-port number<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -port 5137</tt>
+<p><b><a name="port_only" id="port_only"></a>port_only<br>
+inet_only</b></p>
+<p>Only use the IRAF port number. This is the same as -fifo none -unix none.</p>
+<p class="zh">仅使用 IRAF 端口号。等同于 -fifo none -unix none。</p>
+<tt>Syntax:<br>
+-port_only<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -port_only<br></tt>
+<p><b><a name="pow" id="pow"></a>pow</b></p>
+<p>Select power scale function for the current frame.</p>
+<p class="zh">为当前帧选择幂（power）灰度拉伸函数。</p>
+<tt>Syntax:<br>
+-pow<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -pow<br></tt>
+<p><b><a name="prefs" id="prefs"></a>prefs</b></p>
+<p>Controls various preference settings.</p>
+<p class="zh">控制各类首选项（preferences）设置。</p>
+<tt>Syntax:<br>
+-prefs [open]<br>
+&nbsp;&nbsp;&nbsp; [save]<br>
+&nbsp;&nbsp;&nbsp; [clear]<br>
+&nbsp;&nbsp;&nbsp; [close]<br>
+&nbsp;&nbsp;&nbsp; [bg color yes|no]<br>
+&nbsp;&nbsp;&nbsp; [bg color &lt;color&gt;]<br>
+&nbsp;&nbsp;&nbsp; [nan color &lt;color&gt;]<br>
+&nbsp;&nbsp;&nbsp; [precision &lt;linear&gt; &lt;degree&gt; &lt;hms&gt; &lt;dms&gt; &lt;len linear&gt; &lt;len degree&gt; &lt;len arcmin&gt; &lt;len arcsec&gt; &lt;angle&gt;]<br>
+&nbsp;&nbsp;&nbsp; [auto recovery yes|no]<br>
+&nbsp;&nbsp;&nbsp; [auto recovery interval &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [theme &lt;theme&gt;]<br>
+&nbsp;&nbsp;&nbsp; [threads &lt;numeric&gt;]<br>
+&nbsp;&nbsp;&nbsp; [irafalign yes|no]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -prefs open<br>
+$ds9 -prefs save<br>
+$ds9 -prefs clear<br>
+$ds9 -prefs close<br>
+$ds9 -prefs bg color no<br>
+$ds9 -prefs bg color red<br>
+$ds9 -prefs nan color blue<br>
+$ds9 -prefs precision 8 7 4 3 8 7 5 3 8<br>
+$ds9 -prefs auto recovery yes
+$ds9 -prefs auto recovery interval 5
+$ds9 -prefs theme radiance<br>
+$ds9 -prefs threads 8<br>
+$ds9 -prefs iraf yes</tt><br>
+<p><b><a name="preserve" id="preserve"></a>preserve</b></p>
+<p>Preserve the follow attributes while loading a new image.</p>
+<p class="zh">在加载新图像时保留以下属性。</p>
+<tt>Syntax:<br>
+preserve [pan yes|no]<br>
+&nbsp;&nbsp;&nbsp; [regions yes|no]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -preserve pan yes<br>
+$ds9 -preserve regions yes<br></tt>
+<p><b><a name="psprint" id="psprint"></a>psprint</b></p>
+<p>Invokes postscript printing. Please see <a href="#print">print</a> for further details.</p>
+<p class="zh">调用 PostScript 打印。详情请参见 <a href="#print">print</a>。</p>
+<p><b><a name="print" id="print"></a>print</b></p>
+<p>Controls printing. Use print option to set printing options.<br></p>
+<p class="zh">控制打印。使用 print 选项设置打印参数。</p>
+<tt>Syntax:<br>
+-print [destination printer|file]<br>
+&nbsp;&nbsp;&nbsp; [command &lt;command&gt;]<br>
+&nbsp;&nbsp;&nbsp; [filename &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [color rgb|cmyk|gray]<br>
+&nbsp;&nbsp;&nbsp; [level 1|2|3]<br>
+&nbsp;&nbsp;&nbsp; [resolution72|screen|96|144|150|225|300|600|1200]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -print<br>
+$ds9 -print destination file<br>
+$ds9 -print command lp<br>
+$ds9 -print filename foo.ps<br>
+$ds9 -print color cmyk<br>
+$ds9 -print level 2<br>
+$ds9 -print resolution 96</tt>
+
+<p><b><a name="prism" id="prism"></a>prism</b></p>
+<p>Invoke FITS analysis tool.</p>
+<p class="zh">调用 FITS 分析工具（prism）。</p>
+<tt>Syntax:<br>
+-prism<br>
+&nbsp;&nbsp;&nbsp;&nbsp; [open]<br>
+&nbsp;&nbsp;&nbsp;&nbsp; [&lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp;&nbsp; [load &lt;filename&gt;]<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp; [import xml|rdb|tsv &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp;&nbsp; [export xml|rdb|tsv &lt;filename&gt;]<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp; [clear]<br>
+&nbsp;&nbsp;&nbsp;&nbsp; [current &lt;ref&gt;]<br>
+&nbsp;&nbsp;&nbsp;&nbsp; [ext &lt;int&gt;|&lt;extname&gt;]<br>
+&nbsp;&nbsp;&nbsp;&nbsp; [first|next|prev|last]<br>
+&nbsp;&nbsp;&nbsp;&nbsp; [goto &lt;int&gt;]<br>
+&nbsp;&nbsp;&nbsp;&nbsp; [image]<br>
+&nbsp;&nbsp;&nbsp;&nbsp; [mode newplot|newgraph|overplot]<br>
+&nbsp;&nbsp;&nbsp;&nbsp; [histogram &lt;col&gt; &lt;numbins&gt; [&lt;min&gt; &lt;max&gt;]]<br>
+&nbsp;&nbsp;&nbsp;&nbsp; [plot &lt;colx&gt; &lt;coly&gt; [&lt;colerrx&gt;] [&lt;colerry&gt;] xy|xyex|xyey|xyexey]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -prism<br>
+$ds9 -prism open<br>
+$ds9 -prism foo.fits<br>
+$ds9 -prism load bar.fits<br>
+$ds9 -prism import tsv bar.tsv<br>
+$ds9 -prism clear<br>
+$ds9 -prism current prism2<br>
+$ds9 -prism ext 2<br>
+$ds9 -prism ext STDEVT<br>
+$ds9 -prism first<br>
+$ds9 -prism next<br>
+$ds9 -prism goto 20345<br>
+$ds9 -prism image<br>
+$ds9 -prism mode newplot<br>
+$ds9 -prism histogram RAWX 40<br>
+$ds9 -prism histogram RAWX 40 0 100<br>
+$ds9 -prism plot RAWX RAWY xy<br>
+$ds9 -prism plot RAWX RAWY PHA xyex<br>
+$ds9 -prism plot RAWX RAWY PHA PHI xyexey<br></tt>
+
+<p><b><a name="raise" id="raise"></a>raise</b></p>
+<p>Raise in the window stacking order.</p>
+<p class="zh">在窗口堆叠顺序中向上移（raise）。</p>
+<tt>Syntax:<br>
+-raise<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -raise<br></tt>
+<p><b><a name="region" id="region"></a>region</b></p>
+<p>Controls regions in the current frame.</p>
+<p class="zh">控制当前帧中的区域（regions）。</p>
+<p>The <tt>composite</tt> command combines the currently selected regions into a composite region. The default operation is <tt>union</tt>; specify <tt>intersection</tt> to create an intersection composite. The <tt>dissolve</tt> command separates a selected composite into its component regions.</p>
+<p class="zh"><tt>composite</tt> 命令把当前选中的区域合并为一个复合区域（composite region）。默认操作为 <tt>union</tt>（并集）；指定 <tt>intersection</tt> 可创建交集复合区域。<tt>dissolve</tt> 命令把一个选中的复合区域拆回其组成区域。</p>
+<tt>Syntax:<br>
+-region [&lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [load [all] &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [save [select] &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [list [close|select]]<br>
+&nbsp;&nbsp;&nbsp; [epsilon &lt;integer&gt;]<br>
+&nbsp;&nbsp;&nbsp; [show yes|no]<br>
+&nbsp;&nbsp;&nbsp; [showtext yes|no]<br>
+&nbsp;&nbsp;&nbsp; [centroid]<br>
+&nbsp;&nbsp;&nbsp; [centroid auto yes|no]<br>
+&nbsp;&nbsp;&nbsp; [centroid radius &lt;value&gt;|iteration &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [move front|back]<br>
+&nbsp;&nbsp;&nbsp; [select all|none|all|front|back]<br>
+&nbsp;&nbsp;&nbsp; [delete [select]]<br>
+&nbsp;&nbsp;&nbsp; [delete load &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [format ds9|xml|ciao|saotng|saoimage|pros|xy]<br>
+&nbsp;&nbsp;&nbsp; [system image|physical|wcs|wcsa...wcsz]<br>
+&nbsp;&nbsp;&nbsp; [sky fk4|fk5|icrs|galactic|ecliptic]<br>
+&nbsp;&nbsp;&nbsp; [skyformat degrees|sexagesimal]<br>
+&nbsp;&nbsp;&nbsp; [strip yes|no]<br>
+&nbsp;&nbsp;&nbsp; [shape &lt;shape&gt;]<br>
+&nbsp;&nbsp;&nbsp; [color &lt;color&gt;]<br>
+&nbsp;&nbsp;&nbsp; [fill yes|no];<br>
+&nbsp;&nbsp;&nbsp; [width &lt;width&gt;]<br>
+&nbsp;&nbsp;&nbsp; [dash yes|no]<br>
+&nbsp;&nbsp;&nbsp; [font times|helvetica|courier]<br>
+&nbsp;&nbsp;&nbsp; [fontsize &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [fontweight normal|bold]<br>
+&nbsp;&nbsp;&nbsp; [fontslant roman|italic]<br>
+&nbsp;&nbsp;&nbsp; [fixed|edit|rotate|delete yes|no]<br>
+&nbsp;&nbsp;&nbsp; [include|exclude|source|background]<br>
+&nbsp;&nbsp;&nbsp; [command &lt;marker command&gt;]<br>
+&nbsp;&nbsp;&nbsp; [analysis histogram|panda|plot2d|radial|stats [open|close|save]]<br>
+&nbsp;&nbsp;&nbsp; [analysis plot3d [open|close|save]]<br>
+&nbsp;&nbsp;&nbsp; [analysis surface3d [open|close]]<br>
+&nbsp;&nbsp;&nbsp; [composite [union|intersection]]<br>
+&nbsp;&nbsp;&nbsp; [dissolve]<br>
+&nbsp;&nbsp;&nbsp; [template &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [template &lt;filename&gt; at &lt;ra&gt; &lt;dec&gt; &lt;coordsys&gt; &lt;skyframe&gt;]<br>
+&nbsp;&nbsp;&nbsp; [savetemplate &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [group new]<br>
+&nbsp;&nbsp;&nbsp; [group &lt;tag&gt; new]<br>
+&nbsp;&nbsp;&nbsp; [group &lt;tag&gt; update]<br>
+&nbsp;&nbsp;&nbsp; [group &lt;tag&gt; select]<br>
+&nbsp;&nbsp;&nbsp; [group &lt;tag&gt; color &lt;color&gt;]<br>
+&nbsp;&nbsp;&nbsp; [group &lt;tag&gt; copy]<br>
+&nbsp;&nbsp;&nbsp; [group &lt;tag&gt; delete]<br>
+&nbsp;&nbsp;&nbsp; [group &lt;tag&gt; cut]<br>
+&nbsp;&nbsp;&nbsp; [group &lt;tag&gt; font &lt;font&gt;]<br>
+&nbsp;&nbsp;&nbsp; [group &lt;tag&gt; move &lt;int&gt; &lt;int&gt;]<br>
+&nbsp;&nbsp;&nbsp; [group &lt;tag&gt; movefront]<br>
+&nbsp;&nbsp;&nbsp; [group &lt;tag&gt; moveback]<br>
+&nbsp;&nbsp;&nbsp; [group &lt;tag&gt; property &lt;property&gt; yes|no]<br>
+&nbsp;&nbsp;&nbsp; [copy]<br>
+&nbsp;&nbsp;&nbsp; [cut]<br>
+&nbsp;&nbsp;&nbsp; [paste image|physical|wcs|wcsa...wcsz]<br>
+&nbsp;&nbsp;&nbsp; [undo]<br>
+&nbsp;&nbsp;&nbsp; [open|close]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -region foo.reg<br>
+$ds9 -region -format ciao bar.reg # load as ciao format<br>
+$ds9 -region foo.fits # FITS region files do not need a format specification<br>
+$ds9 -region load foo.reg # load foo.reg into current frame<br>
+$ds9 -region load all foo.reg # load foo.reg into all frames<br>
+$ds9 -region load '*.reg'# expand *.reg and load into current frame<br>
+$ds9 -region load all '*.reg' # expand *.reg and load into all frames<br>
+$ds9 -region save foo.reg<br>
+$ds9 -region save select foo.reg<br>
+$ds9 -region list<br>
+$ds9 -region list select<br>
+$ds9 -region list close<br>
+$ds9 -region epsilon 5<br>
+$ds9 -region show yes<br>
+$ds9 -region showtext no<br>
+$ds9 -region centroid<br>
+$ds9 -region centroid auto yes<br>
+$ds9 -region centroid radius 10<br>
+$ds9 -region centroid iteration 20<br>
+$ds9 -region move back<br>
+$ds9 -region move front<br>
+$ds9 -region select all<br>
+$ds9 -region select none<br>
+$ds9 -region select invert<br>
+$ds9 -region select front<br>
+$ds9 -region select back<br>
+$ds9 -region delete<br>
+$ds9 -region delete select<br>
+$ds9 -region delete load foo.reg<br>
+$ds9 -region format ds9<br>
+$ds9 -region system wcs<br>
+$ds9 -region sky fk5<br>
+$ds9 -region skyformat degrees<br>
+$ds9 -region strip yes<br>
+$ds9 -region shape ellipse<br>
+$ds9 -region color red<br>
+$ds9 -region fill yes<br>
+$ds9 -region width 3<br>
+$ds9 -region dash yes<br>
+$ds9 -region font times<br>
+$ds9 -region fontsize 24<br>
+$ds9 -region fontweight bold<br>
+$ds9 -region fontslant italic<br>
+$ds9 -region edit yes<br>
+$ds9 -region include<br>
+$ds9 -region command "circle 100 100 20 # color=red"<br>
+$ds9 -region analysis stats<br>
+$ds9 -region analysis stats close<br>
+$ds9 -region analysis histogram save<br>
+$ds9 -region analysis plot3d<br>
+$ds9 -region analysis plot3d close<br>
+$ds9 -region analysis surface3d<br>
+$ds9 -region analysis surface3d close<br>
+$ds9 -region composite<br>
+$ds9 -region composite union<br>
+$ds9 -region composite intersection<br>
+$ds9 -region dissolve<br>
+$ds9 -region template foo.tpl<br>
+$ds9 -region template foo.tpl at 13:29:55.92 +47:12:48.02 fk5<br>
+$ds9 -region savetemplate foo.tpl<br>
+$ds9 -region group new<br>
+$ds9 -region group foo new<br>
+$ds9 -region group foo update<br>
+$ds9 -region group foo select<br>
+$ds9 -region group foo color red<br>
+$ds9 -region group foo copy<br>
+$ds9 -region group foo delete<br>
+$ds9 -region group foo cut<br>
+$ds9 -region group foo font 'times 14 bold'<br>
+$ds9 -region group foo move 100 100<br>
+$ds9 -region group foo movefront<br>
+$ds9 -region group foo moveback<br>
+$ds9 -region group foo property delete no<br>
+$ds9 -region copy<br>
+$ds9 -region cut<br>
+$ds9 -region paste wcs<br>
+$ds9 -region undo<br></tt>
+$ds9 -region open<br>
+$ds9 -region close<br>
+<p><b><a name="red" id="red"></a>red</b></p>
+<p>For RGB frames, sets the current color channel to red.</p>
+<p class="zh">对于 RGB 帧，将当前颜色通道设为红色。</p>
+<tt>Syntax:<br>
+-red<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -rgb -red foo.fits<br></tt>
+<p><b><a name="restore" id="restore"></a>restore</b></p>
+<p>Restore DS9 to a previous state from a backup save set.</p>
+<p class="zh">从一个备份保存集把 DS9 恢复到先前的状态。</p>
+<tt>Syntax:<br>
+-restore &lt;filename&gt;<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -restore ds9.bck</tt><br>
+<p><b><a name="reveal" id="reveal"></a>reveal</b></p>
+<p>Reveal mode parameters. Available only when exactly two frames are active, neither of which is 3D. The two frames fully overlap: the first active frame is revealed on the left, the second on the right, split by a draggable slider along the bottom of the frame. Split is the position of that split as a fraction of the frame width, from 0 to 1. Bar controls the demarcation line drawn at the split.</p>
+<p class="zh">揭示（reveal）模式参数。仅当恰好有两个活动帧、且二者都不是 3D 帧时可用。两帧完全重叠：第一个活动帧显示在左，第二个显示在右，由帧底部一个可拖动的滑条分隔。split 为该分隔位置占帧宽的比例，取值 0 到 1。bar 控制在分隔处绘制的分界线。</p>
+<tt>Syntax:<br>
+-reveal []<br>
+&nbsp;&nbsp;&nbsp; [yes|no]<br>
+&nbsp;&nbsp;&nbsp; [split &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [bar yes|no]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -reveal<br>
+$ds9 -reveal yes<br>
+$ds9 -reveal split .25<br>
+$ds9 -reveal bar no</tt><br>
+<p><b><a name="rgb" id="rgb"></a>rgb</b></p>
+<p>Create RGB frame and control RGB frame parameters.</p>
+<p class="zh">创建 RGB 帧并控制 RGB 帧参数。</p>
+<tt>Syntax:<br>
+-rgb []<br>
+&nbsp;&nbsp;&nbsp; [red|green|blue]<br>
+&nbsp;&nbsp;&nbsp; [channel [red|green|blue]]<br>
+&nbsp;&nbsp;&nbsp; [view [red|green|blue] [yes|no]]<br>
+&nbsp;&nbsp;&nbsp; [system &lt;coordsys&gt;]<br>
+&nbsp;&nbsp;&nbsp; [lock wcs|crop|slice|bin|scale|scalelimits|colorbar|block|smooth [yes|no]]<br>
+&nbsp;&nbsp;&nbsp; [open|close]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -rgb # create new rgb frame<br>
+$ds9 -rgb red # set current channel to red<br>
+$ds9 -rgb channel red # set current channel to red<br>
+$ds9 -rgb view blue no # turn off blue channel<br>
+$ds9 -rgb system wcs # set rgb coordinate system<br>
+$ds9 -rgb lock wcs yes<br>
+$ds9 -rgb lock crop yes<br>
+$ds9 -rgb lock slice yes<br>
+$ds9 -rgb lock bin yes<br>
+$ds9 -rgb lock scale yes<br>
+$ds9 -rgb lock scalelimits yes<br>
+$ds9 -rgb lock colorbar yes<br>
+$ds9 -rgb lock block yes<br>
+$ds9 -rgb lock smooth yes<br>
+$ds9 -rgb open<br>
+$ds9 -rgb close</tt><br>
+<p><b><a name="rgbarray" id="rgbarray"></a>rgbarray</b></p>
+<p>Load raw data array cube into rgb frame.<br></p>
+<p class="zh">将原始数据数组立方体加载到 RGB 帧。</p>
+<tt>Syntax:<br>
+-rgbarray &lt;filename&gt;[[xdim=&lt;x&gt;,ydim=&lt;y&gt;|dim=&lt;dim&gt;],[zdim=3],bitpix=&lt;b&gt;,skip=&lt;s&gt;,endian=[little|big]]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -rgbarray foo.arr[dim=512,zdim=3,bitpix=-32,endian=little]<br>
+$cat foo.arr | ds9 -rgbarray -[dim=512,zdim=3,bitpix=-32,endian=little]</tt><br>
+<p><b><a name="rgbcube" id="rgbcube"></a>rgbcube</b></p>
+<p>Load FITS rgbcube into rgb frame.<br></p>
+<p class="zh">将 FITS RGB 立方体加载到 RGB 帧。</p>
+<tt>Syntax:<br>
+-rgbcube &lt;filename&gt;<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -rgbcube foo.fits<br>
+$cat foo.fits | ds9 -rgbcube -</tt><br>
+<p><b><a name="rgbimage" id="rgbimage"></a>rgbimage</b></p>
+<p>Load FITS rgbimage into rgb frame.<br></p>
+<p class="zh">将 FITS RGB 图像加载到 RGB 帧。</p>
+<tt>Syntax:<br>
+-rgbimage &lt;filename&gt;<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -rgbimage foo.fits<br>
+$cat foo.fits | ds9 -rgbimage -</tt><br>
+<p><b><a name="rotate" id="rotate"></a>rotate</b></p>
+<p>Controls the rotation angle (in degrees) of the current frame.&lt;</p>
+<p class="zh">控制当前帧的旋转角度（单位为度）。</p>
+<tt>Syntax:<br>
+-rotate [&lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [to &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [open|close]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -rotate 45<br>
+$ds9 -rotate to 30<br>
+$ds9 -rotate open<br>
+$ds9 -rotate close<br></tt>
+<p><b><a name="samp" id="samp"></a>samp</b></p>
+<p>Configure SAMP protocol.</p>
+<p class="zh">配置 SAMP 协议。</p>
+<tt>Syntax:<br>
+-samp [yes|no]<br>
+&nbsp;&nbsp;&nbsp; |client [yes|no]]<br>
+&nbsp;&nbsp;&nbsp; |hub [yes|no]]<br>
+&nbsp;&nbsp;&nbsp; |web hub [yes|no]]<br>
+<br>
+&nbsp;&nbsp;&nbsp; |connect|disconnect]<br>
+&nbsp;&nbsp;&nbsp; [broadcast [image|table]]<br>
+&nbsp;&nbsp;&nbsp; [send [image|table] &lt;application&gt;]<br>
+&nbsp;&nbsp;&nbsp; [hub [start|stop|info]]<br>
+<br>
+Example:<br>
+$ds9 -samp yes<br>
+$ds9 -samp connect<br>
+$ds9 -samp broadcast<br>
+$ds9 -samp broadcast table<br>
+$ds9 -samp send table<br>
+$ds9 -samp send table topcat</tt><br>
+$ds9 -samp hub info
+<p><b><a name="saturation" id="saturation"></a>saturation</b></p>
+<p>For HLS and HSV frames, sets the current color channel to saturation.</p>
+<p class="zh">对于 HLS 和 HSV 帧，将当前颜色通道设为饱和度（saturation）。</p>
+<tt>Syntax:<br>
+-saturation<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -hsv -saturation foo.fits</tt>
+<p><b><a name="save" id="save"></a>save<br></b></p>
+<p>Save loaded image data of current frame as FITS. The <tt>pixmask</tt> format saves a signed 16-bit integer pixel mask initialized to zero. Pixels inside include regions are assigned the region ID; pixels inside exclude regions are reset to zero. The current frame's FITS header keywords are copied and adjusted for the mask data type and dimensions.</p>
+<p class="zh">将当前帧已加载的图像数据保存为 FITS。<tt>pixmask</tt> 格式保存一个初始化为零的有符号 16 位整数像素掩膜：位于 include 区域内的像素被赋予区域 ID；位于 exclude 区域内的像素被清零。当前帧的 FITS 头关键字会被复制，并根据掩膜的数据类型与维度进行调整。</p>
+<tt>Syntax:<br>
+-save [fits|pixmask|rgbimage|rgbcube|mecube|mosaic|mosaicimage] &lt;filename&gt; [image|table|slice]<br>
+<br>
+Example:<br>
+$ds9 -save foo.fits<br>
+$ds9 -save fits foo.fits image<br>
+$ds9 -save fits foo.fits table<br>
+$ds9 -save fits foo.fits slice<br>
+$ds9 -save pixmask mask.fits<br>
+$ds9 -save rgbimage foo.fits<br>
+$ds9 -save rgbcube foo.fits<br>
+$ds9 -save mecube foo.fits<br>
+$ds9 -save mosaic foo.fits<br>
+$ds9 -save mosaicimage foo.fits</tt><br>
+<p><b><a name="saveimage" id="saveimage"></a>saveimage</b></p>
+<p>Create a snap shot of the current DS9 window and save in specified image format. If no format specified, the file name extension is used to determine the output format. Optional parameters: <tt>jpeg</tt> quality int(1-100) and <tt>tiff</tt> compression method.</p>
+<p class="zh">对当前 DS9 窗口拍一次快照，并以指定图像格式保存。若未指定格式，则用文件扩展名判断输出格式。可选参数：<tt>jpeg</tt> 质量 int(1-100) 与 <tt>tiff</tt> 压缩方式。</p>
+<tt>Syntax:<br>
+-saveimage[fits|eps|pdf|gif|tiff|jpeg|png]&lt;filename&gt;<br>
+-saveimage &lt;filename&gt;.jpeg [int(1-100)]<br>
+-saveimage &lt;filename&gt;.tiff [none|jpeg|packbits|deflate]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -saveimage ds9.tiff<br>
+$ds9 -saveimage pdf ds9.pdf<br>
+$ds9 -saveimage jpeg ds9.jpeg 75<br></tt>
+<p><b><a name="scale" id="scale"></a>scale</b></p>
+<p>Controls the limits and color scale distribution.</p>
+<p class="zh">控制限幅（limits）与颜色拉伸分布。</p>
+<tt>Syntax:<br>
+-scale [linear|log|pow|sqrt|squared|asinh|sinh|histequ]<br>
+&nbsp;&nbsp;&nbsp; [log exp &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [datasec yes|no]<br>
+&nbsp;&nbsp;&nbsp; [limits &lt;minvalue&gt; &lt;maxvalue&gt;]<br>
+&nbsp;&nbsp;&nbsp; [mode minmax|&lt;value&gt;|zscale|zmax]<br>
+&nbsp;&nbsp;&nbsp; [scope local|global]<br>
+&nbsp;&nbsp;&nbsp; [match]<br>
+&nbsp;&nbsp;&nbsp; [match limits]<br>
+&nbsp;&nbsp;&nbsp; [lock [yes|no]]<br>
+&nbsp;&nbsp;&nbsp; [lock limits [yes|no]]<br>
+&nbsp;&nbsp;&nbsp; [open|close]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -scale linear<br>
+$ds9 -scale log exp 100<br>
+$ds9 -scale datasec yes<br>
+$ds9 -scale histequ<br>
+$ds9 -scale limits 1 100<br>
+$ds9 -scale mode zscale<br>
+$ds9 -scale mode 99.5<br>
+$ds9 -scale scope local<br>
+$ds9 -scale match<br>
+$ds9 -scale match limits<br>
+$ds9 -scale lock yes<br>
+$ds9 -scale lock limits yes<br>
+$ds9 -scale open<br>
+$ds9 -scale close<br></tt>
+<p><b><a name="shm" id="shm"></a>shm</b></p>
+<p>Load a shared memory segment into the current frame.</p>
+<p class="zh">把一个共享内存段加载到当前帧。</p>
+<tt>Syntax:<br>
+-shm [&lt;key&gt; [&lt;filename&gt;]]<br>
+&nbsp;&nbsp;&nbsp; [key &lt;id&gt; [&lt;filename&gt;]]<br>
+&nbsp;&nbsp;&nbsp; [shmid &lt;id&gt; [&lt;filename&gt;]]<br>
+&nbsp;&nbsp;&nbsp; [fits [key|shmid] &lt;id&gt; [&lt;filename&gt;]]<br>
+&nbsp;&nbsp;&nbsp; [mosaicimage [iraf|wcs|wcsa...wcsz|wfpc2] [key|shmid] &lt;id&gt; [&lt;filename&gt;]]<br>
+&nbsp;&nbsp;&nbsp; [mosaic [iraf|wcs|wcsa...wcsz] [key|shmid] &lt;id&gt; [&lt;filename&gt;]]<br>
+&nbsp;&nbsp;&nbsp; [rgbcube [key|shmid] &lt;id&gt; [&lt;filename&gt;]]<br>
+&nbsp;&nbsp;&nbsp; [rgbimage [key|shmid] &lt;id&gt; [&lt;filename&gt;]]<br>
+&nbsp;&nbsp;&nbsp; [rgbarray [key|shmid] &lt;id&gt; [xdim=&lt;x&gt;,ydim=&lt;y&gt;|dim=&lt;dim&gt;,zdim=3],bitpix=&lt;b&gt;,[skip=&lt;s&gt;]]<br>
+&nbsp;&nbsp;&nbsp; [array [key|shmid] &lt;id&gt; [xdim=&lt;x&gt;,ydim=&lt;y&gt;|dim=&lt;dim&gt;],bitpix=&lt;b&gt;,[skip=&lt;s&gt;]]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -shm 102<br>
+$ds9 -shm key 102<br>
+$ds9 -shm shmid 102 foo<br>
+$ds9 -shm fits 100 foo<br>
+$ds9 -shm mosaicimage iraf key 100 foo<br>
+$ds9 -shm mosaicimage wcs key 100 foo<br>
+$ds9 -shm mosaicimage wcsa key 100 foo<br>
+$ds9 -shm mosaicimage wfpc2 key 100 foo<br>
+$ds9 -shm mosaic iraf key 100 foo<br>
+$ds9 -shm mosaic wcs key 100 foo<br>
+$ds9 -shm rgbcube key 100 foo<br>
+$ds9 -shm rgbimage key 100 foo<br>
+$ds9 -shm rgbarray shmid 102 [dim=32,zdim=3,bitpix=-32]<br>
+$ds9 -shm array shmid 102 [dim=32,bitpix=-32]<br></tt>
+<p><b><a name="sia" id="sia"></a>sia<br></b></p>
+<p>Support for VO Simple Image Access protocol. The first command will create a new search. All other commands operate on the last search created, unless indicated otherwise via the current command. Registry filter and ivoid constraints are cumulative; use registry clear or registry retrieve to reset them. Registry clear empties the current results, while registry retrieve reloads the full Registry list.</p>
+<p class="zh">支持 VO Simple Image Access 协议。第一条命令会创建一次新的检索；除非通过 current 命令另行指定，其余命令作用于最近一次创建的检索。注册表过滤器与 ivoid 约束是累积的；可用 registry clear 或 registry retrieve 重置它们。registry clear 清空当前结果，registry retrieve 重新加载完整的注册表列表。</p>
+<tt>Syntax:<br>
+-sia [2mass|akari|astrowise|cadc|cxc|hla|mast|sdss|skyview|tgssadr]<br>
+&nbsp;&nbsp;&nbsp; [cancel]<br>
+&nbsp;&nbsp;&nbsp; [clear]<br>
+&nbsp;&nbsp;&nbsp; [close]<br>
+&nbsp;&nbsp;&nbsp; [registry]<br>
+&nbsp;&nbsp;&nbsp; [registry filter &lt;text&gt;]<br>
+&nbsp;&nbsp;&nbsp; [registry ivoid &lt;identifier&gt;]<br>
+&nbsp;&nbsp;&nbsp; [registry load]<br>
+&nbsp;&nbsp;&nbsp; [registry clear]<br>
+&nbsp;&nbsp;&nbsp; [registry retrieve]<br>
+<br>
+&nbsp;&nbsp;&nbsp; [save &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [export rdb|tsv &lt;filename&gt;]<br>
+<br>
+&nbsp;&nbsp;&nbsp; [coordinate &lt;ra&gt; &lt;dec&gt; &lt;coordsys&gt;]<br>
+&nbsp;&nbsp;&nbsp; [crosshair]<br>
+&nbsp;&nbsp;&nbsp; [current &lt;ref&gt;]<br>
+&nbsp;&nbsp;&nbsp; [name &lt;object&gt;]<br>
+&nbsp;&nbsp;&nbsp; [print]<br>
+&nbsp;&nbsp;&nbsp; [retrieve]<br>
+&nbsp;&nbsp;&nbsp; [radius &lt;value&gt; degrees|arcmin|arcsec]<br>
+&nbsp;&nbsp;&nbsp; [sky &lt;skyframe&gt;]<br>
+&nbsp;&nbsp;&nbsp; [skyformat &lt;skyformat&gt;]<br>
+&nbsp;&nbsp;&nbsp; [system &lt;coordsys&gt;]<br>
+&nbsp;&nbsp;&nbsp; [update]<br>
+<br>
+Example:<br>
+$ds9 -sia 2mass<br>
+$ds9 -sia cancel<br>
+$ds9 -sia clear<br>
+$ds9 -sia close<br>
+$ds9 -sia registry<br>
+$ds9 -sia registry filter "x-ray"<br>
+$ds9 -sia registry ivoid "ivo://nasa.heasarc/"<br>
+$ds9 -sia registry load<br>
+$ds9 -sia registry clear<br>
+$ds9 -sia registry retrieve<br>
+$ds9 -sia coordinate 202.48 47.21 fk5<br>
+$ds9 -sia crosshair<br>
+$ds9 -sia current 2mass<br>
+$ds9 -sia current "HEASARC SkyView Images"<br>
+$ds9 -sia export tsv bar.tsv<br>
+$ds9 -sia name m51<br>
+$ds9 -sia print<br>
+$ds9 -sia retrieve<br>
+$ds9 -sia save foo.xml<br>
+$ds9 -sia radius 1 degrees<br>
+$ds9 -sia sky fk5<br>
+$ds9 -sia skyformat degrees<br>
+$ds9 -sia system wcs<br>
+$ds9 -sia update<br></tt>
+<p><b><a name="single" id="single"></a>single</b></p>
+<p>Set display mode to single.</p>
+<p class="zh">把显示模式设为单帧（single）。</p>
+<tt>Syntax:<br>
+-single<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -single<br></tt>
+<p><b><a name="skyview" id="skyview"></a>skyview</b></p>
+<p>Support for SkyView image server at HEASARC.</p>
+<p class="zh">支持 HEASARC 的 SkyView 图像服务器。</p>
+<tt>Syntax:<br>
+-skyview []<br>
+&nbsp;&nbsp;&nbsp; [&lt;object&gt;]<br>
+&nbsp;&nbsp;&nbsp; [name &lt;object&gt;|clear]<br>
+&nbsp;&nbsp;&nbsp; [&lt;ra&gt; &lt;dec&gt;] # in wcs fk5<br>
+&nbsp;&nbsp;&nbsp; [size &lt;width&gt; &lt;height&gt; degrees|arcmin|arcsec]<br>
+&nbsp;&nbsp;&nbsp; [pixels &lt;width&gt; &lt;height&gt;]<br>
+&nbsp;&nbsp;&nbsp; [save yes|no]<br>
+&nbsp;&nbsp;&nbsp; [frame new|current]<br>
+&nbsp;&nbsp;&nbsp; [update frame|crosshair]<br>
+&nbsp;&nbsp;&nbsp; [survey &lt;survey&gt;]<br>
+&nbsp;&nbsp;&nbsp; [open|close]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -skyview<br>
+$ds9 -skyview m31<br>
+$ds9 -skyview name m31<br>
+$ds9 -skyview name clear<br>
+$ds9 -skyview 00:42:44.404 +41:16:08.78<br>
+$ds9 -skyview size 60 60 arcmin<br>
+$ds9 -skyview pixels 600 600<br>
+$ds9 -skyview save yes<br>
+$ds9 -skyview frame current<br>
+$ds9 -skyview update frame<br>
+$ds9 -skyview survey sdssi<br>
+$ds9 -skyview open<br>
+$ds9 -skyview close<br></tt>
+<p><b><a name="sleep" id="sleep"></a>sleep</b></p>
+<p>Delays execution for specified number of seconds. Default is 1 second.</p>
+<p class="zh">延迟执行指定秒数。默认为 1 秒。</p>
+<tt>Syntax:<br>
+-sleep [#]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -sleep<br>
+$ds9 -sleep 2<br></tt>
+<p><b><a name="slice" id="slice"></a>slice<br>
+noslice<br></b></p>
+<p>Indicates next files loaded are to treated as slices of a cube. Can be disabled with <tt>noslice</tt> command.<br></p>
+<p class="zh">指示接下来加载的文件将被视为立方体的切片。可用 <tt>noslice</tt> 命令禁用。</p>
+<tt>Syntax:<br>
+-slice &lt;filename&gt;<br>
+-noslice<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -slice *.fits<br>
+$ds9 -noslice<br></tt>
+<p><b><a name="smooth" id="smooth"></a>smooth</b></p>
+<p>Smooth current image or set smooth parameters.</p>
+<p class="zh">平滑当前图像，或设置平滑参数。</p>
+<p><tt>Boxcar width =<i>2*radius+1</i><br>
+Tophat diameter =<i>2*radius+1</i><br>
+Gaussian diameter =<i>2*radius+1,</i>mean<i>=0</i><br>
+Elliptical Gaussian diameter =<i>2*radius+1,</i>mean<i>=0</i><br></tt></p>
+<tt>Syntax:<br>
+-smooth []<br>
+&nbsp;&nbsp;&nbsp; [yes|no]<br>
+&nbsp;&nbsp;&nbsp; [function boxcar|tophat|gaussian|elliptic]<br>
+&nbsp;&nbsp;&nbsp; [radius &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [radiusminor &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [sigma &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [sigmaminor &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [angle &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [match]<br>
+&nbsp;&nbsp;&nbsp; [lock [yes|no]]<br>
+&nbsp;&nbsp;&nbsp; [open|close]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -smooth<br>
+$ds9 -smooth yes<br>
+$ds9 -smooth function tophat<br>
+$ds9 -smooth radius 4<br>
+$ds9 -smooth radiusminor 4<br>
+$ds9 -smooth sigma 2.0<br>
+$ds9 -smooth sigmaminor 2.0<br>
+$ds9 -smooth angle 45<br>
+$ds9 -smooth match<br>
+$ds9 -smooth lock yes<br>
+$ds9 -smooth open<br>
+$ds9 -smooth close<br></tt>
+<p><b><a name="squared" id="squared"></a>squared</b></p>
+<p>Select squared scale function for the current frame.</p>
+<p class="zh">为当前帧选择平方（squared）灰度拉伸函数。</p>
+<tt>Syntax:<br>
+-squared<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -squared</tt>
+<p><b><a name="sqrt" id="sqrt"></a>sqrt</b></p>
+<p>Select square soot scale function for the current frame.</p>
+<p class="zh">为当前帧选择平方根（square root）灰度拉伸函数。</p>
+<tt>Syntax:<br>
+-sqrt<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -sqrt</tt>
+<p><b><a name="source" id="source"></a>source</b></p>
+<p>Source TCL code from a file.</p>
+<p class="zh">从一个文件载入（source）Tcl 代码。</p>
+<tt>Syntax:<br>
+-source &lt;filename&gt;<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -source extensions.tcl<br></tt>
+<p><b><a name="tcl" id="tcl"></a>tcl</b></p>
+<p>Execute one TCL command. Note: this a different behavior from previous versions of DS9.<br></p>
+<p class="zh">执行一条 Tcl 命令。注意：这与 DS9 先前版本的行为不同。</p>
+<tt>Syntax:<br>
+-tcl &lt;tcl command&gt;<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -tcl 'puts "Hello, World"'</tt><br>
+<b><a name="tiff" id="tiff"></a>tiff</b><br>
+<p>Load TIFF image into current frame.<br></p>
+<tt>Syntax:<br>
+-tiff &lt;filename&gt;<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -tiff foo.tiff<br>
+$cat foo.fits | ds9 -tiff -</tt>
+<p><b><a name="tile" id="tile"></a>tile</b></p>
+<p class="zh">将 TIFF 图像加载到当前帧。</p>
+<p class="zh">控制平铺（tile）显示模式。</p>
+<p>Controls the tile display mode.</p>
+<tt>Syntax:<br>
+-tile []<br>
+&nbsp;&nbsp;&nbsp; [yes|no]<br>
+&nbsp;&nbsp;&nbsp; [mode grid|column|row]<br>
+&nbsp;&nbsp;&nbsp; [grid]<br>
+&nbsp;&nbsp;&nbsp; [grid mode automatic|manual]<br>
+&nbsp;&nbsp;&nbsp; [grid direction x|y]<br>
+&nbsp;&nbsp;&nbsp; [grid layout &lt;col&gt; &lt;row&gt;]<br>
+&nbsp;&nbsp;&nbsp; [grid gap &lt;pixels&gt;]<br>
+&nbsp;&nbsp;&nbsp; [row]<br>
+&nbsp;&nbsp;&nbsp; [column]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -tile<br>
+$ds9 -tile yes<br>
+$ds9 -tile mode row<br>
+$ds9 -tile grid<br>
+$ds9 -tile grid mode manual<br>
+$ds9 -tile grid direction x<br>
+$ds9 -tile grid layout 5 5<br>
+$ds9 -tile grid gap 10<br>
+$ds9 -tile row<br>
+$ds9 -tile column</tt>
+<p><b><a name="title" id="title"></a>title</b></p>
+<p>Changes the display window title to the specified name.</p>
+<p class="zh">把显示窗口标题改为指定名称。</p>
+<tt>Syntax:<br>
+-title name<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -title Voyager</tt>
+<p><b><a name="unix" id="unix"></a>unix</b></p>
+<p>Set the IRAF unix socket name, used by IRAF to communicate with DS9. The default is /tmp/.IMT%d, so that the standard IRAF unix socket is defined.</p>
+<p class="zh">设置 IRAF unix socket 名称，供 IRAF 与 DS9 通信使用。默认为 /tmp/.IMT%d，从而定义标准的 IRAF unix socket。</p>
+<tt>Syntax:<br>
+-unix name<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -unix "/tmp/.IMT%d"</tt>
+<p><b><a name="unix_only" id="unix_only"></a>unix_only</b></p>
+<p>Only use the IRAF unix socket name. This is the same as -fifo none -port 0.</p>
+<p class="zh">仅使用 IRAF unix socket 名称。等同于 -fifo none -port 0。</p>
+<tt>Syntax:<br>
+-unix_only<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -unix_only<br></tt>
+<p><b><a name="update" id="update"></a>update</b></p>
+<p>Updates the current frame or region of frame. In the second form, the first argument is the number of the fits HDU (starting with 1) and the remaining args are a bounding box in IMAGE coordinates. By default, the screen is updated the next available idle cycle. However, you may force an immediate update by specifying the NOW option.</p>
+<p class="zh">更新当前帧或帧的某一区域。第二种形式中，第一个参数是 FITS HDU 编号（从 1 开始），其余参数是 IMAGE 坐标系下的包围盒。默认情况下，画面会在下一个空闲周期更新；但可通过指定 NOW 选项强制立即更新。</p>
+<tt>Syntax:<br>
+-update []<br>
+&nbsp;&nbsp;&nbsp; [# x1 y1 x2 y2]<br>
+&nbsp;&nbsp;&nbsp; [now]<br>
+&nbsp;&nbsp;&nbsp; [now # x1 y1 x2 y2]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -update<br>
+$ds9 -update 1 100 100 300 400<br>
+$ds9 -update now<br>
+$ds9 -update now 1 100 100 300 400</tt><br>
+<p><b><a name="url" id="url"></a>url</b></p>
+<p>Load FITS from URL into the current frame</p>
+<p class="zh">从 URL 加载 FITS 到当前帧。</p>
+<tt>Syntax:<br>
+-url &lt;url&gt;<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -url http://foo.bar.edu/foo.fits</tt>
+<p><b><a name="value" id="value"></a>value</b></p>
+<p>For HSV frames, sets the current color channel to value.</p>
+<p class="zh">对于 HSV 帧，将当前颜色通道设为明度（value）。</p>
+<tt>Syntax:<br>
+-value<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -hsv -value foo.fits</tt>
+<p><b><a name="version" id="version"></a>version</b></p>
+<p>Returns the current version of DS9 and exits.</p>
+<p class="zh">返回 DS9 当前版本号并退出。</p>
+<tt>Syntax:<br>
+-version<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -version</tt>
+<p><b><a name="view" id="view"></a>view</b></p>
+<p>Controls the GUI.</p>
+<p class="zh">控制 GUI。</p>
+<tt>Syntax:<br>
+-view [layout horizontal|vertical|basic|advanced]<br>
+&nbsp;&nbsp;&nbsp; [multi yes|no]<br>
+&nbsp;&nbsp;&nbsp; [keyvalue &lt;string&gt;]<br>
+&nbsp;&nbsp;&nbsp; [info yes|no]<br>
+&nbsp;&nbsp;&nbsp; [panner yes|no]<br>
+&nbsp;&nbsp;&nbsp; [magnifier yes|no]<br>
+&nbsp;&nbsp;&nbsp; [buttons yes|no]<br>
+&nbsp;&nbsp;&nbsp; [icons yes|no]<br>
+&nbsp;&nbsp;&nbsp; [colorbar yes|no]<br>
+&nbsp;&nbsp;&nbsp; [graph horizontal|vertical yes|no]<br>
+&nbsp;&nbsp;&nbsp; [filename yes|no]<br>
+&nbsp;&nbsp;&nbsp; [object yes|no]<br>
+&nbsp;&nbsp;&nbsp; [keyword yes|no]<br>
+&nbsp;&nbsp;&nbsp; [minmax yes|no]<br>
+&nbsp;&nbsp;&nbsp; [lowhigh yes|no]<br>
+&nbsp;&nbsp;&nbsp; [units yes|no]<br>
+&nbsp;&nbsp;&nbsp; [image|physical|wcs|wcsa...wcsz yes|no]<br>
+&nbsp;&nbsp;&nbsp; [frame yes|no]<br>
+&nbsp;&nbsp;&nbsp; [rgb red yes|no]<br>
+&nbsp;&nbsp;&nbsp; [rgb green yes|no]<br>
+&nbsp;&nbsp;&nbsp; [rgb blue yes|no]<br>
+&nbsp;&nbsp;&nbsp; [hls hue yes|no]<br>
+&nbsp;&nbsp;&nbsp; [hls lightness yes|no]<br>
+&nbsp;&nbsp;&nbsp; [hls saturation yes|no]<br>
+&nbsp;&nbsp;&nbsp; [hsv hue yes|no]<br>
+&nbsp;&nbsp;&nbsp; [hsv saturation yes|no]<br>
+&nbsp;&nbsp;&nbsp; [hsv value yes|no]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -view layout vertical<br>
+$ds9 -view multi yes<br>
+$ds9 -view keyvalue BITPIX<br>
+$ds9 -view info yes<br>
+$ds9 -view panner yes<br>
+$ds9 -view magnifier yes<br>
+$ds9 -view buttons yes<br>
+$ds9 -view icons yes<br>
+$ds9 -view colorbar yes<br>
+$ds9 -view graph horizontal yes<br>
+$ds9 -view filename yes<br>
+$ds9 -view object yes<br>
+$ds9 -view keyword yes<br>
+$ds9 -view minmax yes<br>
+$ds9 -view lowhigh yes<br>
+$ds9 -view wcsa yes<br>
+$ds9 -view frame yes<br>
+$ds9 -view rgb red yes<br>
+<p><b><a name="visual" id="visual"></a>visual</b></p>
+<p>Force DS9 to use the specified color visual. This argument MUST be the first argument listed. Requires the visual be available.</p>
+<p class="zh">强制 DS9 使用指定的颜色 visual。该参数必须是列出的第一个参数，且所需 visual 必须可用。</p>
+<tt>Syntax:<br>
+-visual [truecolor|truecolor8|truecolor16|truecolor24] &nbsp;<br>
+Example:<br>
+$ds9 -visual truecolor24<br></tt>
+<p><b><a name="vla" id="vla"></a>vla</b></p>
+<p>Support for VLA Sky Survey.</p>
+<p class="zh">支持 VLA 巡天（VLA Sky Survey）。</p>
+<tt>Syntax:<br>
+-vla []<br>
+&nbsp;&nbsp;&nbsp; [&lt;object&gt;]<br>
+&nbsp;&nbsp;&nbsp; [name &lt;object&gt;|clear]<br>
+&nbsp;&nbsp;&nbsp; [&lt;ra&gt; &lt;dec&gt;] # in wcs fk5<br>
+&nbsp;&nbsp;&nbsp; [size &lt;width&gt; &lt;height&gt; degrees|arcmin|arcsec]<br>
+&nbsp;&nbsp;&nbsp; [save yes|no]<br>
+&nbsp;&nbsp;&nbsp; [frame new|current]<br>
+&nbsp;&nbsp;&nbsp; [update frame|crosshair]<br>
+&nbsp;&nbsp;&nbsp; [survey first|stripe82]<br>
+&nbsp;&nbsp;&nbsp; [open|close]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -vla<br>
+$ds9 -vla m31<br>
+$ds9 -vla name m31<br>
+$ds9 -vla name clear<br>
+$ds9 -vla 00:42:44.404 +41:16:08.78<br>
+$ds9 -vla size 60 60 arcmin<br>
+$ds9 -vla save yes<br>
+$ds9 -vla frame current<br>
+$ds9 -vla update frame<br>
+$ds9 -vla survey stripe82<br>
+$ds9 -vla open<br>
+$ds9 -vla close</tt><br>
+<p><b><a name="vlss" id="vlss"></a>vlss</b></p>
+<p>Support for NRAO VLSS Sky Survey.</p>
+<p class="zh">支持 NRAO VLSS 巡天（VLSS Sky Survey）。</p>
+<tt>Syntax:<br>
+-vlss []<br>
+&nbsp;&nbsp;&nbsp; [&lt;object&gt;]<br>
+&nbsp;&nbsp;&nbsp; [name &lt;object&gt;|clear]<br>
+&nbsp;&nbsp;&nbsp; [&lt;ra&gt; &lt;dec&gt;] # in wcs fk5<br>
+&nbsp;&nbsp;&nbsp; [size &lt;width&gt; &lt;height&gt; degrees|arcmin|arcsec]<br>
+&nbsp;&nbsp;&nbsp; [save yes|no]<br>
+&nbsp;&nbsp;&nbsp; [frame new|current]<br>
+&nbsp;&nbsp;&nbsp; [update frame|crosshair]<br>
+&nbsp;&nbsp;&nbsp; [open|close]<br>
+<br>
+Example:<br>
+$ds9 -vlss<br>
+$ds9 -vlss m31<br>
+$ds9 -vlss name m31<br>
+$ds9 -vlss name clear<br>
+$ds9 -vlss 00:42:44.404 +41:16:08.78<br>
+$ds9 -vlss size 60 60 arcmin<br>
+$ds9 -vlss save yes<br>
+$ds9 -vlss frame current<br>
+$ds9 -vlss update frame<br>
+$ds9 -vlss open<br>
+$ds9 -nvess close</tt>
+<p><b><a name="vo" id="vo"></a>vo</b></p>
+<p>Invoke an connection to a Virtual Observatory site.</p>
+<p class="zh">发起与一个 Virtual Observatory 站点的连接。</p>
+<tt>Syntax:<br>
+-vo [method xpa|mime]<br>
+&nbsp;&nbsp;&nbsp; [server &lt;url&gt;]<br>
+&nbsp;&nbsp;&nbsp; [internal yes|no]<br>
+&nbsp;&nbsp;&nbsp; [delay #]<br>
+&nbsp;&nbsp;&nbsp; [&lt;url&gt;]<br>
+&nbsp;&nbsp;&nbsp; [connect &lt;url&gt;]<br>
+&nbsp;&nbsp;&nbsp; [disconnect &lt;url&gt;]<br>
+&nbsp;&nbsp;&nbsp; [open|close]<br>
+<br>
+Example:<br>
+$ds9 -vo method xpa<br>
+$ds9 -vo server "http://foo.bar.edu/list.txt"<br>
+$ds9 -vo internal yes<br>
+$ds9 -vo delay 15 # keep-alive delay<br>
+$ds9 -vo chandra-ed<br>
+$ds9 -vo connect chandra-ed<br>
+$ds9 -vo disconnect chandra-ed<br>
+$ds9 -vo open<br>
+$ds9 -vo close<br></tt>
+<p><b><a name="wcs" id="wcs"></a>wcs</b></p>
+<p>Controls the World Coordinate System for the current frame. If the wcs system, skyframe, or skyformat is modified, the info panel, compass, grid, and alignment will be modified accordingly. Also, a new WCS specification can be loaded and used by the current image regardless of the WCS that was contained in the image file. Please see <a href="file.html#WCS">WCS</a> for more information.</p>
+<p class="zh">控制当前帧的世界坐标系（WCS）。若修改了 wcs 系统、skyframe 或 skyformat，信息面板、罗盘、网格与对齐都会相应改变。此外，无论图像文件中原本包含什么 WCS，都可以为当前图像加载并使用一个新的 WCS 规范。更多信息请参见 <a href="file.html#WCS">WCS</a>。</p>
+<tt>Syntax:<br>
+-wcs [[system] wcs|wcsa...wcsz]<br>
+&nbsp;&nbsp;&nbsp; [[sky] fk4|fk5|icrs|galactic|ecliptic]<br>
+&nbsp;&nbsp;&nbsp; [[skyformat] degrees|sexagesimal]<br>
+&nbsp;&nbsp;&nbsp; [align yes|no]<br>
+&nbsp;&nbsp;&nbsp; [reset]<br>
+&nbsp;&nbsp;&nbsp; [load &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [replace [&lt;integer&gt;][&lt;filename&gt;]]<br>
+&nbsp;&nbsp;&nbsp; [append [&lt;integer&gt;][&lt;filename&gt;]]<br>
+&nbsp;&nbsp;&nbsp; [save [&lt;ext&gt;] &lt;filename&gt;]<br>
+&nbsp;&nbsp;&nbsp; [open|close]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -wcs wcs<br>
+$ds9 -wcs system wcs<br>
+$ds9 -wcs fk5<br>
+$ds9 -wcs sky fk5<br>
+$ds9 -wcs sexagesimal<br>
+$ds9 -wcs skyformat sexagesimal<br>
+$ds9 -wcs align yes<br>
+$ds9 -wcs reset<br>
+$ds9 -wcs load foo.wcs<br>
+$ds9 -wcs replace 1 foo.wcs<br>
+$ds9 -wcs append 1 foo.wcs<br>
+$ds9 -wcs save foo.wcs<br>
+$ds9 -wcs save 1 foo.wcs<br>
+$ds9 -wcs open<br>
+$ds9 -wcs close<br></tt>
+<p><b><a name="web" id="web"></a>web</b></p>
+<p>Display specified URL in the web display.</p>
+<p class="zh">在 Web 显示区中显示指定 URL。</p>
+<tt>Syntax:<br>
+-web []<br>
+&nbsp;&nbsp;&nbsp; [&lt;url&gt;]<br>
+&nbsp;&nbsp;&nbsp; [new &lt;webname&gt; &lt;url&gt;]<br>
+&nbsp;&nbsp;&nbsp; [&lt;webname&gt;] [click back|forward|stop|reload|#]<br>
+&nbsp;&nbsp;&nbsp; [&lt;webname&gt;] [clear]<br>
+&nbsp;&nbsp;&nbsp; [&lt;webname&gt;] [close]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -web www.cnn.com<br>
+$ds9 -web new www.cnn.com<br>
+$ds9 -web hvweb www.apple.com<br>
+$ds9 -web click back<br>
+$ds9 -web click 2<br>
+$ds9 -web clear<br>
+$ds9 -web close<br></tt>
+<p><b><a name="width" id="width"></a>width</b></p>
+<p>Set the width of the image display window. Use the <a href="command.html#geometry">geometry</a> command to set the overall width and height of the ds9 window.</p>
+<p class="zh">设置图像显示窗口的宽度。使用 <a href="command.html#geometry">geometry</a> 命令可设置 ds9 窗口整体的宽和高。</p>
+<tt>Syntax:<br>
+-width [&lt;value&gt;]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -width 512<br></tt>
+<p><b><a name="xpa" id="xpa"></a>xpa</b></p>
+<p>Configure XPA.</p>
+<p class="zh">配置 XPA。</p>
+<tt>Syntax:<br>
+-xpa [yes|no]<br>
+&nbsp;&nbsp;&nbsp; [connect|disconnect]<br>
+&nbsp;&nbsp;&nbsp; [inet|local|unix|localhost]<br>
+&nbsp;&nbsp;&nbsp; [noxpans] <br>
+&nbsp;&nbsp;&nbsp; [info]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -xpa yes<br>
+$ds9 -xpa local<br>
+$ds9 -xpa noxpans<br>
+$ds9 -xpa connect<br>
+$ds9 -xpa disconnect<br>
+$ds9 -xpa info<br></tt>
+<p><b><a name="zmax" id="zmax"></a>zmax</b></p>
+<p>Set Scale Limits based&nbsp; on the <i>IRAF</i> algorithm and maximum data value.</p>
+<p class="zh">基于 <i>IRAF</i> 算法和最大数据值设置拉伸限幅（Scale Limits）。</p>
+<tt>Syntax:<br>
+-zmax<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -zmax</tt>
+<p><b><a name="zscale" id="zscale"></a>zscale</b></p>
+<p>Set Scale Limits based&nbsp; on the <i>IRAF</i> algorithm.</p>
+<p class="zh">基于 <i>IRAF</i> 算法设置拉伸限幅（Scale Limits）。</p>
+<tt>Syntax:<br>
+-zscale []<br>
+&nbsp;&nbsp;&nbsp; [contrast]<br>
+&nbsp;&nbsp;&nbsp; [sample]<br>
+&nbsp;&nbsp;&nbsp; [line]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -zscale<br>
+$ds9 -zscale contrast .25<br>
+$ds9 -zscale sample 600<br>
+$ds9 -zscale line 120<br></tt>
+<p><b><a name="zoom" id="zoom"></a>zoom</b></p>
+<p>Controls the current zoom value for the current frame.</p>
+<p class="zh">控制当前帧的缩放（zoom）值。</p>
+<tt>Syntax:<br>
+-zoom [&lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [&lt;value&gt; &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [to &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [to &lt;value&gt; &lt;value&gt;]<br>
+&nbsp;&nbsp;&nbsp; [in]<br>
+&nbsp;&nbsp;&nbsp; [out]<br>
+&nbsp;&nbsp;&nbsp; [to fit]<br>
+&nbsp;&nbsp;&nbsp; [open|close]<br>
+&nbsp;<br>
+Example:<br>
+$ds9 -zoom 2<br>
+$ds9 -zoom 2 4<br>
+$ds9 -zoom to 4<br>
+$ds9 -zoom to 2 4<br>
+$ds9 -zoom in<br>
+$ds9 -zoom out<br>
+$ds9 -zoom to fit<br>
+$ds9 -zoom open<br>
+$ds9 -zoom close<br>
+<br></tt></blockquote>
+</body>
+</html>

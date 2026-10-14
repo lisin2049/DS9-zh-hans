@@ -1,0 +1,690 @@
+<!DOCTYPE doctype PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta name="generator" content="HTML Tidy for Mac OS X (vers 31 October 2006 - Apple Inc. build 17.1), see www.w3.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="GENERATOR" content="Mozilla/4.78 [en] (X11; U; Linux 2.4.7-10 i686) [Netscape]">
+<title>Cloud Computing（云计算）</title>
+<style type="text/css">
+.zh { color: #333333; border-left: 3px solid #cccccc; padding-left: 8px; margin: 2px 0 10px 0; font-family: "Microsoft YaHei", "PingFang SC", sans-serif; }
+h2 .zh, h3 .zh, h4 .zh { color: #555555; font-weight: normal; border-left: none; padding-left: 6px; }
+li .zh { display: block; }
+</style>
+</head>
+<body alink="#FF0000" bgcolor="#FFFFFF" vlink="#551A8B" text="#000000" link="#0000FF">
+<h3><img alt="" src="../sun.png" align="middle" > Cloud Computing with SAOImageDS9: $geturl()<span class="zh">（用 SAOImageDS9 做云计算：$geturl()）</span></h3>
+
+<blockquote>
+<p>for full documentation on Analysis Files, please see <a href="analysis.html">Analysis</a></p>
+<p class="zh">有关 Analysis 文件的完整文档，请参见 <a href="analysis.html">Analysis（分析）</a>。</p>
+<p><b>Table of Contents</b></p>
+<p class="zh"><b>目录</b></p>
+<a href="#intro">Introduction</a><br>
+<a href="#menu">Analysis menu digest</a><br>
+<a href="#info">Information about examples used in this doc</a><br>
+<a href="#examples">Detailed Examples</a><br>
+<a href="#summary">Summary</a><br>
+<p class="zh"><a href="#intro">简介</a>；<a href="#menu">Analysis 菜单速览</a>；<a href="#info">本文示例说明</a>；<a href="#examples">详细示例</a>；<a href="#summary">小结</a></p>
+
+<p><b><a name="intro" id="intro"></a>Introduction</b></p>
+<p class="zh"><b>简介</b></p>
+
+<p>SAOImageDS9 (DS9) can be used as an interface to cloud computing resources. Another way of saying this is that DS9 can run analysis programs remotely and receive results in many different formats: text, images, plots, and regions.</p>
+<p class="zh">SAOImageDS9（DS9）可以作为访问云计算资源的接口。换句话说，DS9 可以远程运行分析程序，并以多种不同格式接收结果：文本、图像、绘图（plot）和区域（region）。</p>
+
+<p>This is made possible by using the <tt>$geturl()</tt> Analysis Command macro. This macro will “call” the specified URL with whatever parameters have been supplied and will display the results.</p>
+<p class="zh">这是通过使用 Analysis 命令宏 <tt>$geturl()</tt> 实现的。该宏会带着你提供的参数“调用”指定的 URL，并把结果显示出来。</p>
+
+<p>The key is that DS9 recognizes some application specific data types that allows it to process specialized results.</p>
+<p class="zh">关键在于：DS9 能识别一些应用特定的数据类型，从而可以对专门的结果进行处理。</p>
+
+<p>In this document we assume the reader has some cursory understanding of developing web services. Users should have some understanding of Content-Type’s (used interchangeably with MIME types), HTTP GET versus POST requests, and URL syntax. An even more cursory knowledge of Tcl/Tk and XPA is helpful.</p>
+<p class="zh">本文假设读者对 Web 服务开发有初步了解：应了解 Content-Type（与 MIME 类型通用）、HTTP GET 与 POST 请求的区别，以及 URL 语法。对 Tcl/Tk 和 XPA 有一点粗浅了解会更有帮助。</p>
+
+<p><b><a name="menu" id="menu"></a>Analysis menu digest</b></p>
+<p class="zh"><b>Analysis 菜单速览</b></p>
+
+<p>The DS9 Analysis command syntax is specified in the Reference Manual. The basics are as follows:</p>
+<p class="zh">DS9 Analysis 命令的语法在《参考手册》中已有说明，基本要点如下：</p>
+
+<p>The Analysis commands are written in a text file. The unofficial standard is to name the file with the <tt>.ans</tt> suffix, though any legal filename/suffix can be used.</p>
+<p class="zh">Analysis 命令写在一个文本文件中。非官方惯例是用 <tt>.ans</tt> 作为文件后缀，但也可以使用任何合法的文件名/后缀。</p>
+
+<p>Each command uses 4 lines. For example</p>
+<p class="zh">每条命令占 4 行。例如：</p>
+
+<pre>
+My Analysis Task
+*
+menu
+my_awesome_command $parameters | $text
+</pre>
+<p class="zh">上面是一个 4 行命令块：任务名、文件匹配通配符、菜单项类型、以及带参数和输出重定向的实际命令。</p>
+
+<p>Breakdown:</p>
+<p class="zh">逐行解释：</p>
+
+<ol>
+<li><p> The name of the analysis task. For example My Analysis Task</p><p class="zh">第 1 行：分析任务的名称，例如 My Analysis Task。</p></li>
+<li><p> The types of files the analysis task can be used with. This is based on the file name, not the content of the file. * is a wildcard meaning all file names. If multiple file names are expected they are separated with spaces. For example *evt* *EVT* would work with file names that contain the string evt or EVT. File names are case sensitive.</p><p class="zh">第 2 行：该分析任务适用的文件类型。这是按文件名（而非文件内容）匹配的。* 是通配符，表示所有文件名；多个文件名模式用空格分隔，例如 *evt* *EVT* 表示适用于文件名中包含 evt 或 EVT 的文件。文件名匹配区分大小写。</p></li>
+<li><p> Whether this analysis task should be added to the Analysis menu or whether it should be bound (ie bind) to a Tk event. For example bind m would run the analysis task when the m button is pressed.</p><p class="zh">第 3 行：该分析任务是加入 Analysis 菜单（menu），还是绑定（bind）到某个 Tk 事件。例如 bind m 表示在按下 m 键时运行该分析任务。</p></li>
+<li><p> The actual analysis command. This can include parameters such as Analysis macros: <tt>$filename</tt> or <tt>$regions</tt>. It may also include user parameters (more on this below). The output from the command is then sent to a particular output based on where it is piped, <tt>|. $text</tt> will send the output from the command to a text box. <tt>$image</tt> will send the results to the imager.</p><p class="zh">第 4 行：实际的分析命令。其中可以包含 Analysis 宏参数，如 <tt>$filename</tt> 或 <tt>$regions</tt>，也可以包含用户参数（下文详述）。命令输出根据管道方向发送到特定位置：<tt>| $text</tt> 把命令输出发送到文本框，<tt>$image</tt> 把结果发送到图像显示区。</p></li>
+</ol>
+
+<p>User settable parameters can be specific using the param section:</p>
+<p class="zh">可以用 param 段来定义用户可设置的参数：</p>
+
+<pre>
+param my_pars
+  par1 entry {Hello World} {} {Enter your message in this box}
+  par2 menu {Favorite Color} {red|green|blue|green|black} {Select your fav. color}
+endparam
+</pre>
+<p class="zh">上面定义了一个名为 my_pars 的参数段：par1 是一个文本输入框（entry），par2 是一个下拉菜单（menu），选项为 red/green/blue/black，花括号内分别为默认值和提示文字。</p>
+
+<p>and then used in the analysis task like this:</p>
+<p class="zh">然后在分析任务中这样使用：</p>
+
+<pre>
+My Parameters
+*
+menu
+$param(my_pars); my_command $par1 $par2 | $text
+</pre>
+<p class="zh">通过 $param(my_pars) 弹出参数对话框，然后把用户输入的 $par1、$par2 传给实际命令，输出到文本框。</p>
+
+<p>This is just a quick introduction. There are many more details and options described in the documentation.</p>
+<p class="zh">以上只是快速入门，更多细节和选项请参见正式文档。</p>
+
+<p><b><a name="info" id="info"></a>Information about examples used in this doc</b></p>
+<p class="zh"><b>本文示例说明</b></p>
+
+<p>The details about setting up a production ready web server and writing robust web services is beyond the scope of this document.</p>
+<p class="zh">如何搭建生产级 Web 服务器、如何编写健壮的 Web 服务，不在本文范围之内。</p>
+
+<p>The basic requirement is that whatever web service is being used it has to accept an HTTP/S GET request where the URL contains both the location of the web resource as well as any processing parameters. For example</p>
+<p class="zh">基本要求是：所用的 Web 服务必须能接收 HTTP/S GET 请求，且 URL 中同时包含 Web 资源的位置和所需的处理参数。例如：</p>
+
+<p><tt>http://my_awesome.service.com/my_tool?par1=foo&par2=bar</tt></p>
+<p class="zh">类似 <tt>http://my_awesome.service.com/my_tool?par1=foo&par2=bar</tt> 这样的 URL。</p>
+
+<p><tt>GET</tt> differs from <tt>POST</tt> in that with <tt>GET</tt> the parameters are included in the URL whereas <tt>POST</tt> parameters are not. <tt>POST</tt> services allows for things like file upload which DS9 does not support.</p>
+<p class="zh"><tt>GET</tt> 与 <tt>POST</tt> 的区别在于：<tt>GET</tt> 的参数包含在 URL 中，而 <tt>POST</tt> 的参数不在 URL 中。<tt>POST</tt> 支持文件上传之类的功能，DS9 不支持。</p>
+<p>In this document we will be using the Flask Python based web service framework to run a local web server. By default it runs on the local machine on port 5000, ie IP address <tt>127.0.0.1:5000</tt>.</p>
+<p class="zh">本文将使用基于 Python 的 Flask Web 服务框架来运行一个本地 Web 服务器。它默认在本机 5000 端口运行，即地址 <tt>127.0.0.1:5000</tt>。</p>
+
+<p>The nature of the web server setup is up to the user. It could be a CGI script written in any language (C/C++, Python, Shell, Perl, etc) or a RESTful service like the examples below. The only requirement is that the service has to accept/process GET requests.</p>
+<p class="zh">Web 服务器的具体搭建方式由用户自行决定：可以是用任意语言（C/C++、Python、Shell、Perl 等）编写的 CGI 脚本，也可以是如下例所示的 RESTful 服务。唯一要求是：该服务必须能接收/处理 GET 请求。</p>
+
+<p><b><a name="examples" id="examples"></a>Detailed Examples</b></p>
+<p class="zh"><b>详细示例</b></p>
+
+<p>This section demonstrates several different remote analysis tasks. It includes a simple example of how to setup the <i>flask</i> web service and the DS9 Analysis Command file for various types of analysis tasks which
+return different types of outputs.</p>
+<p class="zh">本节演示若干不同的远程分析任务，包括如何搭建 <i>flask</i> Web 服务以及如何编写 DS9 Analysis 命令文件，以对应返回不同类型输出的各类分析任务。</p>
+
+<p><b>Getting Started: Hello World</b></p>
+<p class="zh"><b>入门：Hello World</b></p>
+
+<p>Let’s create a simple file called <tt>hello_world.py</tt></p>
+<p class="zh">我们先创建一个简单的文件 <tt>hello_world.py</tt>：</p>
+
+<pre>
+from flask import Flask, make_response
+
+app = Flask(__name__)
+
+@app.route("/")
+def hello_world():
+    retval = "Hello, World!"
+    response = make_response(retval)
+    response.mimetype = "text/plain"
+    return response
+</pre>
+<p class="zh">这个 Flask 服务在 / 路径返回纯文本 "Hello, World!"。</p>
+
+<p>The first two lines are common to all the examples below.</p>
+<p class="zh">下面所有示例的前两行（导入 Flask、创建 app）都是相同的。</p>
+
+<p>We can then start a local web server running on <tt>http://127.0.0.1:5000</tt><p>
+<p class="zh">然后启动一个运行在 <tt>http://127.0.0.1:5000</tt> 的本地 Web 服务器：</p>
+
+<pre>flask --app hello_world run</pre>
+<p class="zh">用 flask 命令行工具启动该应用。</p>
+
+<p>Next we crate the DS9 analysis command file <tt>hello_world.ans</tt></p>
+<p class="zh">接下来创建 DS9 分析命令文件 <tt>hello_world.ans</tt>：</p>
+
+<pre>
+Hello World
+*
+menu
+$geturl(http://127.0.0.1:5000/) | $text
+</pre>
+<p class="zh">通过 $geturl 调用本地服务根路径，结果以纯文本方式显示在文本框中。</p>
+
+<p>and then run ds9</p>
+<p class="zh">然后运行 ds9：</p>
+
+<pre>ds9 -analysis hello_world.ans</pre>
+<p class="zh">用 -analysis 选项加载该命令文件。</p>
+
+<p>(Or go to <tt>Analysis -> Load Analysis Commands</tt> and select the file <tt>hello_world.ans.)</tt></p>
+<p class="zh">（或者通过 <tt>Analysis -> Load Analysis Commands</tt> 菜单选择 <tt>hello_world.ans</tt> 文件。）</p>
+
+<p>Then go to <tt>Analysis -> Hello World</tt> which will open a text box displaying the message: <tt>Hello World.</tt></p>
+<p class="zh">之后选择 <tt>Analysis -> Hello World</tt>，就会弹出一个文本框，显示消息：<tt>Hello World.</tt></p>
+
+<p>The remainder of the examples in this document will follow a similar pattern where we have to write some code to be run on the web server, and add an option to the DS9 analysis file to execute that code.</p>
+<p class="zh">本文其余示例都遵循类似模式：在 Web 服务器上编写一些要运行的代码，并在 DS9 分析文件中增加一个选项来执行该代码。</p>
+
+<p><b>Passing parameters</b></p>
+<p class="zh"><b>传递参数</b></p>
+
+<p>Users should be familiar with URL’s that look like</p>
+<p class="zh">大家应该熟悉这样形式的 URL：</p>
+
+<p><tt>https://linux.is.awesome.edu/some_command?this=1&that=the_other</tt></p>
+<p class="zh">例如 <tt>https://linux.is.awesome.edu/some_command?this=1&that=the_other</tt>。</p>
+
+<p>Where some_command is the web access point which is taking some parameters: this and that. These are identified in the URL as they follow the question mark (“?”) and are separated by ampersands (“&”). They take the form</p>
+<p class="zh">其中 some_command 是 Web 接入点，它接收若干参数：this 和 that。这些参数出现在问号（?）之后，以 & 分隔，形式为：</p>
+
+<p><tt>parameter name = value</tt></p>
+<p class="zh"><tt>参数名 = 值</tt>。</p>
+
+<p>This is how HTTP/S “GET” requests are encoded. HTTP/S “PUT” requests are processed differently; however, ds9 only supports “GET” requests.</p>
+<p class="zh">这就是 HTTP/S “GET” 请求的编码方式。HTTP/S “PUT” 请求的处理方式不同，但 ds9 只支持 “GET” 请求。</p>
+
+<p>It will often be the case that these parameters will be set via the DS9 Analysis menu syntax using in the <tt>param</tt> section.
+<p class="zh">通常情况下，这些参数会通过 DS9 Analysis 菜单的 <tt>param</tt> 段语法来设置。</p>
+
+<p>Below is a simple example that will just print back to the user the text they supply when prompted for the parameter:</p>
+<p class="zh">下面是一个简单示例：把用户在参数提示框中输入的文本原样回显给用户。</p>
+
+<p><b>Simple, Single Parameter</b></p>
+<p class="zh"><b>简单示例：单个参数</b></p>
+
+<pre>
+from flask import request
+@app.route("/simple_parameter/")
+def simple_parameter():
+    user_text = request.args.get("text")
+    retval = f"The user wrote '{user_text}'"
+    response = make_response(retval)
+    response.mimetype = "text/plain"
+    return response
+</pre>
+<p class="zh">服务端通过 request.args.get("text") 取出名为 text 的参数，并把 "The user wrote '...'" 作为纯文本返回。</p>
+
+
+<p>the <tt>request.args.get</tt> method is used to retrieve specific parameters by name. Here the web service end-point simple_parameter is expecting to find a parameter named <tt>text</tt>.</p>
+<p class="zh"><tt>request.args.get</tt> 方法用于按名字取回指定参数。这里 Web 服务端点 simple_parameter 期望找到一个名为 <tt>text</tt> 的参数。</p>
+
+<p>The DS9 Analysis File for this example looks like:</p>
+<p class="zh">对应本例的 DS9 分析文件如下：</p>
+
+<pre>
+param simpletxt
+  usr_txt entry {Enter some text} {} {This text will be echoed back}
+endparam
+
+Simple Text
+*
+menu
+$param(simpletxt); $geturl(http://127.0.0.1:5000/simple_parameter/?text=$usr_txt) | $text
+</pre>  
+
+<p class="zh">param 段定义了一个文本输入框 usr_txt；调用时先弹出参数对话框，再把用户输入的值拼到 URL 的 text= 参数中，结果回显到文本框。</p>
+
+<p>The the <tt>param</tt> section identifies a new parameter section: <tt>simpletxt</tt>. It has a single parameter named <tt>usr_txt</tt>, which is a text <tt>entry</tt> box. In the <tt>$geturl</tt> macro we see that we have used the “?” to identify that there are parameters and added a single parameter <tt>text=$usr_txt</tt>. When this analysis task is invoked from the menu, it will open a window asking the use the <i>Enter some text</i>. Upon submission, a text box will open with the message <i>The user wrote ‘blah’</i> where blah is whatever the user wrote.</p>
+<p class="zh"><tt>param</tt> 段定义了一个新的参数段 <tt>simpletxt</tt>，其中只有一个名为 <tt>usr_txt</tt> 的参数，类型为文本输入框（<tt>entry</tt>）。在 <tt>$geturl</tt> 宏中可以看到，我们用 “?” 表示后面带有参数，并加入了一个参数 <tt>text=$usr_txt</tt>。从菜单调用该分析任务时，会弹出一个窗口提示用户输入文本（Enter some text）；提交后，会弹出文本框显示消息 <i>The user wrote ‘blah’</i>，其中 blah 就是用户输入的内容。</p>
+
+<p><b>Multiple parameters</b></p>
+<p class="zh"><b>多个参数</b></p>
+
+<p>Multiple parameters are handled in the same way. They are simply separated by ampersands.</p>
+<p class="zh">多个参数的处理方式相同，直接用 & 分隔即可。</p>
+
+<p>It is beyond the scope of this document, but users should be aware that certain characters have special encoding when present in a GET URL. This includes question marks, ampersands, and spaces.</p>
+<p class="zh">本文不展开讲，但需要提醒：某些字符出现在 GET URL 中时需要特殊编码，包括问号、& 和空格。</p>
+
+<p>Below is the python bit that can read multiple parameter values</p>
+<p class="zh">下面是能读取多个参数值的 Python 代码片段：</p>
+
+<pre>
+@app.route("/multi_parameter/")
+def multi_parameter():
+
+    retval = "Found the following parameters\n"
+    for key in request.args:
+        retval += f"{key} = {request.args[key]}\n"
+
+    response = make_response(retval)
+    response.mimetype = "text/plain"
+    return response
+</pre>
+<p class="zh">该代码遍历 URL 中出现的所有参数，把 key = value 对逐行作为纯文本返回。</p>
+
+<p>This bit of code just loops over whatever parameters are present in the URL. It will print the key = value pairs in a text window.</p>
+<p class="zh">这段代码只是遍历 URL 中出现的参数，并在文本窗口中打印 key = value 对。</p>
+
+<p>The DS9 Analysis bit looks like:</p>
+<p class="zh">对应的 DS9 分析文件片段如下：</p>
+
+<pre>
+param multiparam
+  usr_txt2 entry {Enter some text} {} {This text will be echoed back}
+  func menu {Function} min|max|median {An example of a select box}
+  check checkbox {Yes/No} 1 {Checked is 1, Unchecked is 0}
+endparam
+
+Multi Params
+*
+menu
+$param(multiparam); $geturl(http://127.0.0.1:5000/multi_parameter/?text=$usr_txt2&func=$func&par3=$check) | $text
+</pre>
+<p class="zh">param 段定义了三类控件：文本输入框 usr_txt2、下拉菜单 func（min/max/median）、复选框 check；三者的值以 & 拼接进 URL。</p>
+
+<p>Where here again we have defined a new set of parameters in the param section.</p>
+<p class="zh">这里同样是在 param 段中定义了一组新参数。</p>
+
+<p>You cannot use the same parameter name in different parameter sections. It can result in unpredictable results. Use unique parameter names in each param section.</p>
+<p class="zh">不要在不同的参数段中使用相同的参数名，否则可能导致不可预料的结果。每个 param 段中都应使用唯一的参数名。</p>
+
+<p>The <tt>$geturl</tt> macro then has the parameters encoded using ampersand seperated <tt>key=value</tt> pairs.</p>
+<p class="zh">随后 <tt>$geturl</tt> 宏中的参数以 & 分隔的 <tt>key=value</tt> 对形式编码。</p>
+
+<p><b>X-XPA/XPASET mime-type</b></p>
+<p class="zh"><b>X-XPA/XPASET MIME 类型</b></p>
+
+<p>HTTP/S allows content creators to use custom Content-Type’s for specialized “media” types. The convention is to preface the custom type with an <tt>x-</tt>. DS9 recognizes the <tt>x-xpa/xpaset</tt> content type. With this Content-Type services can send <a href="xpa.html">xpaset commands</a> to DS9.</p>
+<p class="zh">HTTP/S 允许内容提供者为专门的“媒体”类型使用自定义 Content-Type，惯例是在自定义类型前加 <tt>x-</tt> 前缀。DS9 能识别 <tt>x-xpa/xpaset</tt> 内容类型。借助该 Content-Type，服务端可以向 DS9 发送 <a href="xpa.html">xpaset 命令</a>。</p>
+
+<p>The <tt>X-XPA/XPASET</tt> requires two parameters:</p>
+<p class="zh"><tt>X-XPA/XPASET</tt> 需要两个参数：</p>
+
+<ol>
+<li><p><tt>target</tt> : this is the XPA access point to send the commands to. Note that setting this to simply “ds9” will send the same XPA command to <b>all</b> instances of DS9 that are running. To specify a specific instance of DS9, ie the one that actually sent the $geturl request, you need to use the $xpa_method macro.</p><p class="zh"><tt>target</tt>：要把命令发送到的 XPA 接入点。注意：如果只设为 "ds9"，会把同一条 XPA 命令发送给<b>所有</b>正在运行的 DS9 实例。要指定某个具体的 DS9 实例（即实际发起 $geturl 请求的那一个），需要使用 $xpa_method 宏。</p></li>
+<li><p><tt>paramlist</tt> : this is the actual XPA command to run.</p><p class="zh"><tt>paramlist</tt>：实际要执行的 XPA 命令。</p></li>
+</ol>
+
+<p>Additional data needed by the <tt>xpaset</tt> command should then be included in the body of the response.</p>
+<p class="zh"><tt>xpaset</tt> 命令所需的附加数据则应放在响应的消息体（body）中。</p>
+
+<p>This example shows how to create a region and return it back to DS9</p>
+<p class="zh">下面这个示例演示如何创建一个区域并把它返回给 DS9：</p>
+
+<pre>
+@app.route("/region/")
+def send_region():
+    target = request.args.get("target")
+    retval = "physical; circle(4096.4,4096.5,100)"
+    response = make_response(retval)
+    response.headers['Content-Type'] = f'x-xpa/xpaset; target="{target}"; paramlist="regions -format ds9"'
+    return response
+</pre>
+<p class="zh">服务端返回一个内容为 "physical; circle(...)" 的 x-xpa/xpaset 响应，等价于向 DS9 发送 regions 命令来画一个圆。</p>
+
+<p>would be the equivalent of running</p>
+<p class="zh">这等价于在命令行执行：</p>
+
+<tt><p>echo "physical; circle(4096.4,4096.5,100)" | xpaset $target regions -format ds9</p></tt>
+<p class="zh">即把区域文本通过管道送给 xpaset。</p>
+
+<p>from the command line. That is the data that on the command line would be input via stdin, is included in the body of the response.</p>
+<p class="zh">也就是说：在命令行中通过 stdin 输入的数据，在这里被包含在响应体中。</p>
+
+<p>The DS9 analysis command looks like:</p>
+<p class="zh">对应的 DS9 分析命令如下：</p>
+
+<pre>
+Simple Region
+*
+menu
+$geturl(http://127.0.0.1:5000/region/?target=$xpa_method) | $text
+</pre>
+<p class="zh">调用时用 $xpa_method 把当前 DS9 实例作为 target 传回去。</p>
+
+<p>DS9 cannot accept <b>xpaget</b> requests. get requests requires two way communication with the application. The <tt>$geturl</tt> requires that all data and parameters that the service requires be supplied in the <tt>$geturl</tt> request itself.
+<p class="zh">DS9 不能接收 <b>xpaget</b> 请求：get 请求需要与应用进行双向通信，而 <tt>$geturl</tt> 要求服务所需的全部数据和参数都在 <tt>$geturl</tt> 请求本身中提供。</p>
+
+<p><b>Multi-part mime-type</b></p>
+<p class="zh"><b>多部分（multi-part）MIME 类型</b></p>
+
+<p>Some services may need to send back information in more than one <tt>xpaset</tt> request. To accommodate this, DS9 recognizes the <tt>multipart/mixed</tt> Content-Type. While this is common when dealing with email messages, it is not common for HTTP/S. However it is perfectly legal/valid.</p>
+<p class="zh">有些服务可能需要通过不止一个 <tt>xpaset</tt> 请求来回传信息。为此，DS9 能识别 <tt>multipart/mixed</tt> 内容类型。这种类型在电子邮件中很常见，在 HTTP/S 中并不常见，但完全合法。</p>
+
+<p>The syntax for a <tt>multipart/mixed</tt> message includes that as the Content-Type, and includes a boundary string that is used to separate the content of each embedded message. The boundary should be a unique character string that is guaranteed not to be part of the body of any of the embedded messages.</p>
+<p class="zh"><tt>multipart/mixed</tt> 消息的语法：Content-Type 设为该类型，并附带一个边界（boundary）字符串，用于分隔各内嵌消息的内容。边界应当是一个唯一的字符串，保证不会出现在任何内嵌消息的消息体中。</p>
+
+<p>Below is a simple example that runs 3 xpaset commands</p>
+<p class="zh">下面是一个运行 3 条 xpaset 命令的简单示例：</p>
+
+<ol>
+<li><tt>xpaset -p $target cmap bb</tt> to set the color map to “bb”</li>
+<p class="zh">把颜色映射设为 “bb”。</p>
+<li><tt>xpaset -p $target scale log</tt> to change to log scaling</li>
+<p class="zh">切换到对数拉伸。</p>
+<li><tt>xpaset -p $target scale limits 0 10</tt> to change the scale limits to go from 0 to 10.</li>
+<p class="zh">把拉伸限值改为 0 到 10。</p>
+</ol>
+
+<pre>
+BOUNDARY = "xpamime:142857:285714:428571:571428:714285:857142"
+
+@app.route("/cmap/")
+def multi_cmds():
+
+    def wrap_cmd(cmd):
+        retval = f'--{BOUNDARY}\n'
+        retval += f'Content-Type: x-xpa/xpaset; target="{target}"; paramlist="{cmd}"\n\n'
+        return retval
+        
+    target = request.args.get("target")
+    cmd1 = "cmap bb"
+    cmd2 = "scale log"
+    cmd3 = "scale limits 0 10"
+
+    retval = wrap_cmd(cmd1)
+    retval += wrap_cmd(cmd2)
+    retval += wrap_cmd(cmd3)
+    retval += f'--{BOUNDARY}'
+
+    response = make_response(retval)
+    response.mimetype = f'multipart/mixed; boundary="{BOUNDARY}"'
+    return response
+</pre>
+<p class="zh">服务端把三条 xpaset 命令分别包成一段 x-xpa/xpaset 消息，用 BOUNDARY 边界串分隔，整体以 multipart/mixed 返回。</p>
+
+<p>When the <i>boundary</i> is used it is prefixed with two dashes, <tt>--</tt></p>
+<p class="zh">使用 <i>boundary</i> 时，要在前面加两个短横线 <tt>--</tt>。</p>
+
+<p><b>The last command must be followed by a trailing boundary line.</b></p>
+<p class="zh"><b>最后一条命令之后必须再加一行结束边界（trailing boundary）。</b></p>
+
+<p>The DS9 analysis command menu syntax looks like:</p>
+<p class="zh">对应的 DS9 分析命令菜单语法如下：</p>
+
+<pre>
+Multi Commands
+*
+menu
+$geturl(http://127.0.0.1:5000/cmap/?target=$xpa_method) | $text
+</pre>
+<p class="zh">与单条命令相同，用 $xpa_method 指定目标实例。</p>
+
+<p>Note that these commands are completely independent. Setting the color map, changing the scaling, and changing the scale limits are independent actions. Each command in a multipart/mixed message is independent. They are processed in order but do not have to be related. Also note that none of these commands require any additional data; that is the body of each part if blank. (This is the two new-line characters, \n, after the <tt>paramlist</tt>.)</p>
+<p class="zh">注意：这些命令是完全独立的——设置颜色映射、改变拉伸方式、改变拉伸限值彼此无关。multipart/mixed 消息中的每条命令都相互独立，按顺序处理，但内容上不必相关。另外注意：这些命令都不需要任何附加数据，即每段的消息体为空（也就是 <tt>paramlist</tt> 后面的两个换行符 \n）。</p>
+
+<p><b>Returning a plot</b></p>
+<p class="zh"><b>返回绘图（plot）</b></p>
+
+<p>Plots can be created using the XPA <tt>plot</tt> command.</p>
+<p class="zh">可以用 XPA 的 <tt>plot</tt> 命令创建绘图。</p>
+
+<p><b>However</b> plot commands must be wrapped inside a <tt>multipart/mixed</tt> content.</p>
+<p class="zh"><b>但是</b>，plot 命令必须包在 <tt>multipart/mixed</tt> 内容中发送。</p>
+
+<p>In this example we plot X vs X^2 for x in the range from 0 to 9 and then 
+modify the plots appearance with additional xpa commands:</p>
+<p class="zh">本例绘制 x 从 0 到 9 的 X 与 X^2 关系曲线，然后再用其他 xpa 命令修改图形外观：</p>
+
+<pre>
+@app.route("/plot/")
+def send_plot():
+
+    def make_plot(xx,yy):
+        vals = [f"{x} {y}" for x, y in zip(xx, yy)]
+        
+        plot_cmd = 'plot line {My Title } {X Label} {Y Label } xy'
+        retval = f'--{BOUNDARY}\n'
+        retval += f'Content-Type: x-xpa/xpaset; target="{target}"; paramlist="{plot_cmd}"\n\n'
+        retval += "\n".join(vals)+"\n"
+
+        plot_cmd = 'plot line smooth step'
+        retval += f'--{BOUNDARY}\n'
+        retval += f'Content-Type: x-xpa/xpaset; target="{target}"; paramlist="{plot_cmd}"\n\n'
+
+        plot_cmd = 'plot background lightblue'
+        retval += f'--{BOUNDARY}\n'
+        retval += f'Content-Type: x-xpa/xpaset; target="{target}"; paramlist="{plot_cmd}"\n\n'
+
+        retval += f'--{BOUNDARY}\n'
+        return retval
+
+    target = request.args.get("target")
+    xx = list(range(10))
+    yy = [x*x for x in xx]
+
+    retval = make_plot(xx, yy)
+    response = make_response(retval)
+    response.mimetype = f'multipart/mixed; boundary="{BOUNDARY}"'
+    return response
+</pre>
+<p class="zh">示例先发一条带标题/坐标轴标签的 plot line 命令并附上数据点，再分别用 plot line smooth step 和 plot background lightblue 命令修改外观，各段之间用边界串分隔。</p>
+
+<p>Note that Python (sometimes) will treat curly brackets special and so does Tcl. In Python you may sometimes need to used double curly brackets when you want to pass a single curly bracket to Tcl. In this example since the <tt>plot_cmd</tt> variable does not do any formatting so we need to used single curly brackets. In Tcl, strings that contain spaces need to be wrapped in curly brackets.</p>
+<p class="zh">注意：Python（有时）会把花括号当作特殊字符处理，Tcl 也是如此。在 Python 中，如果你想把一个花括号原样传给 Tcl，有时需要写两个花括号。本例中 <tt>plot_cmd</tt> 变量不做任何格式化，所以用单花括号即可。在 Tcl 中，含空格的字符串必须用花括号包起来。</p>
+
+<p>The DS9 analysis command for this is:</p>
+<p class="zh">对应的 DS9 分析命令为：</p>
+
+<pre>
+Simple Plot
+*
+menu
+$geturl(http://127.0.0.1:5000/plot/?target=$xpa_method) | $text
+</pre>
+<p class="zh">同样用 $xpa_method 指定目标实例。</p>
+
+<p>
+Note: It is possible to send bare plots (just values, no title,
+no labels, all default plot options) using the $plot macro (without
+any options). In this case the values can be returned as just a simple
+text/plain Content-Type.
+</p>
+<p class="zh">注意：也可以用 $plot 宏（不带任何选项）发送“裸”图——只有数值、没有标题和标签、全部使用默认绘图选项。此时数值只需以简单的 text/plain 内容类型返回即可。</p>
+
+<p><b>Returning images</b></p>
+<p class="zh"><b>返回图像</b></p>
+
+<p>Returning an image can be a bit more complicated.</p>
+<p class="zh">返回图像要稍微复杂一些。</p>
+
+<p><b>Simple case: Single images with properly configured web server</b></p>
+<p class="zh"><b>简单情形：Web 服务器配置正确时返回单张图像</b></p>
+
+<p>In the most simple case, if the web service is only going to return a single image then rather than using <tt>$geturl()</tt> you should just use <tt>$url()</tt> which is piped into the <tt>$image</tt> macro.</p>
+<p class="zh">在最简单的情形下，如果 Web 服务只返回一张图像，那么不必使用 <tt>$geturl()</tt>，而应直接使用 <tt>$url()</tt>，并把它管道输入到 <tt>$image</tt> 宏。</p>
+
+<p>In this example we have a local file: <tt>/export/img.fits</tt> that we want to return via the <tt>/get_img</tt> end point. We can do something like this:</p>
+<p class="zh">本例中有一个本地文件 <tt>/export/img.fits</tt>，想通过 <tt>/get_img</tt> 端点返回。可以这样做：</p>
+
+<pre>
+@app.route("/get_img")
+def get_img():
+
+    retval = open("/export/img.fits", "rb").read()
+    response = make_response(retval)
+    response.headers['Content-Type'] = "image/fits"
+    return response
+</pre>
+<p class="zh">以二进制方式读取 FITS 文件，并把响应的 Content-Type 设为 image/fits。</p>
+
+<p>It is important that the FITS image is read in as a pure binary/byte array (the b in the rb mode). Equally important is that the Content-Type has been set to the standard <tt>image/fits</tt> mime-type used for FITS images. If the Content-Type is not properly set to image/fits then the results are unpredictable.</p>
+<p class="zh">重要的是：FITS 图像必须以纯二进制/字节数组方式读入（即 rb 模式中的 b）；同样重要的是：Content-Type 必须正确设为 FITS 图像所用的标准 <tt>image/fits</tt> MIME 类型。如果 Content-Type 没有正确设为 image/fits，结果将不可预料。</p>
+
+<p>Then in the DS9 analysis file the command looks like:</p>
+<p class="zh">然后在 DS9 分析文件中，命令如下：</p>
+
+<pre>
+Basic Image
+*
+menu
+$url(http://127.0.0.1:5000/get_img) | $image(new)
+</pre>
+<p class="zh">用 $url 而不是 $geturl，输出管道到 $image(new)，即新建一个帧来加载该图像。</p>
+
+<p><tt>$url</tt> is used instead of <tt>$geturl</tt>. The output is piped to the <tt>$image(new)</tt> macro which will create a new frame to load the image.</p>
+<p class="zh">这里用 <tt>$url</tt> 而不是 <tt>$geturl</tt>，输出管道到 <tt>$image(new)</tt> 宏——它会新建一个帧来加载该图像。</p>
+
+<p>The URL passed to $url can contain the same GET encoded syntax as shown before, eg</p>
+<p class="zh">传给 $url 的 URL 同样可以使用前面介绍的 GET 编码语法，例如：</p>
+
+<pre>
+$param(something); $url(https://awesome.edu/endpoint?par1=$par1&par2=$par2) | $image
+</pre>
+<p class="zh">即先用 param 段弹出参数对话框，再把参数拼到 URL 中取图并显示。</p>
+
+<p><b>Using <tt>fits</tt> XPA access point.</b></p>
+<p class="zh"><b>使用 <tt>fits</tt> XPA 接入点</b></p>
+
+<p>The second technique to load an image is to use the <tt>fits</tt> XPA access point. This is necessary if there are multiple images to be returned (eg if doing a 2D fit which requires sending back separate images for the model and residual). It can also be useful if the output from the service contains multiple different outputs such as an Image and a Region to draw on that image.</p>
+<p class="zh">加载图像的第二种技术是使用 <tt>fits</tt> XPA 接入点。当需要返回多张图像时（例如做二维拟合，需要分别返回模型和残差图像）就必须这样做。当服务输出包含多种不同结果时（例如一张图像加上要叠加绘制的区域），这种方式也很有用。</p>
+
+<p>The trick is that the raw, binary FITS image cannot be used directly. The image must be gzip’ed and it must be encoded into ASCII using base64 encoding.</p>
+<p class="zh">诀窍在于：原始的二进制 FITS 图像不能直接使用，必须先 gzip 压缩，再用 base64 编码成 ASCII 文本。</p>
+
+<p>This is an example of how to convert the binary FITS file to ASCII:</p>
+<p class="zh">下面是把二进制 FITS 文件转换为 ASCII 的示例：</p>
+
+<pre>
+def _convert_image(infile):
+    'Load image, gzip, and base64 encode it'
+
+    import gzip
+    import io
+    import base64
+    import textwrap
+
+    # Load the image as raw bytes
+    with open(infile, 'rb') as fp:
+        img_data = fp.read()
+
+    # Compress the image in memory
+    compressed_buffer = io.BytesIO()
+    with gzip.GzipFile(fileobj=compressed_buffer, mode="wb") as fp:
+        fp.write(img_data)
+
+    # Encode compressed image w/ base64
+    compressed_buffer.seek(0)   # rewind
+    img_base64 = base64.b64encode(compressed_buffer.getvalue())
+
+    # Format into 80 chars wide
+    retval = textwrap.fill(img_base64.decode('ascii'), width=80)
+    return retval
+</pre>
+<p class="zh">该函数：以原始字节读入图像、在内存中用 gzip 压缩、再 base64 编码为 ASCII，最后按每行 80 列折行。</p>
+
+<p>The data are read-in as binary data. The data are then compressed, in memory, using gzip. The compressed data are then base64 encoded to ASCII. Then finally the ASCII is formatted to be 80 characters wide, which is generally standard for
+base64 messages.</p>
+<p class="zh">数据先以二进制读入，然后在内存中用 gzip 压缩；压缩后的数据再用 base64 编码为 ASCII；最后把 ASCII 格式化为每行 80 个字符——这通常是 base64 消息的标准宽度。</p>
+
+<p>We can use this conversion routine to setup our image server end point. Just as with the Plot example, the fits commands have to be wrapped inside a <tt>multipart/mixed</tt> container. This technique requires setting <tt>Content-Transfer-Encoding: base64</tt> in the header.</p>
+<p class="zh">可以用这个转换函数来搭建图像服务端点。与 plot 示例一样，fits 命令必须包在 <tt>multipart/mixed</tt> 容器中。这种技术还要求在报头设置 <tt>Content-Transfer-Encoding: base64</tt>。</p>
+
+<pre>
+@app.route("/image/")
+def send_image():
+
+    def multipart_wrap(image):
+        retval = f'--{BOUNDARY}\n'
+        retval += f'Content-Type: x-xpa/xpaset; target="{target}"; paramlist="fits new sample_img.fits.gz"\n'
+        retval += 'Content-Transfer-Encoding: base64\n\n'
+        retval += image
+        retval += f'\n--{BOUNDARY}\n'
+        return retval
+
+    target = request.args.get("target")
+    image = _convert_image("/export/img.fits")
+    retval = multipart_wrap(image)
+    response = make_response(retval)
+    response.mimetype = f'multipart/mixed; boundary="{BOUNDARY}"'
+
+    return response
+</pre>
+<p class="zh">示例：把 base64 编码后的图像作为 fits new 命令的数据体发送，指示 DS9 在新帧中加载该 gzip FITS 图像。</p>
+
+<p>In this example we used the fits new command so that the image will be loaded into a new frame.</p>
+<p class="zh">本例使用了 fits new 命令，因此图像会被加载到一个新帧中。</p>
+
+<p>The DS9 analysis command looks like:</p>
+<p class="zh">对应的 DS9 分析命令如下：</p>
+
+<pre>
+Complex Image
+*
+menu
+$geturl(http://127.0.0.1:5000/image/?target=$xpa_method) | $text
+</pre>
+<p class="zh">同样用 $xpa_method 指定目标实例。</p>
+
+<p>Using this technique users can return multiple images (eg if needed for RGB, HSV or HLS frames) or images and associated regions, etc.</p>
+<p class="zh">使用这种技术，用户可以返回多张图像（例如 RGB、HSV 或 HLS 帧所需），或者图像及其相关区域等。</p>
+
+<p><b>Download an arbitrary file</b></p>
+<p class="zh"><b>下载任意文件</b></p>
+
+<p>This technique uses XPA to control the built in web browser to download an arbitrary file. The browser window will open and then close when the download is complete. This requires two different end-points to our service</p>
+<p class="zh">这种技术用 XPA 控制 DS9 内置的 Web 浏览器来下载任意文件。浏览器窗口会打开，下载完成后自动关闭。我们的服务需要两个不同的端点：</p>
+  
+<ol>
+<li>The end point URL that is called from DS9 to initiate the download, similar to our other examples. This first URL will have the DS9 browser open the 2nd URL.</li>
+<p class="zh">从 DS9 调用以启动下载的端点 URL（与其他示例类似）。第一个 URL 会让 DS9 浏览器打开第二个 URL。</p>
+<li>The end point that serves the file.</li>
+<p class="zh">实际提供该文件下载的端点。</p>
+</ol>
+
+<pre>
+@app.route("/web/")
+def send_web():
+    target = request.args.get("target")
+    retval = f'--{BOUNDARY}\n'
+    retval += f'Content-Type: x-xpa/xpaset; target="{target}"; paramlist="web http://127.0.0.1:5000/get_file"\n\n'
+    retval += f'--{BOUNDARY}\n'
+    retval += f'Content-Type: x-xpa/xpaset; target="{target}"; paramlist="web close"\n\n'
+    retval += f'--{BOUNDARY}\n'
+    response = make_response(retval)
+    response.mimetype = f'multipart/mixed; boundary="{BOUNDARY}"'
+    return response
+
+@app.route("/get_file")
+def get_file():
+    import os
+    infile = "/export/img.fits"
+    fname = os.path.basename(infile)
+    retval = open(infile, "rb").read()
+    response = make_response(retval)
+    response.headers['Content-Type'] = f"Content-Type: application/octet-stream;name={fname}"
+    return response
+</pre>
+<p class="zh">/web 端点向 DS9 发送两条 web 命令：先打开 /get_file 下载文件，完成后关闭浏览器窗口；/get_file 端点则以 application/octet-stream 类型直接返回文件字节流。</p>
+
+<p>This first URL end point, <tt>/web</tt> is what DS9 will be use in the analysis menu, ie</p>
+<p class="zh">第一个 URL 端点 <tt>/web</tt> 就是 DS9 分析菜单中使用的端点，即：</p>
+
+<pre>
+Download File
+*
+menu
+$geturl(http://127.0.0.1:5000/web/?target=$xpa_method) | $text
+</pre>
+<p class="zh">菜单项调用 /web 端点即可触发下载流程。</p>
+
+
+<p>The <tt>/web</tt> endpoint then makes two XPA calls. The first call is to open the web browser and load the second URL endpoint, <tt>/get_file</tt>. The <tt>/get_file</tt> end point then open a file and reads it into memory as raw bytes (the b in rb). It then serves the file with Content-Type as <tt>application/octet-stream.</tt> This MIME type is used to convey an arbitrary data file which will cause the DS9 browser to prompt the user to save the file. The file name <tt>name={fname}</tt> will be the default name. After the file is saved then the /web endpoint closes the web browser window. For small files, served locally the browser window may just “flash” on the screen for an instance.</p>
+<p class="zh"><tt>/web</tt> 端点随后发起两次 XPA 调用：第一次打开 Web 浏览器并加载第二个端点 <tt>/get_file</tt>；<tt>/get_file</tt> 端点打开文件并以原始字节读入内存（rb 中的 b），然后以 Content-Type 为 <tt>application/octet-stream</tt> 提供该文件。这种 MIME 类型用于传递任意数据文件，会让 DS9 浏览器提示用户保存文件，文件名 <tt>name={fname}</tt> 为默认名称。文件保存后，/web 端点再关闭 Web 浏览器窗口。对于本地提供的小文件，浏览器窗口可能只是在屏幕上“闪”一下。</p>
+
+<p>This technique could be used to return any arbitrary results including thing such as PDF files, non-image FITS files (ie FITS tables), or any random file that is not intended to be “consumed” by DS9 directly.</p>
+<p class="zh">这种技术可以用来返回任意结果，包括 PDF 文件、非图像 FITS 文件（即 FITS 表），以及任何不打算由 DS9 直接“消费”的随机文件。</p>
+
+<p><b><a name="summary" id="summary"></a>Summary</b></p>
+<p class="zh"><b>小结</b></p>
+
+<p>This document describes how to use DS9 as an interface to cloud computing resources. It demonstrates how to handle various types of returned information including text, regions, plots, images, and arbitrary data files. It provides some guidance with respect to best practices when writing the cloud based applications.</p>
+<p class="zh">本文介绍了如何把 DS9 作为访问云计算资源的接口，演示了如何处理各种返回信息类型：文本、区域、绘图、图像和任意数据文件，并就编写基于云的应用程序给出了一些最佳实践方面的指导。</p>
+    
+</blockquote>
+</body>
+</html>

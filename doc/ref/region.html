@@ -1,0 +1,603 @@
+<!DOCTYPE doctype PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta name="generator" content="HTML Tidy for Mac OS X (vers 31 October 2006 - Apple Inc. build 17.1), see www.w3.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="GENERATOR" content="Mozilla/4.78 [en] (X11; U; Linux 2.4.7-10 i686) [Netscape]">
+<title>Regions（区域）</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="GENERATOR" content="Mozilla/4.78 [en] (X11; U; Linux 2.4.7-10 i686) [Netscape]">
+<style type="text/css">
+.zh { color: #333333; border-left: 3px solid #cccccc; padding-left: 8px; margin: 2px 0 10px 0; font-family: "Microsoft YaHei", "PingFang SC", sans-serif; }
+h2 .zh, h3 .zh, h4 .zh { color: #555555; font-weight: normal; border-left: none; padding-left: 6px; }
+li .zh { display: block; }
+</style>
+</head>
+<body bgcolor="#FFFFFF" alink="#FF0000" vlink="#551A8B" text="#000000" link="#0000FF">
+<h3><img alt="" src="../sun.png" align="middle"> Regions <span class="zh">区域</span></h3>
+<blockquote>
+<p>Regions provide a means for marking particular areas of an image for further analysis. Regions may also be used for presentation purposes. DS9 supports a number of region descriptions, each of which may be edited, moved, rotated, displayed, saved and loaded, via the GUI and XPA.</p>
+<p class="zh">区域（region）提供了一种在图像上标记特定区域以便进一步分析的手段。区域也可用于展示目的。DS9 支持多种区域描述，每种区域都可以通过 GUI 和 XPA 进行编辑、移动、旋转、显示、保存和加载。</p>
+<a href="#RegionDescriptions">Region Descriptions</a><br>
+<a href="#RegionProperties">Region Properties</a><br>
+<a href="#RegionFileFormat">Region File Format</a><br>
+<a href="#CompositeRegion">Composite Region</a><br>
+<a href="#TemplateRegion">Template Region</a><br>
+<a href="#ExternalRegionFiles">External Region Files</a><br>
+<p class="zh">
+<a href="#RegionDescriptions">区域描述</a>　<a href="#RegionProperties">区域属性</a>　<a href="#RegionFileFormat">区域文件格式</a>　<a href="#CompositeRegion">复合区域</a>　<a href="#TemplateRegion">模板区域</a>　<a href="#ExternalRegionFiles">外部区域文件</a>
+</p>
+<p><b><a name="RegionDescriptions" id="RegionDescriptions"></a>Region Descriptions</b></p>
+<p class="zh"><b>区域描述</b></p>
+<p><tt>Circle<br>
+Usage: circle x y radius # fill=[0|1]<br></tt></p>
+<p class="zh">圆（circle）：以 (x, y) 为圆心、radius 为半径；# fill=[0|1] 控制是否填充。</p>
+<p><tt>Ellipse<br>
+Usage: ellipse x y radius radius angle# fill=[0|1]</tt></p>
+<p class="zh">椭圆（ellipse）：以 (x, y) 为中心，两个半径 radius（长短轴），angle 为旋转角；# fill=[0|1] 控制是否填充。</p>
+<p><tt>Box<br>
+Usage: box x y width height angle# fill=[0|1]</tt></p>
+<p class="zh">矩形（box）：以 (x, y) 为中心，width、height 为宽高，angle 为旋转角；# fill=[0|1] 控制是否填充。</p>
+<p><tt>Polygon<br>
+Usage: polygon x1 y1 x2 y2 x3 y3 ...# fill=[0|1]</tt></p>
+<p class="zh">多边形（polygon）：依次给出各顶点 (x1,y1)、(x2,y2)、(x3,y3)……；# fill=[0|1] 控制是否填充。</p>
+<p><tt>Point<br>
+Usage: point x y # point=[circle|box|diamond|cross|x|arrow|boxcircle] [size]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; circle point x y&nbsp;</tt></p>
+<p class="zh">点（point）：在 (x, y) 处放置标记，可用 # point= 选择标记形状（圆、方框、菱形、十字、x、箭头、圆方框）及大小。</p>
+<p><tt>Line<br>
+Usage: line x1 y1 x2 y2 # line=[0|1] [0|1]</tt></p>
+<p class="zh">直线（line）：连接 (x1,y1) 与 (x2,y2)；# line=[0|1] [0|1] 控制两端是否带箭头。</p>
+<p><tt>Vector<br>
+Usage: vector x1 y1 length angle # vector=[0|1]</tt></p>
+<p class="zh">矢量（vector）：从 (x1,y1) 出发，按 length、angle 绘制；# vector=[0|1] 控制是否带箭头。</p>
+<p><tt>Segment<br>
+Usage: segment x1 y1 x2 y2 x3 y3 ...</tt></p>
+<p class="zh">折线段（segment）：依次连接各点 (x1,y1)、(x2,y2)、(x3,y3)……</p>
+<p><tt>Text<br>
+Usage: text x y # text={Your Text Here}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; text x y {Your Text Here}</tt></p>
+<p class="zh">文本（text）：在 (x, y) 处显示文字，文字内容用花括号给出，如 {Your Text Here}。</p>
+<p><tt>Ruler<br>
+Usage: ruler x1 y1 x2 y2 # ruler=[pixels|degrees|arcmin|arcsec] [format={format string}]<br></tt></p>
+<p class="zh">标尺（ruler）：在 (x1,y1) 与 (x2,y2) 之间显示距离，可用 # ruler= 选择单位（像素/度/角分/角秒），并用 format= 指定输出格式串。</p>
+<p><tt>Compass<br>
+Usage: compass x1 y1 length # compass=&lt;coordinate system&gt; &lt;north label&gt; &lt;east label&gt; [0|1] [0|1]</tt></p>
+<p class="zh">罗盘/指北针（compass）：在 (x1,y1) 处按给定坐标系绘制北/东方向，可指定北、东标签及样式开关。</p>
+<p><tt>Projection<br>
+Usage: projection x1 y1 x2 y2 width</tt></p>
+<p class="zh">投影（projection）：在点 (x1,y1) 与 (x2,y2) 之间按 width 绘制投影线。</p>
+<p><tt>Annulus<br>
+Usage: annulus x y inner outer n=#<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; annulus x y r1 r2 r3...</tt></p>
+<p class="zh">圆环（annulus）：以 (x, y) 为中心的同心环带，可直接给出各半径 r1、r2、r3……或用 inner outer n=# 指定内外半径与环数。</p>
+<p><tt>Ellipse Annulus<br>
+Usage: ellipse x y r11 r12 r21 r22 n=# [angle]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ellipse x y r11 r12 r21 r22 r31 r32 ... [angle]</tt></p>
+<p class="zh">椭圆环（ellipse annulus）：以 (x, y) 为中心的同心椭圆环带，每层给出长短两个半径，可带旋转角。</p>
+<p><tt>Box Annulus<br>
+Usage: box x y w1 h1 w2 h2 n=# [angle]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; box x y w1 h1 w2 h2 w3 h3 ... [angle]</tt></p>
+<p class="zh">矩形环（box annulus）：以 (x, y) 为中心的同心矩形环带，每层给出宽、高，可带旋转角。</p>
+<p><tt>Panda<br>
+Usage: panda x y startangle stopangle nangle inner outer nradius</tt></p>
+<p class="zh">Panda（扇形圆环）：以 (x, y) 为中心，按起始/终止角、角度数、内/外半径和径向环数划分扇环网格。</p>
+<p><tt>Epanda<br>
+Usage: epanda x y startangle stopangle nangle innerMajor innerMinor outerMajor outerMinor nradius [angle]</tt></p>
+<p class="zh">Epanda（椭圆扇形环）：panda 的椭圆版本，内、外环分别给出长短半径，可带旋转角。</p>
+<p><tt>Bpanda<br>
+Usage: bpanda x y startangle stopangle nangle innerMajor innerMinor outerMajor outerMinor nradius [angle]</tt></p>
+<p class="zh">Bpanda（矩形扇形环）：panda 的矩形版本，内、外环分别给出宽高，可带旋转角。</p>
+<p><tt>Composite<br>
+Usage: # composite x y angle</tt></p>
+<p class="zh">复合区域（composite）：以 (x, y) 为中心、angle 为旋转角，作为一组子区域的公共参照。</p>
+<p>Note: Box Annulus, Ellipse Annulus: the ratio of w1/h1 (or r11/r12) and w2/h2 (or r21/r22)  must be the same.</p>
+<p class="zh">注意：矩形环、椭圆环中，w1/h1（或 r11/r12）与 w2/h2（或 r21/r22）的比例必须相同。</p>
+<p>Note: EPanda, BPanda: the ratio of innerMajor/innerMinor and outerMajor/outerMinor must be the same.</p>
+<p class="zh">注意：EPanda、BPanda 中，innerMajor/innerMinor 与 outerMajor/outerMinor 的比例必须相同。</p>
+<p><b><a name="RegionProperties" id="RegionProperties"></a>Region Properties</b></p>
+<p class="zh"><b>区域属性</b></p>
+<p>Each region has a number of properties associated with the region, which indicates how the region is to be rendered or manipulated. Properties are defined for a region in the comment section of the region description. The exception is the Include/Exclude property. It is set via '+' or '-' preceding the region. In addition, the Line, Point, and Ruler regions have unique properties, not shared by others. Not all properties are available via the GUI or are applicable for all regions.</p>
+<p class="zh">每个区域都有若干与之关联的属性，用于规定该区域如何渲染或操作。属性在区域描述的注释段中定义。例外是 Include/Exclude（包含/排除）属性，它通过在区域前加“+”或“-”来设置。此外，直线、点和标尺区域还有各自独有的、其他区域不共享的属性。并非所有属性都能通过 GUI 设置，也并非适用于所有区域。</p>
+<blockquote>
+<p><b>Text</b></p>
+<p class="zh"><b>文本</b></p>
+<p>All regions may have text associated with them. Use the text property to set the text. Strings may be quoted with " or ' or {}. For best results, use {}.<br></p>
+<p class="zh">所有区域都可附带文本。使用 text 属性设置文本。字符串可用 "、' 或 {} 引用；为获得最佳效果，建议使用 {}。</p>
+<tt>Example: circle(100,100,20) # text={This message has both a " and ' in it}</tt>
+<p class="zh">示例：在圆区域上用 # text={...} 设置含双引号和单引号的文本（命令示例保持原样）。</p>
+<p><b>Color</b></p>
+<p class="zh"><b>颜色</b></p>
+<p>The color property specifies the color of the region when rendered. DS9 recognizes many symbolic color names (i.e. "red", "green", "blue", "pink", etc) along with 3, 6, and 9 digit RGB hex values (#fff, #ffffff, #fffffffff)<br></p>
+<p class="zh">color 属性指定区域渲染时的颜色。DS9 识别许多符号颜色名（如 "red"、"green"、"blue"、"pink" 等），以及 3 位、6 位和 9 位的 RGB 十六进制值（#fff、#ffffff、#fffffffff）。</p>
+<tt>Example:<br>
+circle(100,100,20) # color=green<br>
+circle(100,100,20) # color=#48f</tt>
+<p class="zh">示例：分别用颜色名 green 和十六进制 #48f 指定圆的颜色（命令示例保持原样）。</p>
+<p><b>Dash List</b></p>
+<p class="zh"><b>虚线间隔样式</b></p>
+<p>Sets dashed line parameters. This does not render the region in dashed lines.</p>
+<p class="zh">设置虚线的间隔参数。注意：仅此属性并不会以虚线渲染区域（还需配合 dash 属性）。</p>
+<tt>Example: circle(100,100,20) # dashlist=8 3</tt><br>
+<p class="zh">示例：设置虚线样式为 8 实 3 空（命令示例保持原样）。</p>
+<p><b>Width</b></p>
+<p class="zh"><b>线宽</b></p>
+<p>Sets the line width used to render the region.</p>
+<p class="zh">设置渲染区域所用的线宽。</p>
+<tt>Example: circle(100,100,20) # width=2</tt><br>
+<p class="zh">示例：设置圆的线宽为 2（命令示例保持原样）。</p>
+<p><b>Font</b></p>
+<p class="zh"><b>字体</b></p>
+<p>The font property specifies the font family, size, weight, and slant of any text to be displayed along with the region.</p>
+<p class="zh">font 属性指定随区域一同显示的文本的字体族、字号、字重和倾斜。</p>
+<tt>Example: circle(100,100,20) # font="times 12 bold italic"</tt>
+<p class="zh">示例：指定文本字体为 times、12 号、粗斜体（命令示例保持原样）。</p>
+<p><b>Can Select</b></p>
+<p class="zh"><b>可否被选中</b></p>
+<p>The Select property specifies if the user is allowed to select (hence, edit) the region via the GUI. For Regions used for catalogs and such, it is desirable that the user is unable to edit, move, or delete the region.<br></p>
+<p class="zh">select 属性指定是否允许用户通过 GUI 选中（进而编辑）该区域。对于用于星表等用途的区域，通常希望用户不能编辑、移动或删除它。</p>
+<tt>Example: circle(100,100,20) # select=1</tt><br>
+<p class="zh">示例：允许选中该圆区域（命令示例保持原样）。</p>
+<p><b>Can Highlite</b></p>
+<p class="zh"><b>可否高亮显示</b></p>
+The Highlite property specifies if the edit handles become visible when the region is selected.<br>
+<p class="zh">highlite 属性指定当区域被选中时，是否显示其编辑手柄（控制点）。</p>
+<tt>Example: circle(100,100,20) # highlite=1</tt><br>
+<p class="zh">示例：选中区域时显示编辑手柄（命令示例保持原样）。</p>
+<p><b>Dash</b></p>
+<p class="zh"><b>虚线渲染</b></p>
+<p>Render region using dashed lines using current <tt>dashlist</tt> value.</p>
+<p class="zh">使用当前 <tt>dashlist</tt> 值以虚线渲染区域。</p>
+<tt>Example: circle(100,100,20) # dash=1</tt><br>
+<p class="zh">示例：以虚线渲染该圆（命令示例保持原样）。</p>
+<p><b>Fixed in Size</b></p>
+<p class="zh"><b>固定大小</b></p>
+<p>The Fixed in Size property specifies that the region does not change in size as the image magnification factor changes. This allows the user to build complex pointer type regions.</p>
+<p class="zh">fixed 属性指定该区域不随图像放大倍数变化而改变大小。这使用户可以构建复杂的指针类型区域。</p>
+<tt>Example: circle(100,100,20) # fixed=1</tt>
+<p class="zh">示例：固定该圆的屏幕大小（命令示例保持原样）。</p>
+<p><b>Can Edit</b></p>
+<p class="zh"><b>可否编辑</b></p>
+<p>The Edit property specifies if the user is allowed to edit the region via the GUI.</p>
+<p class="zh">edit 属性指定是否允许用户通过 GUI 编辑该区域。</p>
+<tt>Example: circle(100,100,20) # edit=1</tt>
+<p class="zh">示例：允许编辑该圆（命令示例保持原样）。</p>
+<p><b>Can Move</b></p>
+<p class="zh"><b>可否移动</b></p>
+<p>The Move property specifies if the user is allowed to move the region via the GUI.</p>
+<p class="zh">move 属性指定是否允许用户通过 GUI 移动该区域。</p>
+<tt>Example: circle(100,100,20) # move=1</tt>
+<p class="zh">示例：允许移动该圆（命令示例保持原样）。</p>
+<p><b>Can Rotate</b></p>
+<p class="zh"><b>可否旋转</b></p>
+<p>The Rotate property specifies if the user is allowed to rotate the region via the GUI.</p>
+<p class="zh">rotate 属性指定是否允许用户通过 GUI 旋转该区域。</p>
+<tt>Example: circle(100,100,20) # rotate=1</tt>
+<p class="zh">示例：允许旋转该圆（命令示例保持原样）。</p>
+<p><b>Can Delete</b></p>
+<p class="zh"><b>可否删除</b></p>
+<p>The Delete property specifies if the user is allowed to delete the region via the GUI.</p>
+<p class="zh">delete 属性指定是否允许用户通过 GUI 删除该区域。</p>
+<tt>Example: circle(100,100,20) # delete=1</tt>
+<p class="zh">示例：允许删除该圆（命令示例保持原样）。</p>
+<p><b>Include/Exclude</b></p>
+<p class="zh"><b>包含/排除</b></p>
+<p>The Include/Exclude properties flags the region with a boolean <tt>NOT</tt> for later analysis. Use '+' for include (default), '-' for exclude.</p>
+<p class="zh">Include/Exclude 属性用布尔 <tt>NOT</tt> 标记该区域，供后续分析使用。用“+”表示包含（默认），“-”表示排除。</p>
+<tt>Example: -circle(100,100,20)<br></tt>
+<p class="zh">示例：以“-”开头表示排除该圆区域（命令示例保持原样）。</p>
+<p><b>Source/Background</b></p>
+<p class="zh"><b>源/背景</b></p>
+<p>The Source/Background properties flag the region for use with other analysis applications. The default is <tt>source</tt></p>
+<p class="zh">Source/Background 属性标记该区域，供其他分析应用程序使用。默认为 <tt>source</tt>（源）。</p>
+<tt>Example: circle(100,100,20) # source<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;circle(200,200,10) # background</tt><br>
+<p class="zh">示例：分别将两个圆标记为源（source）和背景（background）（命令示例保持原样）。</p>
+<p><b>Tag</b></p>
+<p class="zh"><b>标签</b></p>
+<p>All regions may have zero or more tags associated with it, which may be used for grouping and searching.</p>
+<p class="zh">所有区域都可以关联零个或多个标签（tag），用于分组和搜索。</p>
+<tt>Example:&nbsp; circle(100,100,20) # tag={Group 1} tag={Group 2}</tt>
+<p class="zh">示例：为圆区域附加两个分组标签（命令示例保持原样）。</p>
+<p><b>Callback</b></p>
+<p class="zh"><b>回调</b></p>
+<p>The callback property registers a Tcl procedure to be called when a region event occurs. The format is:</p>
+<p class="zh">callback 属性注册一个 Tcl 过程，当发生区域事件时调用。其格式为：</p>
+<blockquote><tt>callback=&lt;event&gt; &lt;proc&gt; [&lt;arg&gt; ...]</tt></blockquote>
+<p class="zh">（回调格式：callback=&lt;事件&gt; &lt;过程名&gt; [&lt;参数&gt; ...]，保持原样。）</p>
+<p>When the event fires, DS9 calls the Tcl procedure with any arguments specified in the region file, followed by the marker id. Supported events include selection and highlight events such as <tt>select</tt>, <tt>unselect</tt>, <tt>highlite</tt>, and <tt>unhighlite</tt>; geometry and editing events such as <tt>move</tt>, <tt>edit</tt>, <tt>rotate</tt>, and <tt>delete</tt>; property events such as <tt>text</tt>, <tt>color</tt>, <tt>width</tt>, <tt>font</tt>, and <tt>property</tt>; the <tt>key</tt> event; and begin/end forms such as <tt>begin move</tt>, <tt>end move</tt>, <tt>begin edit</tt>, <tt>end edit</tt>, <tt>begin rotate</tt>, and <tt>end rotate</tt>.
+
+</p>
+<p class="zh">事件触发时，DS9 调用该 Tcl 过程，先传入区域文件中指定的参数，再传入标记 id。支持的事件包括：选择与高亮事件（如 <tt>select</tt>、<tt>unselect</tt>、<tt>highlite</tt>、<tt>unhighlite</tt>）；几何与编辑事件（如 <tt>move</tt>、<tt>edit</tt>、<tt>rotate</tt>、<tt>delete</tt>）；属性事件（如 <tt>text</tt>、<tt>color</tt>、<tt>width</tt>、<tt>font</tt>、<tt>property</tt>）；<tt>key</tt> 事件；以及 begin/end 形式（如 <tt>begin move</tt>、<tt>end move</tt>、<tt>begin edit</tt>、<tt>end edit</tt>、<tt>begin rotate</tt>、<tt>end rotate</tt>）。</p>
+<tt>Example: circle(100,100,20) # callback=select HelloWorldCB {"Hello World"}</tt>
+<p class="zh">示例：当选中该圆时调用 HelloWorldCB 过程并传入参数（命令示例保持原样）。</p>
+<p>A simple Tcl callback may be loaded with the <tt>-source</tt> command line option before loading the region file:</p>
+<p class="zh">在加载区域文件之前，可通过 <tt>-source</tt> 命令行选项加载一个简单的 Tcl 回调：</p>
+<blockquote><tt>proc HelloWorldCB {message id} {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;puts stderr "$message from region $id"<br>
+}</tt></blockquote>
+<p class="zh">（上面定义了 HelloWorldCB 过程：把消息和区域 id 输出到 stderr，保持原样。）</p>
+<p>With a region file containing:</p>
+<p class="zh">再配合一个包含如下内容的区域文件：</p>
+<blockquote><tt># Region file format: DS9 version 4.0<br>
+image<br>
+circle(100,100,20) # callback=select HelloWorldCB {"Hello World"}</tt></blockquote>
+<p class="zh">（上面为区域文件示例：声明坐标系为 image，并在圆区域上注册 select 回调，保持原样。）</p>
+<p>For example:</p>
+<p class="zh">例如：</p>
+<blockquote><tt>$ds9 img.fits -source hello.tcl -region hello.reg</tt></blockquote>
+<p class="zh">（上面为启动命令：加载 img.fits、源码 hello.tcl 和区域文件 hello.reg，保持原样。）</p>
+<p>
+When the region is selected the text <code>Hello World from region 1</code> is displayed in the terminal where ds9 was started.
+</p>
+<p class="zh">当该区域被选中时，启动 ds9 的终端中会显示文本 <code>Hello World from region 1</code>。</p>
+
+
+<p><b>Circle | Ellipse | Box | Polygon<br></b></p>
+<p class="zh"><b>圆 | 椭圆 | 矩形 | 多边形</b></p>
+<p>Circle, ellipse, box, and polygon regions may be rendered with outline or solid color fill. To indicate fill, use the fill property. A '1' indicates fill, '0' indicates no outline.</p>
+<p class="zh">圆、椭圆、矩形和多边形区域可以用轮廓或纯色填充渲染。用 fill 属性指定是否填充：'1' 表示填充，'0' 表示无轮廓。</p>
+<tt>Example: circle(100,100,20) # fill=1</tt>
+<p class="zh">示例：以填充方式渲染该圆（命令示例保持原样）。</p>
+<p><b>Line</b></p>
+<p class="zh"><b>直线</b></p>
+<p>The line region may be rendered with arrows, one at each end. To indicate arrows, use the line property. A '1' indicates an arrow, '0' indicates no arrow.</p>
+<p class="zh">直线区域可在两端各带一个箭头。用 line 属性指定箭头：'1' 表示带箭头，'0' 表示不带。</p>
+<tt>Example: line(100,100,200,200) # line=1 1</tt>
+<p class="zh">示例：两端都带箭头的直线（命令示例保持原样）。</p>
+<p><b>Ruler</b></p>
+<p class="zh"><b>标尺</b></p>
+<p>The ruler region may display information in 'pixels', 'degrees', 'arcmin', or 'arcsec'. Use the ruler property to indicate which format to display distances in.</p>
+<p class="zh">标尺区域可以用 'pixels'（像素）、'degrees'（度）、'arcmin'（角分）或 'arcsec'（角秒）显示距离。用 ruler 属性指定距离的显示单位。</p>
+<p>The format of the distance can be defined via a format string, which is any valid string for use in printf() to display an integer or real value (i.e. %d, %e, %f), and may be quoted with " or ' or {}. For best results, use {}.</p>
+<p class="zh">距离的格式可通过格式串定义，该格式串可以是 printf() 中用于显示整数或实数的任何有效字符串（如 %d、%e、%f），可用 "、' 或 {} 引用；为获得最佳效果，建议使用 {}。</p>
+<tt>Example: ruler(100,100,200,200) # ruler=arcmin format={%e}</tt>
+<p class="zh">示例：以角分为单位、用 %e 格式显示标尺距离（命令示例保持原样）。</p>
+<p><b>Point</b></p>
+<p class="zh"><b>点</b></p>
+<p>Point regions have an associated type and size. Use the point property to set the point type.</p>
+<p class="zh">点区域具有关联的类型和大小。用 point 属性设置点的类型。</p>
+<tt>Example: point(100,100) # point=diamond 31</tt>
+<p class="zh">示例：在 (100,100) 放置大小为 31 的菱形点（命令示例保持原样）。</p>
+<p><b>Text</b></p>
+<p class="zh"><b>文本</b></p>
+<p>Text regions may have a text angle and rotate property. Use <tt>textangle</tt> to specify angle in degress based on current coordinate system axes. Use <tt>textrotate</tt> to enable or disable text rotation.<br></p>
+<p class="zh">文本区域可具有文本角度和旋转属性。用 <tt>textangle</tt> 基于当前坐标系的坐标轴指定角度（度）。用 <tt>textrotate</tt> 启用或禁用文本旋转。</p>
+<tt>Example: text(731,957) textangle=30 textrotate=0 text={Region}</tt>
+<p class="zh">示例：在 (731,957) 放置文本 {Region}，角度 30 度、不旋转（命令示例保持原样）。</p>
+<p><b>Default Properties</b></p>
+<p class="zh"><b>默认属性</b></p>
+<p>The default properties are:</p>
+<p class="zh">默认属性为：</p>
+<blockquote><tt>text={}</tt><br>
+<tt>color=green</tt><br>
+<tt>font="helvetica 10 normal roman"</tt><br>
+<tt>select=1</tt><br>
+<tt>edit=1</tt><br>
+<tt>move=1</tt><br>
+<tt>delete=1</tt><br>
+<tt>highlite=1</tt><br>
+<tt>include=1</tt><br>
+<tt>fixed=0</tt></blockquote>
+<p class="zh">（上面列出各属性的默认值：无文本、绿色、helvetica 10 常规正体、可选中/编辑/移动/删除/高亮/包含、不固定大小，保持原样。）</p>
+</blockquote>
+<p><b><a name="RegionFileFormat" id="RegionFileFormat"></a>Region File Format</b></p>
+<p class="zh"><b>区域文件格式</b></p>
+<blockquote>
+<p><b>Syntax</b></p>
+<p class="zh"><b>语法</b></p>
+<p>Region arguments may be separated with either a comma or space. Optional parentheses may be used a the beginning and end of a description.</p>
+<p class="zh">区域参数之间可以用逗号或空格分隔。在描述的开头和结尾可选用括号。</p>
+<blockquote><tt>circle 100 100 10</tt><br>
+<tt>circle(100 100 10)</tt><br>
+<tt>circle(100,100,10)</tt></blockquote>
+<p class="zh">（上面三种写法等价，均表示在 (100,100) 处半径 10 的圆，保持原样。）</p>
+<p><b>Comments</b></p>
+<p class="zh"><b>注释</b></p>
+<p>All lines that begin with <tt>#</tt> are comments and will be ignored.</p>
+<p class="zh">所有以 <tt>#</tt> 开头的行都是注释，将被忽略。</p>
+<blockquote><tt># This is a comment</tt></blockquote>
+<p class="zh">（上面为注释行示例，保持原样。）</p>
+<p><b>Delimiter</b></p>
+<p class="zh"><b>分隔符</b></p>
+<p>All lines may be delimited with either a new-line or semi-colon.</p>
+<p class="zh">各行之间可以用换行或分号作为分隔符。</p>
+<blockquote><tt>circle 100 100 10</tt><br>
+<tt>ellipse 200 200 20 40 ; box 300 300 20 40</tt></blockquote>
+<p class="zh">（上面用分号在同一行分隔多个区域定义，保持原样。）</p>
+<p><b>Header</b></p>
+<p class="zh"><b>文件头</b></p>
+<p>A DS9 region file may start with the following optional header:</p>
+<p class="zh">DS9 区域文件可以以下面这个可选文件头开头：</p>
+<blockquote><tt># Region file format: DS9 version 4.0</tt></blockquote>
+<p class="zh">（上面为区域文件头示例，保持原样。）</p>
+<p><b>Global Properties</b></p>
+<p class="zh"><b>全局属性</b></p>
+<p>Global properties affect all regions unless a local property is specified. The <tt>global</tt> keyword is first, followed by a list of keyword = value pairs. Multiple global property lines may be used within a region file.</p>
+<p class="zh">除非指定了局部属性，否则全局属性会作用于所有区域。先写 <tt>global</tt> 关键字，后跟一组“关键字 = 值”对。区域文件中可使用多行全局属性。</p>
+<blockquote><tt>global color=green font="helvetica 10 normal roman" edit=1 move=1 delete=1 highlite=1 include=1 wcs=wcs</tt></blockquote>
+<p class="zh">（上面为全局属性示例，保持原样。）</p>
+<p><b>Local Properties</b></p>
+<p class="zh"><b>局部属性</b></p>
+<p>Local properties start with a # after a region description and only affect the region it is specified with.</p>
+<p class="zh">局部属性在区域描述之后以 # 开头，仅作用于所指定的那个区域。</p>
+<blockquote><tt>physical;circle(504,513,20) # color=red text={This is a Circle}</tt></blockquote>
+<p class="zh">（上面为局部属性示例：在 physical 坐标系下的圆上设置红色和文本，保持原样。）</p>
+<p><b>Coordinate Systems</b></p>
+<p class="zh"><b>坐标系</b></p>
+<p>For each region, it is important to specify the coordinate system used to interpret the region, i.e., to set the context in which the position and size values are interpreted. For this purpose, the following keywords are recognized:</p>
+<p class="zh">对于每个区域，必须指定用于解释该区域的坐标系，即设定位置和大小数值被解读的上下文。为此，DS9 识别以下关键字：</p>
+<blockquote>
+<blockquote><tt>PHYSICAL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # pixel coords of original file using LTM/LTV<br>
+IMAGE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # pixel coords of current file<br>
+FK4,B1950&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; # sky coordinate systems<br>
+FK5,J2000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # sky coordinate systems<br>
+ICRS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # sky coordinate systems<br>
+GALACTIC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # sky coordinate systems<br>
+ECLIPTIC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # sky coordinate systems<br>
+WCS&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; # primary WCS<br>
+WCSA &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; # secondary WCS<br>
+LINEAR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # linear primary WCS<br></tt></blockquote>
+</blockquote>
+<p class="zh">（上方列出可用坐标系：PHYSICAL/IMAGE 为像素坐标，FK4、FK5、ICRS、银道、黄道为天球坐标系，WCS/WCSA 为主/次 WCS，LINEAR 为线性主 WCS。命令关键字保持原样。）</p>
+<p><b>Mosaic Images</b></p>
+<p class="zh"><b>拼接图像</b></p>
+<p>While some coordinate systems are unique across mosaic images, others coordinate systems, such as <tt>image</tt>, or <tt>physical</tt> , are valid on a per segment basis. In this case, use <tt>tile</tt> to specify which header to use in all coordinate conversions. The default is the first header, or <tt>tile 1</tt>.</p>
+<p class="zh">虽然某些坐标系在整幅拼接图像（mosaic）中是唯一的，但另一些坐标系（如 <tt>image</tt> 或 <tt>physical</tt>）仅在每个分段（segment）内有效。此时用 <tt>tile</tt> 指定在所有坐标转换中使用哪个文件头。默认是第一个文件头，即 <tt>tile 1</tt>。</p>
+<tt>Example: tile 2;fk5;point(100,100)</tt>
+<p class="zh">示例：指定使用第 2 个分段文件头、fk5 坐标系，并在 (100,100) 处放一个点（命令示例保持原样）。</p>
+<p><b>Multiple WCS</b></p>
+<p class="zh"><b>多个 WCS</b></p>
+<p>If an image has multiple wcs's defined, use <tt>wcs#</tt> to specify which wcs to use for all wcs references. Valid values are <tt>wcs, wcsa, wcsb, wcsc... wcsz.</tt><br>
+<tt>Example: wcsa;linear;point(100,100) # point=diamond</tt></p>
+<p class="zh">如果一幅图像定义了多个 WCS，用 <tt>wcs#</tt> 指定所有 wcs 引用使用哪一个。合法值为 <tt>wcs、wcsa、wcsb、wcsc……wcsz</tt>。示例：使用 wcsa、linear 坐标系，并在 (100,100) 放菱形点（命令示例保持原样）。</p>
+<p><b>Specifying Positions and Sizes</b></p>
+<p class="zh"><b>指定位置与大小</b></p>
+<p>The arguments to region shapes can be floats or integers describing positions and sizes. They can be specified as pure numbers or using explicit formatting directives:</p>
+<p class="zh">区域形状的参数可以是描述位置和大小的浮点数或整数。它们可以写成纯数字，也可以使用显式的格式指示符：</p>
+<blockquote>
+<p><b>position arguments</b></p>
+<p class="zh"><b>位置参数</b></p>
+<tt>[num]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # context-dependent (see below)</tt><br>
+<tt>[num]d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # degrees</tt><br>
+<tt>[num]r&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # radians</tt><br>
+<tt>[num]p&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # physical pixels</tt><br>
+<tt>[num]i&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # image pixels</tt><br>
+<tt>[num]:[num]:[num]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # hms for 'odd' position arguments</tt><br>
+<tt>[num]:[num]:[num]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # dms for 'even' position arguments</tt><br>
+<tt>[num]h[num]m[num]s&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # explicit hms</tt><br>
+<tt>[num]d[num]m[num]s&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # explicit dms</tt>
+<p class="zh">（位置参数格式：纯数字按上下文解释；d=度、r=弧度、p=物理像素、i=图像像素；hms/dms 分别用于奇偶位置参数。命令示例保持原样。）</p>
+<p><b>size arguments</b></p>
+<p class="zh"><b>大小参数</b></p>
+<tt>[num]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # context-dependent (see below)</tt><br>
+<tt>[num]"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # arc sec</tt><br>
+<tt>[num]'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # arc min</tt><br>
+<tt>[num]d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # degrees</tt><br>
+<tt>[num]r&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # radians</tt><br>
+<tt>[num]p&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # physical pixels</tt><br>
+<tt>[num]i&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # image pixels</tt></blockquote>
+<p class="zh">（大小参数格式：纯数字按上下文解释；"=角秒、'=角分、d=度、r=弧度、p=物理像素、i=图像像素。命令示例保持原样。）</p>
+<p>When a "pure number" (i.e. one without a format directive such as 'd' for 'degrees') is specified, its interpretation depends on the context defined by the 'coordsys' keyword. In general, the rule is:</p>
+<p class="zh">当指定“纯数字”（即不带格式指示符，如表示“度”的 'd'）时，其解释取决于 'coordsys' 关键字所定义的上下文。一般规则是：</p>
+<p><i>All pure numbers have implied units corresponding to the current coordinate system.</i></p>
+<p class="zh"><i>所有纯数字都带有与当前坐标系相对应的隐含单位。</i></p>
+<p>If no such system is explicitly specified, the default system is implicitly assumed to be <tt>PHYSICAL</tt>. In practice this means that for <tt>IMAGE</tt> and <tt>PHYSICAL</tt> systems, pure numbers are pixels. Otherwise, for all systems other than linear, pure numbers are degrees. For <tt>LINEAR</tt> systems, pure numbers are in the units of the linear system. This rule covers both positions and sizes. The input values to each shape can be specified in several coordinate systems including:</p>
+<p class="zh">若未显式指定坐标系，则默认隐含为 <tt>PHYSICAL</tt>。实际意味着：对于 <tt>IMAGE</tt> 和 <tt>PHYSICAL</tt> 系统，纯数字就是像素；对线性以外的所有其他系统，纯数字是度；对于 <tt>LINEAR</tt> 系统，纯数字以该线性系统的单位计。此规则同时适用于位置和大小。每个形状的输入值可在多种坐标系中指定，包括：</p>
+<blockquote><tt>IMAGE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # pixel coords of current file</tt><br>
+<br>
+<tt>LINEAR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # linear wcs as defined in file</tt>
+<p><tt>FK4, B1950&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # sky coordinate systems</tt><br>
+<tt>FK5, J2000</tt><br>
+<tt>GALACTIC</tt><br>
+<tt>ECLIPTIC</tt><br>
+<tt>ICRS</tt><br>
+<tt>PHYSICAL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # pixel coords of original file using LTM/LTV</tt><br>
+<tt>AMPLIFIER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # mosaic coords of original file using ATM/ATV</tt><br>
+<tt>DETECTOR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # mosaic coords of original file using DTM/DTV</tt><br>
+<br>
+<tt>WCS,WCSA-WCSZ&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; # specify which WCS system to be used for<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; # linear and sky coordinate systems<br></tt></p>
+</blockquote>
+<p class="zh">（上方列出可用于输入值的坐标系：IMAGE/LINEAR、FK4/FK5、银道、黄道、ICRS、PHYSICAL、AMPLIFIER、DETECTOR，以及 WCS/WCSA–WCSZ。命令关键字保持原样。）</p>
+<p>If no coordinate system is specified, <tt>PHYSICAL</tt> is assumed. <tt>PHYSICAL</tt> or a World Coordinate System such as <tt>J2000</tt> is preferred and most general. The coordinate system specifier should appear at the beginning of the region description, on a separate line (in a file), or followed by a new-line or semicolon; e.g.,</p>
+<p class="zh">若未指定坐标系，则假定为 <tt>PHYSICAL</tt>。优先使用 <tt>PHYSICAL</tt> 或某个世界坐标系（如 <tt>J2000</tt>），它最通用。坐标系说明符应出现在区域描述的开头，在文件中单独占一行，或后接换行/分号；例如：</p>
+<blockquote><tt>image; circle 100 100 10</tt><br>
+<tt>physical; ellipse 200 200 10 20</tt><br>
+<tt>fk5; point 30 50</tt><br>
+<tt>wcsa; fk4; point 202 47</tt><br>
+<tt>wcsp; linear; point 100 100</tt><br></blockquote>
+<p class="zh">（上面为各坐标系前缀用法示例，保持原样。）</p>
+<p>The use of celestial input units automatically implies WORLD coordinates of the reference image. Thus, if the world coordinate system of the reference image is <tt>J2000</tt>, then</p>
+<p class="zh">使用天球输入单位会自动隐含为参考图像的世界坐标。因此，若参考图像的世界坐标系为 <tt>J2000</tt>，则</p>
+<blockquote><tt>circle 10:10:0 20:22:0 3'</tt></blockquote>
+<p class="zh">（上面为以时分秒/角分形式给出的圆，保持原样。）</p>
+<p>is equivalent to:<br></p>
+<p class="zh">等价于：</p>
+<blockquote><tt>j2000; circle 10:10:0 20:22:0 3'</tt></blockquote>
+<p class="zh">（上面显式写出 j2000 前缀，保持原样。）</p>
+<p>Note that by using units as described above, you may mix coordinate systems within a region specifier; e.g.,</p>
+<p class="zh">注意：通过上述单位用法，可以在一个区域说明中混用坐标系；例如：</p>
+<blockquote><tt>physical; circle 6500 9320 3'<br></tt></blockquote>
+<p class="zh">（上面在 physical 像素坐标系中、半径用角分单位 3'，保持原样。）</p>
+<p>Note that, for regions which accept a rotation angle such as:</p>
+<p class="zh">注意：对于接受旋转角的区域，如：</p>
+<blockquote><tt>ellipse (x, y, r1, r2, angle)<br>
+box(x, y, w, h, angle)</tt></blockquote>
+<p class="zh">（上面为带旋转角的椭圆/矩形形状签名，保持原样。）</p>
+<p>the angle is relative to the specified coordinate system. In particular, if the region is specified in WCS coordinates, the angle is related to the WCS system, not x/y image coordinate axis. For WCS systems with no rotation, this obviously is not an issue. However, some images do define an implicit rotation (e.g., by using a non-zero CROTA value in the WCS parameters) and for these images, the angle will be relative to the WCS axes. In such case, a region specification such as:</p>
+<p class="zh">该角度是相对于所指定的坐标系而言的。特别是，若区域以 WCS 坐标指定，则该角度相对于 WCS 系统，而非 x/y 图像坐标轴。对于无旋转的 WCS 系统，这显然不成问题。但有些图像确实定义了隐式旋转（例如在 WCS 参数中使用非零的 CROTA 值），对这些图像，角度将相对于 WCS 坐标轴。在这种情况下，如下的区域说明：</p>
+<blockquote><tt>fk4;ellipse(22:59:43.985, +58:45:26.92,320", 160", 30)</tt></blockquote>
+<p class="zh">（上面为以 fk4 天球坐标给出、旋转角 30 度的椭圆，保持原样。）</p>
+<p>will not, in general, be the same region specified as:</p>
+<p class="zh">一般来说，并不等同于如下方式指定的区域：</p>
+<blockquote><tt>physical;ellipse(465, 578, 40, 20, 30)</tt></blockquote>
+<p class="zh">（上面为以 physical 像素坐标给出、旋转角 30 度的椭圆，保持原样。）</p>
+<p>even when positions and sizes match. The angle is relative to WCS axes in the first case, and relative to physical x,y axes in the second.</p>
+<p class="zh">即使位置和大小相同也是如此。第一种情形中角度相对于 WCS 坐标轴，第二种情形中相对于 physical 的 x、y 轴。</p>
+</blockquote>
+<p><b><a name="CompositeRegion" id="CompositeRegion"></a>Composite Region</b></p>
+<p class="zh"><b>复合区域</b></p>
+<p>A Composite Region is a region which is a collection of other regions, which share common properties. A composite region is composed of a center point and a rotation angle, to which all its members are rendered in reference. A union composite uses <tt>||</tt> to join regions and contains points inside any member. An intersection composite uses <tt>&amp;&amp;</tt> to join regions and contains points inside every member. The operators may not be mixed within one composite. An intersection containing a region without area, such as a line, point, or text region, is empty. Existing composite regions using <tt>||</tt> remain unions. A composite region is manipulated as a single region within ds9. A composite region may be created from the current selection of regions by selecting Create Union or Create Intersection from the Composite Region menu. The command-line, XPA, and SAMP region commands accept <tt>composite union</tt> and <tt>composite intersection</tt>; <tt>composite</tt> without an operation creates a union for backward compatibility. Likewise, a composite region can be dissolved by selecting the Dissolve Composite Region menu option.</p>
+<p class="zh">复合区域（Composite Region）是一种由其他区域集合而成、共享公共属性的区域。它由一个中心点和一个旋转角构成，其所有成员都参照该中心和角度渲染。并集复合区域用 <tt>||</tt> 连接各区域，包含落在任一成员内部的点；交集复合区域用 <tt>&amp;&amp;</tt> 连接各区域，包含落在每个成员内部的点。在一个复合区域内不能混用这两种运算符。若交集包含没有面积的区域（如直线、点或文本区域），则该交集为空。已有的使用 <tt>||</tt> 的复合区域仍为并集。在 ds9 中，复合区域作为单个区域被操作。可通过 Composite Region 菜单中的 Create Union 或 Create Intersection，从当前选中的区域创建复合区域。命令行、XPA 和 SAMP 的区域命令接受 <tt>composite union</tt> 和 <tt>composite intersection</tt>；不带运算符的 <tt>composite</tt> 为向后兼容而创建并集。同样，可通过 Dissolve Composite Region 菜单选项解散复合区域。</p>
+<p><b><a name="StatisticsCatalog" id="StatisticsCatalog"></a>Region Statistics Catalog</b></p>
+<p class="zh"><b>区域统计星表</b></p>
+<p><tt>Analysis -&gt; Make Catalog</tt> measures all supported user regions in the current image frame and opens the results in a live Catalog Tool. The same operation is available from the command line, XPA, and SAMP as <tt>catalog make</tt>. Invoking it again for the same frame raises and recalculates the existing catalog; each frame may own one such catalog.</p>
+<p class="zh"><tt>Analysis -&gt; Make Catalog</tt> 会测量当前图像帧中所有受支持的用户区域，并在一个实时的 Catalog Tool（星表工具）中打开结果。同一操作在命令行、XPA 和 SAMP 中为 <tt>catalog make</tt>。对同一帧再次调用时，会调出并重新计算已有的星表；每个帧最多拥有一个这样的星表。</p>
+<p>Measurements are supported for circle, ellipse, box, polygon, annulus, ellipse annulus, box annulus, panda, epanda, and bpanda regions. A composite containing exactly one supported member is measured as that member, which supports regions imported from CIAO and FITS source tables. Points, lines, vectors, projections, text, rulers, compasses, segments, fixed-size regions, and genuine multi-member composites are omitted. Source, background, included, excluded, and grouped user regions are retained and identified by the <tt>background</tt> and <tt>exclude</tt> columns. The global Region Show/Hide control affects only display and does not change catalog membership. Catalog and footprint markers are never measured.</p>
+<p class="zh">受支持的测量形状包括圆、椭圆、矩形、多边形、圆环、椭圆环、矩形环、panda、epanda 和 bpanda。恰好包含一个受支持成员的复合区域按该成员测量，这支持从 CIAO 和 FITS 源表导入的区域。点、直线、矢量、投影、文本、标尺、罗盘、折线段、固定大小区域以及真正的多成员复合区域均被略过。源、背景、包含、排除和分组的用户区域会被保留，并通过 <tt>background</tt> 和 <tt>exclude</tt> 列标识。全局的 Region Show/Hide（显示/隐藏）控制只影响显示，不改变星表成员资格。星表和足迹标记永远不会被测量。</p>
+<p>Each row is identified by <tt>region_id</tt> and a one-based <tt>component</tt>. Simple shapes have one component. Annulus components are the non-overlapping radial bands between adjacent radii. Panda-family components are the non-overlapping radial and angular cells, with angular cells varying fastest within each radial band. Supported components containing no finite image pixels remain in the catalog with <tt>npix</tt> equal to zero and the other measurements blank.</p>
+<p class="zh">每一行由 <tt>region_id</tt> 和从 1 开始编号的 <tt>component</tt> 标识。简单形状只有一个分量。圆环的分量是相邻半径之间互不重叠的径向环带。panda 系列的分量是互不重叠的径向与角度网格单元，在每个径向环带内角度单元变化最快。不含有限图像像素的受支持分量仍保留在星表中，其 <tt>npix</tt> 为 0，其余测量值留空。</p>
+<p>The catalog contains the region ID, component, shape, background and exclusion flags, the region center, and these measurements:</p>
+<p class="zh">星表包含区域 ID、分量、形状、背景与排除标记、区域中心，以及以下测量值：</p>
+<blockquote><tt>
+sum&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sum of finite pixel values<br>
+error&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sqrt(abs(sum))<br>
+area&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; area represented by the finite pixels<br>
+surf_bri&nbsp;&nbsp;&nbsp; sum divided by area<br>
+surf_err&nbsp;&nbsp;&nbsp; error divided by area<br>
+npix&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; number of finite pixels<br>
+mean&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; arithmetic mean<br>
+median&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; upper middle value of the sorted pixels<br>
+min, max&nbsp;&nbsp;&nbsp; minimum and maximum<br>
+var&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; population variance<br>
+stddev&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; population standard deviation<br>
+rms&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; root mean square<br>
+centroid_x, centroid_y&nbsp;&nbsp; intensity-weighted image coordinates<br>
+centroid_wcs_x, centroid_wcs_y&nbsp;&nbsp; intensity-weighted WCS coordinates
+</tt></blockquote>
+<p class="zh">（上方列出星表各测量列：sum=有限像素值之和；error=sqrt(abs(sum))；area=有限像素代表的面积；surf_bri=sum/面积；surf_err=error/面积；npix=有限像素数；mean=算术平均；median=排序后像素的中值；min/max=最小/最大值；var=总体方差；stddev=总体标准差；rms=均方根；centroid_x/y=强度加权的图像坐标；centroid_wcs_x/y=强度加权的 WCS 坐标。列名保持原样。）</p>
+<p>Centroids use the centers of finite pixels as positions and the pixel values as weights, matching DS9's existing centroid behavior. A centroid is blank when the component is empty or its total weight is not positive. Image centroid coordinates are always reported. WCS coordinates use the requested WCS when one is selected, otherwise the primary WCS; they are blank when that image segment has no WCS.</p>
+<p class="zh">质心以有限像素的中心作为位置、以像素值作为权重，与 DS9 既有的质心行为一致。当分量为空或其总权重非正时，质心留空。图像质心坐标始终报告。WCS 坐标在选定了某个 WCS 时使用该 WCS，否则使用主 WCS；当该图像分段没有 WCS 时留空。</p>
+<p>The coordinate system and sky frame are captured when the catalog is created. Image and detector-like centers use <tt>X</tt>/<tt>Y</tt> in pixels; celestial centers use the appropriate longitude/latitude headings in degrees; linear WCS centers use <tt>WCS_X</tt>/<tt>WCS_Y</tt>. Area is reported in <tt>pixel**2</tt>, <tt>arcsec**2</tt>, or <tt>linear**2</tt>, and surface values use data per corresponding area unit.</p>
+<p class="zh">坐标系和天球框架在创建星表时被捕获。图像及类似探测器的中心以像素为单位使用 <tt>X</tt>/<tt>Y</tt>；天球中心以度为单位使用相应的经/纬度列名；线性 WCS 中心使用 <tt>WCS_X</tt>/<tt>WCS_Y</tt>。面积以 <tt>pixel**2</tt>、<tt>arcsec**2</tt> 或 <tt>linear**2</tt> 报告，表面值使用每相应面积单位的数据量。</p>
+<p>The catalog updates after a region is created, pasted, deleted, restored with Undo, or completes a move, edit, or rotation. It is also recalculated after image changes that affect measured data or coordinates, including cube-slice, smoothing, binning, blocking, section/crop, reload, mosaic, and relevant WCS changes. Interactive geometry is measured only after the operation completes, and bulk region operations are coalesced into one update.</p>
+<p class="zh">在区域被创建、粘贴、删除、用 Undo 恢复，或完成移动、编辑、旋转之后，星表会更新。在发生影响测量数据或坐标的图像变化后也会重新计算，包括数据立方体切片、平滑、分箱、分块、截面/裁剪、重新加载、拼接及相关 WCS 变化。交互式几何仅在操作完成后才测量，批量区域操作会合并为一次更新。</p>
+<p>Initial and image-wide recalculations use the DS9 thread preference, bounded by the number of measurable regions. Calculations are synchronous and results retain user-region order; small floating-point differences can occur from reduction order. Exact medians require per-region pixel storage. If allocation fails, reduce the thread preference to 1 and retry.</p>
+<p class="zh">初始及整图范围的重算使用 DS9 的线程数首选项，并受可测量区域数量限制。计算是同步的，结果保持用户区域的顺序；因归约顺序不同可能出现微小的浮点差异。精确的中值需要按区域存储像素。若分配内存失败，请将线程首选项降为 1 后重试。</p>
+<p>For a mosaic, a region is measured against the image segment containing its center. Pixels from other segments are not combined into the same measurement, so a region spanning a segment boundary should be split into per-segment regions when combined coverage is required.</p>
+<p class="zh">对于拼接图像，区域按包含其中心的图像分段进行测量。来自其他分段的像素不会并入同一次测量，因此当需要联合覆盖时，跨越分段边界的区域应拆分为按分段划分的区域。</p>
+<p><b>Adding compiled statistics</b></p>
+<p class="zh"><b>新增编译期统计字段</b></p>
+<p>Developers add a future hard-coded field to the <tt>RegionStatisticField</tt> registry returned by <tt>regionStatisticFields()</tt> in <tt>tksao/frame/frblt.C</tt>. Give it a stable namespaced key, display label, Tcl data type, unit kind, description, UCD, and precision, then populate that key in <tt>markerAnalysisStatsResult()</tt>. Add any required primitive state to <tt>RegionStatisticAccumulator</tt> and its <tt>merge()</tt> method. The structured Tcl schema and Catalog Tool columns are generated from the registry, so no separate Tcl column list is required. A new geometry family must additionally implement both <tt>analysisStatsResult()</tt> and <tt>analysisStatsJob()</tt>, provide an immutable worker geometry snapshot, and extend the single-thread, multi-thread, legacy-parity, and live-catalog tests.</p>
+<p class="zh">开发者如需新增一个硬编码字段，应在 <tt>tksao/frame/frblt.C</tt> 中由 <tt>regionStatisticFields()</tt> 返回的 <tt>RegionStatisticField</tt> 注册表中添加。为其指定稳定的命名空间键、显示标签、Tcl 数据类型、单位种类、描述、UCD 和精度，然后在 <tt>markerAnalysisStatsResult()</tt> 中填充该键。把所需的原始状态加入 <tt>RegionStatisticAccumulator</tt> 及其 <tt>merge()</tt> 方法。结构化 Tcl 模式和星表工具列由注册表自动生成，无需单独的 Tcl 列清单。新增一种几何族还必须同时实现 <tt>analysisStatsResult()</tt> 和 <tt>analysisStatsJob()</tt>，提供不可变的工作几何快照，并扩展单线程、多线程、旧版一致性和实时星表测试。</p>
+<p><b><a name="TemplateRegion" id="TemplateRegion"></a>Template Region</b></p>
+<p class="zh"><b>模板区域</b></p>
+<p>A Template Region is a special form of a region which is saved in a special wcs coordinate system WCS0. WCS0 indicates that the ra and dec values are relative to the current WCS location, not absolute. A template region can be loaded at any location into any fits image which contains a valid wcs. For example, a user may create a series of regions, which represent an instrument template. Then, by selecting the Save As Template menu option, a template region is saved. The user may now load this template into any other fits image which contains a valid WCS.</p>
+<p class="zh">模板区域（Template Region）是一种特殊形式的区域，保存在特殊的 WCS 坐标系 WCS0 中。WCS0 表示 ra、dec 值是相对于当前 WCS 位置而言的，而非绝对坐标。模板区域可被加载到任何包含有效 WCS 的 FITS 图像的任意位置。例如，用户可创建一系列代表仪器模板的区域，然后通过 Save As Template 菜单选项保存为模板区域。此后用户即可将该模板加载到任何其他包含有效 WCS 的 FITS 图像中。</p>
+<p><b><a name="ExternalRegionFiles" id="ExternalRegionFiles"></a>External Region Files</b></p>
+<p class="zh"><b>外部区域文件</b></p>
+<p>DS9 can read and write a number of region file formats. Not all formats support all the functionality of DS9 regions. Therefore, the user may lose some information when writing and then reading back from a region file in a format other than DS9. On output, the regions File Format menu or the <a href="xpa.html#regions">XPA</a> regions point is used to specify the output coordinate system and format. On input, the menu or xpa point is used only for the <tt>X Y</tt> format. For all other formats, the input coordinate system is specified in the regions file itself.</p>
+<p class="zh">DS9 可以读写多种区域文件格式。并非所有格式都支持 DS9 区域的全部功能。因此，当以非 DS9 格式写出再读回区域文件时，用户可能丢失部分信息。输出时，用 regions File Format 菜单或 <a href="xpa.html#regions">XPA</a> regions 点来指定输出坐标系和格式。输入时，该菜单或 xpa 点仅用于 <tt>X Y</tt> 格式；对所有其他格式，输入坐标系在区域文件自身中指定。</p>
+<blockquote>
+<a name="FUNTools" id="FUNTools"></a>Funtools<br>
+<p class="zh">Funtools 格式：以下为在 Funtools 中使用 DS9 区域文件时的支持情况。</p>
+<blockquote><tt>When using DS9 regions file in FUNTOOLS:<br>
+LINE is ignored<br>
+VECTOR is ignored<br>
+PROJECTION is ignored<br>
+SEGMENT is ignored<br>
+TEXT is ignored<br>
+RULER is ignored<br>
+COMPASS is ignored</tt><br></blockquote>
+<p class="zh">（上方列出：在 FUNTOOLS 中使用 DS9 区域文件时，LINE、VECTOR、PROJECTION、SEGMENT、TEXT、RULER、COMPASS 均被忽略。命令块保持原样。）</p>
+<a name="Ciao" id="Ciao"></a>CIAO
+<p class="zh">CIAO 格式：以下为在 CIAO 与 DS9 之间导入/导出区域时的形状转换与忽略情况。</p>
+<blockquote><tt>When importing from CIAO into DS9:<br>
+POINT is translated into BOX CIRCLE POINT<br>
+ROTBOX is translated into BOX<br>
+RECTANGLE is translated into BOX<br>
+PANDA is translated as PIE<br>
+The logical AND operators &amp; and * create an intersection COMPOSITE region containing the associated shapes<br>
+The logical OR operators + and | create a union COMPOSITE region containing the associated shapes<br>
+SECTOR is ignored<br>
+FIELD is ignored<br>
+REGION is ignored<br>
+<br>
+When exporting from DS9 into CIAO:<br>
+PANDA is translated into PIE<br>
+LINE is ignored<br>
+VECTOR is ignored<br>
+PROJECTION is ignored<br>
+SEGMENT is ignored<br>
+TEXT is ignored<br>
+RULER is ignored<br>
+COMPASS is ignored<br>
+ELLIPSE ANNULUS is ignored<br>
+BOX ANNULUS is ignored<br>
+EPANDA is ignored<br>
+BPANDA is ignored</tt><br></blockquote>
+<p class="zh">（上方列出：从 CIAO 导入 DS9 时 POINT→圆方框点、ROTBOX/RECTANGLE→BOX、PANDA→PIE，逻辑与/或运算符生成交集/并集复合区域，SECTOR/FIELD/REGION 被忽略；导出到 CIAO 时上述多种形状被忽略。命令块保持原样。）</p>
+<a name="SAOimage" id="SAOimage"></a><a href="http://tdc-www.harvard.edu/software/saoimage/saoimage.region.html">SAOimage</a>
+<p class="zh">SAOimage 格式：以下为在 SAOimage 与 DS9 之间导入/导出区域时的形状转换与忽略情况。</p>
+<blockquote><tt>When importing from SAOIMAGE into DS9:<br>
+POINT is translated into BOX CIRCLE POINT<br>
+ROTBOX is translated into BOX<br>
+<br>
+When exporting from DS9 into SAOIMAGE:<br>
+LINE is ignored<br>
+VECTOR is ignored<br>
+PROJECTION is ignored<br>
+SEGMENT is ignored<br>
+TEXT is ignored<br>
+RULER is ignored<br>
+COMPASS is ignored<br>
+ELLIPSE ANNULUS is ignored<br>
+BOX ANNULUS is ignored<br>
+PANDA is ignored<br>
+EPANDA is ignored<br>
+BPANDA is ignored</tt><br></blockquote>
+<p class="zh">（上方列出：从 SAOIMAGE 导入 DS9 时 POINT→圆方框点、ROTBOX→BOX；导出时多种形状被忽略。命令块保持原样。）</p>
+<a name="IRAFPROS" id="IRAFPROS"></a>IRAF PROS
+<p class="zh">IRAF PROS 格式：以下为在 PROS 与 DS9 之间导入/导出区域时的形状转换与忽略情况。</p>
+<blockquote><tt>When importing from PROS into DS9:<br>
+POINT is translated into BOX CIRCLE POINT<br>
+ROTBOX is translated into BOX<br>
+<br>
+When exporting from DS9 into SAOIMAGE:<br>
+LINE is ignored<br>
+VECTOR is ignored<br>
+PROJECTION is ignored<br>
+SEGMENT is ignored<br>
+TEXT is ignored<br>
+RULER is ignored<br>
+COMPASS is ignored<br>
+ELLIPSE ANNULUS is ignored<br>
+BOX ANNULUS is ignored<br>
+PANDA is ignored<br>
+EPANDA is ignored<br>
+BPANDA is ignored</tt><br></blockquote>
+<p class="zh">（上方列出：从 PROS 导入 DS9 时 POINT→圆方框点、ROTBOX→BOX；导出时多种形状被忽略。命令块保持原样。）</p>
+<a name="FITSREGIONBinaryTable" id="FITSREGIONBinaryTable"></a>FITS REGION Binary Table
+<p class="zh">FITS REGION 二进制表格式：以下为从 FITS REGION 导入 DS9 时的形状转换、COMPONENT 列处理与忽略情况。</p>
+<blockquote><tt>When importing from FITS REGION into DS9:<br>
+POINT is translated into BOX CIRCLE POINT<br>
+ROTBOX is translated into BOX<br>
+RECTANGLE is translated into BOX<br>
+ROTRECTANGLE is translated into a BOX<br>
+PIE is translated into PANDA<br>
+ELLIPTANNULUS is ignored<br>
+If a COMPONENT column is present, all rows with the same COMPONENT value are imported as members of one intersection COMPOSITE region. Column names are case insensitive, and matching rows do not need to be adjacent in the table.<br>
+If no COMPONENT column is present, rows are imported as separate regions.<br>
+SECTOR is ignored<br>
+FIELD is ignored<br>
+DIAMOND is ignored<br>
+RHOMBUS is ignored<br>
+ROTDIAMOND is ignored<br>
+ROTRHOMBUS is ignored<br>
+&nbsp;<br>
+DS9 currently can not export into this format.</tt><br></blockquote>
+<p class="zh">（上方列出：从 FITS REGION 导入时各形状的转换关系；若存在 COMPONENT 列，相同值的行作为同一交集复合区域的成员，否则各行作为独立区域；若干形状被忽略；DS9 目前不能导出为此格式。命令块保持原样。）</p>
+<a name="XY" id="XY"></a>X Y<br>
+<p class="zh">X Y 格式：以下为坐标对文本格式的说明。</p>
+<p>This format consists of a number of coordinate pairs, one per line. The coordinate format for both input and output is specified via the Save Regions Parameters menu or <a href="xpa.html#regions">XPA</a> regions point. The first two coordinates are read, the rest of the line is ignored. The comment character '#' may be used at the beginning of line and the line is ignored. This format is very useful for reading in coordinates from other external analysis programs, such as IRAF.</p>
+<p class="zh">该格式由若干坐标对组成，每行一对。输入和输出的坐标格式通过 Save Regions Parameters 菜单或 <a href="xpa.html#regions">XPA</a> regions 点指定。只读取前两个坐标，行的其余部分被忽略。行首可使用注释字符 '#'，该行将被忽略。该格式对于从其他外部分析程序（如 IRAF）读入坐标非常有用。</p>
+<blockquote><tt>Example: # this is a comment<br>
+physical # this overrides the specified coordinate system<br>
+300 300<br>
+400 400 # this is a comment</tt><br></blockquote>
+<p class="zh">（上面为 X Y 格式示例：注释行、用 physical 覆盖坐标系、坐标对，保持原样。）</p>
+</blockquote>
+</blockquote>
+</body>
+</html>

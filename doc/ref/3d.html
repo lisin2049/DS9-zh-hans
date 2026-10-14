@@ -1,0 +1,44 @@
+<!DOCTYPE doctype PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta name="generator" content="HTML Tidy for Mac OS X (vers 31 October 2006 - Apple Inc. build 17.1), see www.w3.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="GENERATOR" content="Mozilla/4.78 [en] (X11; U; Linux 2.4.7-10 i686) [Netscape]">
+<title>3D Frames（三维帧）</title>
+<style type="text/css">
+.zh { color: #333333; border-left: 3px solid #cccccc; padding-left: 8px; margin: 2px 0 10px 0; font-family: "Microsoft YaHei", "PingFang SC", sans-serif; }
+h2 .zh, h3 .zh, h4 .zh { color: #555555; font-weight: normal; border-left: none; padding-left: 6px; }
+li .zh { display: block; }
+</style>
+</head>
+<body vlink="#551A8B" text="#000000" link="#0000EE" bgcolor="#FFFFFF" alink="#FF0000">
+<h3><img alt="" src="../sun.png" align="middle"> 3-D Frames <span class="zh">三维帧</span><br></h3>
+<blockquote>
+<p>Previous versions of DS9 would allow users to load 3-D data into the traditional 2-D frames, and would allow users to step through successive z-dimension pixel slices of the data cube. To visualize the 3-D data in DS9 v. 7.0, a new module, encompassed by the new <tt>Frame 3D</tt> option, allows users to load and view data cubes in multiple dimensions.<br></p>
+<p class="zh">早期版本的 DS9 允许用户将三维数据加载到传统的二维帧中，并能逐一切换数据立方体（data cube）的 z 维像素切片。为在 DS9 7.0 版中可视化三维数据，新增了一个由新的 <tt>Frame 3D</tt> 选项所涵盖的模块，允许用户在多个维度上加载和查看数据立方体。</p>
+<p>The new module implements a simple ray-trace algorithm. For each pixel on the screen, a ray is projected back into the view volume, based on the current viewing parameters, returning a data value if the ray intersects the FITS data cube. To determine the value returned, there are 3 methods available: Maximum Intensity Projection (MIP), Average Intensity Projection (AIP), and First-hit Intensity Projection (FIP). MIP returns the maximum value encountered, AIP returns an average of all values encountered, and FIP returns the closest finite, non-zero value encountered from the viewer into the cube. FIP shading can optionally reduce the brightness of distant samples and apply surface lighting derived from screen-space depth normals. Ambient sets the minimum retained light; depth strength and normal strength independently blend the two effects. All three values range from 0 to 1. At this point, normal DS9 operations are applied, such as scaling, clipping and applying a color map.<br></p>
+<p class="zh">该新模块实现了一个简单的光线投射（ray-trace）算法。对于屏幕上的每个像素，根据当前的观察参数将一条光线反向投射回视见体（view volume）；若该光线与 FITS 数据立方体相交，则返回一个数据值。决定返回值的方法有 3 种：最大强度投影（MIP）、平均强度投影（AIP）和首遇强度投影（FIP）。MIP 返回沿途遇到的最大值，AIP 返回沿途所有值的平均值，FIP 返回从观察者进入立方体后遇到的最近的有限非零值。FIP 着色可选择降低远处采样点的亮度，并应用由屏幕空间深度法线导出的表面光照。Ambient（环境光）设定保留的最小亮度；depth strength（深度强度）和 normal strength（法线强度）分别独立地混合这两种效果。三者取值范围均为 0 到 1。在此之后，再施加常规的 DS9 操作，例如灰度拉伸、裁剪和应用颜色映射。</p>
+<p>Rendering time is independent upon the actual data cube size. Instead, the time it takes to render is based on how many rays are needed to project the data cube upon the screen in the view volume and the current zoom factor. The new module requires no special hardware or graphical processor unit (GPU) and the rendering time is adequate for interactive GUI manipulation on most computers. The rendering engine is developed using the POSIX thread library, allowing multiple light weight processes to be spawned to complete an image in parallel. The number of threads actually generated is a user specified parameter. Since all modern hardware contain multiple CPU cores, the default value is 8 threads. For larger work stations, this number can be increase. For every doubling in the number of CPU cores available, rendering times decrease approximately 75%.<br></p>
+<p class="zh">渲染时间与实际数据立方体的大小无关。相反，渲染所需的时间取决于在视见体中将数据立方体投影到屏幕上需要多少条光线，以及当前的缩放系数。该新模块不需要特殊硬件或图形处理器（GPU），在大多数计算机上其渲染时间足以支持交互式的 GUI 操作。渲染引擎基于 POSIX 线程库开发，可派生多个轻量级进程并行完成一幅图像。实际生成的线程数由用户指定。由于现代硬件均含多个 CPU 核心，默认值为 8 个线程。对于较大的工作站，可增大此数值。可用 CPU 核心数每翻一倍，渲染时间约减少 75%。</p>
+<blockquote><tt>Example:</tt><br>
+<tt># create 3d frame, load fits file</tt><br>
+<tt># set view angle to az 45 el 30 deg</tt><br>
+<tt># set rendering method to Average Intensity Projection</tt><br>
+<br>
+<tt>% ds9 -3d mycube.fits -3d view 45 30 -3d method aip</tt><br>
+<br>
+<tt>% xpaset -p ds9 3d</tt><br>
+<tt>% xpaset -p ds9 file mycube.fits</tt><br>
+<tt>% xpaset -p ds9 3d view 45 30</tt><br>
+<tt>% xpaset -p ds9 3d method aip</tt></blockquote>
+<p class="zh">示例：上方命令行演示了如何创建三维帧、加载 FITS 文件、将观察方位角/仰角设为 45/30 度，并将渲染方法设为平均强度投影（AIP）；既可用 <tt>ds9</tt> 命令行一次性完成，也可通过 <tt>xpaset</tt> 逐条发送。</p>
+All 2-D graphics, regions, cross hairs, contours, and coordinate grids, are applied to the current slice, which is selected by the user. When the user wishes to match or lock a 2-D image and to a 3-D data cube, the current slice is used to determine the rendering solution. The user can crop the data cube for all 3 axes via the command line or the GUI. The new module also supports FITS event files binned into a data cube.<br>
+<p class="zh">所有二维图形、区域、十字丝、等高线和坐标网格都施加于用户选定的当前切片之上。当用户希望将一幅二维图像与一个三维数据立方体匹配或锁定时，当前切片被用于确定渲染解算。用户可通过命令行或 GUI 对全部 3 个轴裁剪数据立方体。该新模块还支持将 FITS 事件文件（event file）分箱（binning）为数据立方体。</p>
+<br>
+All printing support has been extended to the new 3-D module. The user may generate 3-D images in Postscript, JPEG, TIFF, and other formats, just as in the 2-D case. Furthermore, native printing is supported for the Windows version.<br>
+<p class="zh">所有打印支持均已扩展到新的三维模块。用户可以像在二维情形那样，以 Postscript、JPEG、TIFF 及其他格式生成三维图像。此外，Windows 版本还支持原生打印。</p>
+<br>
+DS9 analysis macros have been enhanced to fully support the new 3-D module, allowing the user to invoke external analysis tasks based on the current view parameters and to return results back into DS9 in the form of text, plot, 2-D image, or 3-D image.</blockquote>
+<p class="zh">DS9 的分析（Analysis）宏已增强，以全面支持新的三维模块，允许用户基于当前观察参数调用外部分析任务，并以文本、绘图、二维图像或三维图像的形式将结果返回 DS9。</p>
+</body>
+</html>

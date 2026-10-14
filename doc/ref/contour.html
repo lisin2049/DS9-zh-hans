@@ -1,0 +1,97 @@
+<!DOCTYPE doctype PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta name="generator" content="HTML Tidy for Mac OS X (vers 31 October 2006 - Apple Inc. build 17.1), see www.w3.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="GENERATOR" content="Mozilla/4.78 [en] (X11; U; Linux 2.4.7-10 i686) [Netscape]">
+<title>Contours（等高线）</title>
+<style type="text/css">
+.zh { color: #333333; border-left: 3px solid #cccccc; padding-left: 8px; margin: 2px 0 10px 0; font-family: "Microsoft YaHei", "PingFang SC", sans-serif; }
+h2 .zh, h3 .zh, h4 .zh { color: #555555; font-weight: normal; border-left: none; padding-left: 6px; }
+li .zh { display: block; }
+</style>
+</head>
+<body link="#0000EE" alink="#FF0000" bgcolor="#FFFFFF" text="#000000" vlink="#551A8B">
+<h3><img alt="" src="../sun.png" align="middle"> Contours <span class="zh">等高线</span></h3>
+<blockquote>
+<p>DS9 can create and display contours as an overlay on an image. The Analysis Contours menu is used to display contours. To create, copy, paste,&nbsp; and configure contours, use the Analysis Contour Parameters menu.</p>
+<p class="zh">DS9 可以在图像上叠加创建并显示等高线（contours）。使用 Analysis Contours 菜单来显示等高线。要创建、复制、粘贴和配置等高线，请使用 Analysis Contour Parameters 菜单。</p>
+<p><b>Contour Parameters</b></p>
+<p class="zh"><b>等高线参数</b></p>
+<p>When creating a new contour, a dialog box appears, in which the user selects the number of contour levels, smoothness, and the distribution of the contours.</p>
+<p class="zh">创建新等高线时会弹出一个对话框，用户可在其中选择等高线的层数、平滑度以及等高线的分布方式。</p>
+<p><b>Contour Levels</b></p>
+<p class="zh"><b>等高线层数</b></p>
+<p>Specifies the number of contour levels to be generated. A typical number is between 1 and 10. Note: large numbers of contours can take a long time to generate.</p>
+<p class="zh">指定要生成的等高线层数。典型取值为 1 到 10。注意：层数过多时生成等高线可能耗时很长。</p>
+<p><b>Contour Smoothness</b></p>
+<p class="zh"><b>等高线平滑度</b></p>
+<p>Specifies how smooth the contours are. A smoothness level of 1 will evaluate the contour at each image pixel. A level of 2 will evaluate the contour at every other pixel. The larger the number, the quicker the contour will be generated, and the less detail will be available.</p>
+<p class="zh">指定等高线的平滑程度。平滑度为 1 时，将对每个图像像素计算等高线；为 2 时，每隔一个像素计算一次。数值越大，等高线生成越快，但可用的细节越少。</p>
+<p><b>Contour Scale</b></p>
+<p class="zh"><b>等高线刻度/分布</b></p>
+<p>Specifies the distribution of the contour levels.<br></p>
+<p class="zh">指定各等高线层级的分布方式。</p>
+<p><b>Contour Method</b></p>
+<p class="zh"><b>等高线方法</b></p>
+<p>There are two methods that are available to calculate the contour lines. The first, BLOCK, blocks down the image, by the smoothness factor, before contours are calculated. As a result, the larger the smoothness, the faster the result. The second method, SMOOTH, smooths the image before calculating contours. As a result, the larger the smoothness, the slower the result.<br></p>
+<p class="zh">计算等高线有两种方法。第一种 BLOCK（分块）方法：在计算等高线之前，先按平滑度因子对图像进行降采样分块；因此平滑度越大，结果越快。第二种 SMOOTH（平滑）方法：在计算等高线之前先对图像做平滑处理；因此平滑度越大，结果越慢。</p>
+<p><b><a name="ContourFiles" id="ContourFiles"></a>Contour Files</b></p>
+<p class="zh"><b>等高线文件</b></p>
+<p>A contour file is an ASCII file containing a header, global properties, coordinate system, contour levels, and contour points.<br></p>
+<p class="zh">等高线文件是一个 ASCII 文件，包含文件头、全局属性、坐标系、等高线层级以及等高线点。</p>
+<blockquote>
+<p><b>Header</b></p>
+<p class="zh"><b>文件头</b></p>
+<p>A DS9 contour file may start with the following optional header:</p>
+<p class="zh">DS9 等高线文件可以以下面这个可选的文件头开头：</p>
+<blockquote><tt># Contour file format: DS9 version 7.5<br></tt></blockquote>
+<p class="zh">（上面为等高线文件头示例，保持原样不翻译。）</p>
+<p><b>Global Properties</b></p>
+<p class="zh"><b>全局属性</b></p>
+<p>Global properties affect all contour levels unless a line level attribute is specified. The <tt>global</tt> keyword is first, followed by a list of keyword = value pairs. Multiple global property lines may be used within a region file.</p>
+<p class="zh">除非指定了某一行的层级属性，否则全局属性会作用于所有等高线层级。先写 <tt>global</tt> 关键字，后跟一组“关键字 = 值”对。在一个区域文件中可以使用多行全局属性。</p>
+<blockquote><tt>global color=green width=1 dash=1 dashlist=8 3<br></tt></blockquote>
+<p class="zh">（上面为全局属性示例：设置颜色为绿色、线宽 1、虚线及虚线间隔样式，保持原样不翻译。）</p>
+<p><b>Coordinate Systems</b></p>
+<p class="zh"><b>坐标系</b></p>
+<p>For each contour file, it is important to specify the coordinate system used to interpret the contour points, i.e., to set the context in which the positions are interpreted. For this purpose, the following keywords are recognized:</p>
+<p class="zh">对于每个等高线文件，必须指定用于解释等高线点的坐标系，即设定位置被解读的上下文。为此，DS9 识别以下关键字：</p>
+<blockquote><tt>PHYSICAL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # pixel coords of original file using LTM/LTV</tt><br>
+<tt>IMAGE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # pixel coords of current file</tt><br>
+<tt>FK4,B1950&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; # sky coordinate systems</tt><br>
+<tt>FK5,J2000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # sky coordinate systems</tt><br>
+<tt>ICRS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # sky coordinate systems</tt><br>
+<tt>GALACTIC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # sky coordinate systems</tt><br>
+<tt>ECLIPTIC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # sky coordinate systems</tt><br>
+<tt>WCS&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; # primary WCS<br>
+WCSA &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; # secondary WCS<br>
+LINEAR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # linear primary WCS<br></tt></blockquote>
+<p class="zh">（上方列出可用坐标系：PHYSICAL 为原始文件使用 LTM/LTV 的像素坐标；IMAGE 为当前文件的像素坐标；FK4/B1950、FK5/J2000、ICRS、银道、黄道为天球坐标系；WCS/WCSA 为主/次 WCS；LINEAR 为线性主 WCS。命令关键字保持原样。）</p>
+</blockquote>
+<blockquote>
+<p><b>Contour Level</b></p>
+<p class="zh"><b>等高线层级</b></p>
+<p>Each contour level is composed of a line value, line attributes and one or more contours. Line attributes are specified at the start of a new level and only affect contours within that level .</p>
+<p class="zh">每个等高线层级由一个线值、若干线属性以及一条或多条等高线组成。线属性在新层级的开头指定，且仅作用于该层级内的等高线。</p>
+<blockquote><tt>level=15.78775 color=pink width=2 dash=yes dashlist=2 2<br></tt></blockquote>
+<p class="zh">（上面为等高线层级示例：指定层级数值、颜色为粉红、线宽 2、虚线样式，保持原样不翻译。）</p>
+<p><b>Contour</b></p>
+<p class="zh"><b>等高线</b></p>
+<p>Each contour is composed of one or more X,Y coordinates, with a deliminator of space or comma,&nbsp; starting with "(" and ending with ")". Contours are not closed.<br></p>
+<p class="zh">每条等高线由一个或多个 X,Y 坐标组成，坐标之间以空格或逗号分隔，以“(”开头、以“)”结尾。等高线不闭合。</p>
+</blockquote>
+<blockquote>
+<blockquote><tt>(202.4836468 47.22380226<br>
+&nbsp;202.4833538 47.2239185<br>
+&nbsp;202.4831634 47.22409874<br>
+&nbsp;202.4829883 47.22428858)</tt><br></blockquote>
+<p class="zh">（上面为等高线坐标点序列示例，保持原样不翻译。）</p>
+</blockquote>
+<blockquote>
+<p><br></p>
+</blockquote>
+<p><br></p>
+</blockquote>
+</body>
+</html>

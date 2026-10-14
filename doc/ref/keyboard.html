@@ -1,0 +1,235 @@
+<!DOCTYPE doctype PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta name="generator" content="HTML Tidy for Mac OS X (vers 31 October 2006 - Apple Inc. build 17.1), see www.w3.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="GENERATOR" content="Mozilla/4.78 [en] (X11; U; Linux 2.4.7-10 i686) [Netscape]">
+<title>Mouse and Keyboard（鼠标与键盘）</title>
+<style type="text/css">
+.zh { color: #333333; border-left: 3px solid #cccccc; padding-left: 8px; margin: 2px 0 10px 0; font-family: "Microsoft YaHei", "PingFang SC", sans-serif; }
+h2 .zh, h3 .zh, h4 .zh { color: #555555; font-weight: normal; border-left: none; padding-left: 6px; }
+li .zh { display: block; }
+</style>
+</head>
+<body alink="#FF0000" bgcolor="#FFFFFF" link="#0000EE" text="#000000" vlink="#551A8B">
+<h3><img alt="" src="../sun.png" align="middle" > Mouse and Keyboard <span class="zh">鼠标与键盘</span></h3>
+<blockquote>
+<p><b>Mouse Buttons <span class="zh">鼠标按键</span></b></p>
+<p>The following table contains the event bindings for the mouse buttons.</p>
+<p class="zh">下表列出了鼠标按键的事件绑定。</p>
+<center>
+<table summary="" border="1" width="75%">
+<tbody>
+<tr>
+<td>
+<center>Mouse Button <span class="zh">鼠标按键</span></center>
+</td>
+<td>
+<center>Description <span class="zh">说明</span></center>
+</td>
+</tr>
+<tr>
+<td><font face="Courier New,Courier">Button 1</font></td>
+<td>Depends on current MODE, which may be selected by the EDIT menu option.<br>
+None mode, no action.<br>
+Region mode, create/edit/delete regions.<br>
+Crosshair mode, will move current crosshair.<br>
+Colorbar mode, will change contrast and bias of colormap.<br>
+Pan mode, will move or pan to clicked location.<br>
+Zoom mode, will zoom about clicked location.<br>
+Rotate mode, will rotate image about center.<br>
+Crop mode, will select 2-D crop region. For 3-D <i>Shift-click</i> will edit front clip plane, <i>Control-click</i> will edit back clip plane.<br>
+Catalog mode, will select catalog regions.<br>
+Examine mode, will follow IRAF examine protocol.<br>
+3D mode, face of 3D cube will follow cursor.<br>
+<p class="zh">具体取决于当前模式（可通过 EDIT 菜单选择）：None 模式不执行任何操作；Region 模式创建/编辑/删除区域；Crosshair 模式移动当前十字光标；Colorbar 模式改变颜色映射的对比度和偏置；Pan 模式移动或平移到点击位置；Zoom 模式以点击位置为中心缩放；Rotate 模式绕中心旋转图像；Crop 模式选取二维裁剪区域，三维帧下 <i>Shift-点击</i> 编辑前裁剪面，<i>Control-点击</i> 编辑后裁剪面；Catalog 模式选取星表区域；Examine 模式遵循 IRAF examine 协议；3D 模式中三维立方体的面随光标移动。</p></td>
+</tr>
+<tr>
+<td><font face="Courier New,Courier">Button 2</font></td>
+<td>Pan mode: will move or pan to clicked location. Behavior depends on the PAN preference settings.
+<p class="zh">Pan 模式：移动或平移到点击位置，行为取决于 PAN 首选项设置。</p></td>
+</tr>
+<tr>
+<td><font face="Courier New,Courier">Button 3</font></td>
+<td>Colorbar mode: will change the contrast and bias of the colormap.
+<p class="zh">Colorbar 模式：改变颜色映射的对比度和偏置。</p></td>
+</tr>
+</tbody>
+</table>
+</center>
+<p class="zh">上表列出了鼠标三个按键在各模式下的功能。</p>
+<p><b>Greek and other special characters. <span class="zh">希腊字母及其他特殊字符</span></b></p>
+<p>The concept of a separate <tt>SYMBOL</tt> font is no longer implemented with the latest OS font and scripting support, especially with scalable anti-alias fonts such as Xft for Linux. Most newer fonts (if not all) now have greek characters as part of the font. The greek characters start at unicode \u0391 for 'A' and \u03b1 for 'a'. Each OS has a tool used to build and copy a string of characters. Then use the Edit:Paste menu of DS9 to insert the character string.</p>
+<p class="zh">在最新的操作系统字体和脚本支持下，尤其是 Linux 上的 Xft 等可缩放抗锯齿字体，单独的 <tt>SYMBOL</tt> 字体概念已不再使用。大多数新字体（即便不是全部）现在都内置了希腊字母。希腊字母从 Unicode \u0391（对应大写 'A'）和 \u03b1（对应小写 'a'）开始。每个操作系统都有用于构造并复制字符串的工具，然后通过 DS9 的 Edit:Paste 菜单插入该字符串。</p>
+<blockquote>
+<p>Linux- Gnome: <b>gucharmap<br></b> Linux- KDE: <b>kcharselect<br></b> MacOSX: <b>Character Viewer</b> (Select <tt>Edit:Special Characters</tt>) Now click and drag the characters to a terminal window. Then select the string and select <tt>Edit:Copy</tt>.<br>
+Windows: <b>Character Map</b> (from <tt>Start</tt> button, select <tt>All Programs</tt>, <tt>Accessories</tt>, <tt>System Tools</tt> and then <tt>Character Map</tt>)
+<p class="zh">各系统字符工具：Linux Gnome 用 <b>gucharmap</b>；Linux KDE 用 <b>kcharselect</b>；MacOSX 用 <b>字符检视器（Character Viewer）</b>（选择 <tt>Edit:Special Characters</tt>），将字符点击并拖到终端窗口，选中字符串后选择 <tt>Edit:Copy</tt>；Windows 用 <b>字符映射表（Character Map）</b>（从 <tt>Start</tt> 按钮依次选择 <tt>All Programs</tt>、<tt>Accessories</tt>、<tt>System Tools</tt>，再选 <tt>Character Map</tt>）。</p></p>
+</blockquote>
+<p><b>Keyboard Shortcuts <span class="zh">键盘快捷键</span></b></p>
+<p>The following table contains the list of keyboard shortcuts and the resulting action taken.&nbsp;</p>
+<p class="zh">下表列出了键盘快捷键及其对应的操作。</p>
+<center>
+<table summary="" border="1" width="75%">
+<tbody>
+<tr>
+<td align="center">Key Stroke <span class="zh">按键</span></td>
+<td>
+<center>Description <span class="zh">说明</span></center>
+</td>
+</tr>
+<tr>
+<td align="center"><tt>TAB</tt></td>
+<td><font face="Courier New,Courier">G</font>oto next frame
+<p class="zh">转到下一帧。</p></td>
+</tr>
+<tr>
+<td align="center" valign="top"><tt>Shift-TAB</tt><br></td>
+<td valign="top">Goto previous frame<br>
+<p class="zh">转到上一帧。</p></td>
+</tr>
+<tr>
+<td align="center"><tt>F11</tt></td>
+<td>Toggle full screen mode (Linux and Windows)
+<p class="zh">切换全屏模式（Linux 和 Windows）。</p></td>
+</tr>
+<tr>
+<td align="center"><tt>Control-Command-F</tt></td>
+<td>Toggle full screen mode (macOS)
+<p class="zh">切换全屏模式（macOS）。</p></td>
+</tr>
+<tr>
+<td align="center"><tt>ESCAPE</tt></td>
+<td>Exit full screen mode (all platforms)
+<p class="zh">退出全屏模式（所有平台）。</p></td>
+</tr>
+<tr>
+<td align="center"><tt>DELETE</tt></td>
+<td>Deletes selected regions
+<p class="zh">删除选中的区域。</p></td>
+</tr>
+<tr>
+<td align="center">c<br></td>
+<td>Print Mouse Coordinates and Pixel value.
+<p class="zh">打印鼠标坐标和像素值。</p></td>
+</tr>
+<tr>
+<td align="center">f<br></td>
+<td>Toggles Infobox freeze
+<p class="zh">切换信息框冻结。</p></td>
+</tr>
+<tr>
+<td align="center">z<br></td>
+<td>Zoom In
+<p class="zh">放大。</p></td>
+</tr>
+<tr>
+<td align="center">Z<br></td>
+<td>Zoom Out
+<p class="zh">缩小。</p></td>
+</tr>
+<tr>
+<td align="center">i<br></td>
+<td>Set include property for region
+<p class="zh">将区域设为 include（包含）属性。</p></td>
+</tr>
+<tr>
+<td align="center">e<br></td>
+<td>Set exclude property for region
+<p class="zh">将区域设为 exclude（排除）属性。</p></td>
+</tr>
+<tr>
+<td align="center">s<br></td>
+<td>Set source property for region
+<p class="zh">将区域设为 source（源）属性。</p></td>
+</tr>
+<tr>
+<td align="center">b<br></td>
+<td>Set background property for region
+<p class="zh">将区域设为 background（背景）属性。</p></td>
+</tr>
+<tr>
+<td align="center">g<br></td>
+<td>Create a new group
+<p class="zh">新建一个组。</p></td>
+</tr>
+<tr>
+<td align="center"><tt>Shift-g</tt></td>
+<td>Create a new group with default name
+<p class="zh">以默认名称新建一个组。</p></td>
+</tr>
+<tr>
+<td align="center">m<br></td>
+<td>Add a new bookmark
+<p class="zh">添加一个新书签。</p></td>
+</tr>
+<tr>
+<td align="center"><tt>+</tt></td>
+<td>Goto next 3D Fits Slice
+<p class="zh">转到三维 FITS 的下一个切片。</p></td>
+</tr>
+<tr>
+<td align="center"><tt>-</tt></td>
+<td>Goto previous 3D Fits Slice
+<p class="zh">转到三维 FITS 的上一个切片。</p></td>
+</tr>
+<tr>
+<td align="center"><tt>Up Arrow<br>
+k<br></tt></td>
+<td>Will move selected regions up one pixel.<br>
+In Pointer mode, will move the cursor up one pixel.<br>
+In Crosshair mode, will move the crosshair up one pixel.<br>
+In Pan mode, will pan the image up one pixel.
+<p class="zh">将选中区域向上移动一个像素；Pointer 模式下光标上移一个像素；Crosshair 模式下十字光标上移一个像素；Pan 模式下图像向上平移一个像素。</p></td>
+</tr>
+<tr>
+<td align="center"><tt>Right</tt> <tt>Arrow<br>
+l<br></tt></td>
+<td>Will move selected regions to the right one pixel.<br>
+In Pointer mode, will move the cursor to the right one pixel.<br>
+In Crosshair mode, will move the crosshair to the right one pixel.<br>
+In Pan mode, will pan the image to the right one pixel.
+<p class="zh">将选中区域向右移动一个像素；Pointer 模式下光标右移一个像素；Crosshair 模式下十字光标右移一个像素；Pan 模式下图像向右平移一个像素。</p></td>
+</tr>
+<tr>
+<td align="center"><tt>Left</tt> <tt>Arrow<br>
+h<br></tt></td>
+<td>Will move selected regions to the left one pixel.<br>
+In Pointer mode, will move the cursor to the left one pixel.<br>
+In Crosshair mode, will move the crosshair to the left one pixel.<br>
+In Pan mode, will pan the image to the left one pixel.
+<p class="zh">将选中区域向左移动一个像素；Pointer 模式下光标左移一个像素；Crosshair 模式下十字光标左移一个像素；Pan 模式下图像向左平移一个像素。</p></td>
+</tr>
+<tr>
+<td align="center"><tt>Down</tt> <tt>Arrow<br>
+j<br></tt></td>
+<td>Will move selected regions down one pixel.<br>
+In Pointer mode, will move the cursor up down one pixel.<br>
+In Crosshair mode, will also move the crosshair down one pixel.<br>
+In Pan mode, will pan the image down one pixel.
+<p class="zh">将选中区域向下移动一个像素；Pointer 模式下光标下移一个像素；Crosshair 模式下十字光标下移一个像素；Pan 模式下图像向下平移一个像素。</p></td>
+</tr>
+<tr>
+<td align="center"><tt>Shift</tt><font face="Courier New,Courier">-</font><tt>Drag</tt></td>
+<td>In Pointer mode, will select all regions within the indicated region.<br>
+In Crop mode, for 3D frame, will move front crop plane forward.<br>
+<p class="zh">Pointer 模式下，选中指示区域内的所有区域；Crop 模式下，对三维帧将前裁剪面向前移动。</p></td>
+</tr>
+<tr>
+<td align="center"><tt>Control-Drag</tt></td>
+<td>In Poiner mode, on selected <tt>ANNULUS</tt> Regions, will create new radii.<br>
+In Crop mode, for 3D frame, will move back crop plane backward.<br>
+<p class="zh">Pointer 模式下，在选中的 <tt>ANNULUS</tt>（环形）区域上创建新半径；Crop 模式下，对三维帧将后裁剪面向后移动。</p></td>
+</tr>
+<tr>
+<td align="center" valign="top"><tt>Command-`</tt><br></td>
+<td valign="top">Rotate thur all open windows<br>
+<p class="zh">在所有打开的窗口之间循环切换。</p></td>
+</tr>
+</tbody>
+</table>
+</center>
+<p class="zh">上表列出了全部键盘快捷键及其对应操作，按键名（如 <tt>TAB</tt>、<tt>ESCAPE</tt>、<tt>DELETE</tt> 等）保持英文原样。</p>
+</blockquote>
+</body>
+</html>

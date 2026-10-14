@@ -1,0 +1,45 @@
+<!DOCTYPE doctype PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta name="generator" content="HTML Tidy for Mac OS X (vers 31 October 2006 - Apple Inc. build 17.1), see www.w3.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="GENERATOR" content="Mozilla/4.78 [en] (X11; U; Linux 2.4.7-10 i686) [Netscape]">
+<title>Printing（打印）</title>
+<style type="text/css">
+.zh { color: #333333; border-left: 3px solid #cccccc; padding-left: 8px; margin: 2px 0 10px 0; font-family: "Microsoft YaHei", "PingFang SC", sans-serif; }
+h2 .zh, h3 .zh, h4 .zh { color: #555555; font-weight: normal; border-left: none; padding-left: 6px; }
+li .zh { display: block; }
+</style>
+</head>
+<body link="#0000EE" alink="#FF0000" bgcolor="#FFFFFF" text="#000000" vlink="#551A8B">
+<h3><img alt="" src="../sun.png" align="middle"> Printing <span class="zh">打印（Printing）</span></h3>
+<blockquote>
+<p>DS9 provides strong Postscript printing support. This is not a screen capture method, but a full level 1/2/3 postscript driver. The postscript images generated are as detailed and accurate as possible, given the resolution of the data, and the printing resolution.</p>
+<p class="zh">DS9 提供强大的 Postscript 打印支持。这不是屏幕截图方式，而是一个完整的 Level 1/2/3 Postscript 驱动程序。所生成的 Postscript 图像会在数据分辨率和打印分辨率允许的范围内尽可能详尽和准确。</p>
+<p><b>Postscript Level</b></p>
+<p class="zh"><b>Postscript 级别（Postscript Level）</b></p>
+<blockquote>
+<p>Level 1-- The postscript generated consists of a color lookup table and image data, encoded in <tt>ASCIIHEX</tt>. All line graphics and text are postscript elements.</p>
+<p class="zh">Level 1——生成的 Postscript 由颜色查找表和图像数据组成，以 <tt>ASCIIHEX</tt> 编码。所有线图形和文字都是 Postscript 元素。</p>
+<p>Level 2-- The postscript generated consists of a color lookup table and image data, compressed with RLE, and encoded in <tt>ASCIIHEX85.</tt> All line graphics and text are postscript elements.</p>
+<p class="zh">Level 2——生成的 Postscript 由颜色查找表和图像数据组成，用 RLE 压缩，并以 <tt>ASCIIHEX85</tt> 编码。所有线图形和文字都是 Postscript 元素。</p>
+</blockquote>
+<blockquote>
+<p>Level 3-- The postscript generated consists of a color lookup table and image data, compressed with GZIP<tt>.</tt> All line graphics and text are postscript elements.</p>
+<p class="zh">Level 3——生成的 Postscript 由颜色查找表和图像数据组成，用 GZIP 压缩。所有线图形和文字都是 Postscript 元素。</p>
+</blockquote>
+<p><b>Postscript Color Model</b></p>
+<p class="zh"><b>Postscript 颜色模型（Postscript Color Model）</b></p>
+<p>DS9 supports three color models for level 2/3 postscript. All three color models generate approximately the same size files.</p>
+<p class="zh">对于 Level 2/3 Postscript，DS9 支持三种颜色模型。这三种颜色模型生成的文件大小大致相同。</p>
+<blockquote><tt>RGB<br>
+CMYK<br>
+Grayscale<br></tt></blockquote>
+<p class="zh">上面列出了三种 Postscript 颜色模型：RGB、CMYK 和灰度（Grayscale）。</p>
+<p><b>Resolution</b></p>
+<p class="zh"><b>分辨率（Resolution）</b></p>
+<p>Unlike graphic elements, image data must be sampled when encoded into postscript. The specified resolution parameter is in "pixels per inch" and is independent of the current screen resolution. A value of 96 maps to the current screen resolution. Any value over 96 will over sample the image, while any value under 96 will under sample. For high resolution printers and posters, the higher resolution sampling, the better. However, keep in mind the size of the postscript file grows with the square of the increase in resolution.</p>
+<p class="zh">与图形元素不同，图像数据在编码为 Postscript 时必须经过采样。指定的分辨率参数以“像素/英寸”为单位，与当前屏幕分辨率无关。取值 96 对应当前屏幕分辨率；大于 96 会对图像过采样，小于 96 则欠采样。对于高分辨率打印机和海报，采样分辨率越高越好。但请记住：Postscript 文件的大小随分辨率增幅的平方而增长。</p>
+</blockquote>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE doctype PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta name="generator" content="HTML Tidy for Mac OS X (vers 31 October 2006 - Apple Inc. build 17.1), see www.w3.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="GENERATOR" content="Mozilla/4.78 [en] (X11; U; Linux 2.4.7-10 i686) [Netscape]">
+<title>Color（颜色条）</title>
+<style type="text/css">
+.zh { color: #333333; border-left: 3px solid #cccccc; padding-left: 8px; margin: 2px 0 10px 0; font-family: "Microsoft YaHei", "PingFang SC", sans-serif; }
+h2 .zh, h3 .zh, h4 .zh { color: #555555; font-weight: normal; border-left: none; padding-left: 6px; }
+li .zh { display: block; }
+</style>
+</head>
+<body bgcolor="#FFFFFF" alink="#FF0000" vlink="#551A8B" text="#000000" link="#0000EE">
+<h3><img alt="" src="../sun.png" align="middle" > Colorbar <span class="zh">颜色条（Colorbar）</span><br></h3>
+<blockquote>
+<p><b>Color Tags</b></p>
+<p class="zh"><b>颜色标记（Color Tags）</b></p>
+<p>The purpose of color tags are to highlight (or hide) certain values of data, regardless of the color map selected. The user creates, edits, and deletes color tags via the GUI. To create a color tag, enter the Colorbar Mode, and click once on the colorbar. This creates a default color tag. Click and drag to change the values. Click and drag on one side to increase or decrease the value. Double click to manually edit the values and color. Place the cursor over the color tag and press the delete key to delete it. From the color parameters dialog, the user can load, save, and delete all color tags for that frame.<br></p>
+<p class="zh">颜色标记（color tag）的作用是：无论选用哪种颜色映射，都能高亮（或隐藏）某些数据值。用户通过 GUI 创建、编辑和删除颜色标记。要创建颜色标记，进入颜色条模式后在颜色条上单击一次，即生成一个默认颜色标记。点击并拖动可改变其取值；在标记一侧点击拖动可增大或减小数值；双击可手动编辑数值和颜色；将光标悬停在颜色标记上并按 Delete 键即可删除。通过颜色参数对话框，用户可以加载、保存和删除该帧的全部颜色标记。</p>
+<p><b>Visuals</b></p>
+<p class="zh"><b>视觉类型（Visuals）</b></p>
+<p>DS9 supports a number of color environments. Not all color environments, or visuals, are available on most machines. In fact, you may be restricted to one or two, base on the color graphics hardware your computer has. A color visual is composed of two parts, the color model and the bit depth. True color uses the value directly as a RGB triplet, to derive the correct color. The follow is a list of the color visuals DS9 currently supports:</p>
+<p class="zh">DS9 支持多种颜色环境。在大多数机器上，并非所有颜色环境（或称视觉类型 visual）都可用。实际上，受计算机图形硬件限制，你可能只能使用其中一两种。颜色视觉由两部分组成：颜色模型和位深（bit depth）。真彩色（True color）直接把数值当作 RGB 三元组来得出正确颜色。以下是 DS9 当前支持的颜色视觉列表：</p>
+<blockquote><tt>true color, 8 bit<br>
+true color, 15 bit<br>
+true color, 16 bit<br>
+true color, 24 bit</tt></blockquote>
+<p class="zh">上面列出了 DS9 支持的真彩色视觉：8 位、15 位、16 位和 24 位真彩色。</p>
+<p>You can use the <tt>xdpyinfo</tt> command to see if one of these visual are available. NOTE: Linux Users-- if your desired visual is not available, use the Xconfigarator command (Red Hat) or similar command under other versions of linux, to configure your X window visuals.</p>
+<p class="zh">你可以使用 <tt>xdpyinfo</tt> 命令查看这些视觉中哪些可用。注意：Linux 用户——如果你想要的视觉不可用，请使用 Xconfigarator 命令（Red Hat）或其他 Linux 版本下的类似命令来配置你的 X 窗口视觉。</p>
+<p>When DS9 is invoked, by default, it will use the default visual. You can find out what the default visual is by using the <tt>xdpyinfo</tt> command. You can also force DS9 to use another visual by command line option. If you specify a visual, and it is not available, DS9 will exit with an error message.</p>
+<p class="zh">DS9 启动时默认使用系统默认视觉。你可用 <tt>xdpyinfo</tt> 命令查看默认视觉是什么。你也可以通过命令行选项强制 DS9 使用其他视觉。如果指定了某个视觉而它不可用，DS9 会报错退出。</p>
+<blockquote><tt>$ds9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # default visual, default depth<br>
+$ds9 -visual true&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # true color, default depth<br>
+$ds9 -visual truecolor&nbsp;&nbsp;&nbsp; # true color, default depth<br>
+$ds9 -visual truecolor8&nbsp;&nbsp; # true color 8<br>
+$ds9 -visual truecolor16&nbsp; # true color 16<br>
+$ds9 -visual truecolor24&nbsp; # true color 24</tt></blockquote>
+<p class="zh">上面是用 <tt>-visual</tt> 命令行选项指定颜色视觉的示例：不带参数时使用默认视觉和默认位深；<tt>-visual true</tt> 或 <tt>-visual truecolor</tt> 使用真彩色（默认位深）；<tt>truecolor8/16/24</tt> 分别指定 8/16/24 位真彩色。</p>
+</blockquote>
+</body>
+</html>

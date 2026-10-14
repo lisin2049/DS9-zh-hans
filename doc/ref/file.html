@@ -1,0 +1,684 @@
+<!DOCTYPE doctype PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta name="generator" content="HTML Tidy for Mac OS X (vers 31 October 2006 - Apple Inc. build 17.1), see www.w3.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="GENERATOR" content="Mozilla/4.78 [en] (X11; U; Linux 2.4.7-10 i686) [Netscape]">
+<title>File Formats（文件格式）</title>
+<style type="text/css">
+.zh { color: #333333; border-left: 3px solid #cccccc; padding-left: 8px; margin: 2px 0 10px 0; font-family: "Microsoft YaHei", "PingFang SC", sans-serif; }
+h2 .zh, h3 .zh, h4 .zh { color: #555555; font-weight: normal; border-left: none; padding-left: 6px; }
+li .zh { display: block; }
+</style>
+</head>
+<body bgcolor="#FFFFFF" alink="#FF0000" vlink="#551A8B" text="#000000" link="#0000EE">
+<h3><img alt="" src="../sun.png" align="middle"> File Formats<span class="zh">（文件格式）</span></h3>
+<blockquote><a href="#FITS">FITS</a><br>
+<a href="#FITSImage">FITS Image</a><br>
+<a href="#FITSBinaryEventsTable">FITS Binary Events Table</a><br>
+<a href="#FITSHEALPIXTable">FITS HEALPIX Table</a><br>
+<a href="#FITSDataCube">FITS Data Cube</a><br>
+<a href="#FITSMultipleExtensionDataCube">FITS Multiple Extension Data Cube</a><br>
+<a href="#FITSMultipleExtensionMultipleFrames">FITS Multiple Extension Multiple Frames</a><br>
+<a href="#FITSMosaic">FITS Mosaic</a><br>
+<a href="#FITSMosaicDataCube">FITS Mosaic Data Cube</a><br>
+<a href="#FITSRGB">FITS RGB</a><br>
+<a href="#SplitFITS">Split FITS</a><br>
+<a href="#array">Array</a><br>
+<a href="#nrrd">NRRD</a><br>
+<a href="#envi">ENVI</a><br>
+<a href="#gif">GIF</a><br>
+<a href="#tiff">TIFF</a><br>
+<a href="#jpeg">JPEG</a><br>
+<a href="#png">PNG</a><br>
+<a href="#ExternalFileSupport">External Format Support</a><br>
+<a href="#ExternalAnalysisSupport">External Analysis Support</a><br>
+<a href="#RegionFiles">Region Files</a><br>
+<a href="#ContourFiles">Contour Files</a><br>
+<a href="#ColorLookupTable">Color Lookup Table</a><br>
+<a href="#WCS">WCS</a><br>
+<a href="#PreferenceFile">Preference File</a><br>
+<a href="#StartupFile">Startup File</a><br>
+<a href="#TCL">TCL</a><br>
+<a href="#Script">Movie Script</a><br>
+<p class="zh">目录：<a href="#FITS">FITS</a>；<a href="#FITSImage">FITS 图像</a>；<a href="#FITSBinaryEventsTable">FITS 二进制事件表</a>；<a href="#FITSHEALPIXTable">FITS HEALPIX 表</a>；<a href="#FITSDataCube">FITS 数据立方体</a>；<a href="#FITSMultipleExtensionDataCube">FITS 多扩展数据立方体</a>；<a href="#FITSMultipleExtensionMultipleFrames">FITS 多扩展多帧</a>；<a href="#FITSMosaic">FITS 拼接</a>；<a href="#FITSMosaicDataCube">FITS 拼接数据立方体</a>；<a href="#FITSRGB">FITS RGB</a>；<a href="#SplitFITS">拆分 FITS</a>；<a href="#array">数组</a>；<a href="#nrrd">NRRD</a>；<a href="#envi">ENVI</a>；<a href="#gif">GIF</a>；<a href="#tiff">TIFF</a>；<a href="#jpeg">JPEG</a>；<a href="#png">PNG</a>；<a href="#ExternalFileSupport">外部格式支持</a>；<a href="#ExternalAnalysisSupport">外部分析支持</a>；<a href="#RegionFiles">区域文件</a>；<a href="#ContourFiles">等高线文件</a>；<a href="#ColorLookupTable">颜色查找表</a>；<a href="#WCS">WCS</a>；<a href="#PreferenceFile">首选项文件</a>；<a href="#StartupFile">启动文件</a>；<a href="#TCL">TCL</a>；<a href="#Script">影片脚本</a></p>
+<p><b><a name="FITS" id="FITS"></a>FITS</b></p>
+<p class="zh"><b>FITS</b></p>
+DS9 supports FITS images and FITS binary tables. The following algorithm is used to locate and to load the FITS image or table if no additional information is provide:
+<p class="zh">DS9 支持 FITS 图像和 FITS 二进制表。如果未提供附加信息，DS9 按以下算法查找并加载 FITS 图像或表：</p>
+<blockquote>
+<ul>
+<li><tt>Examine primary HDU, if IMAGE, load.</tt><tt><br></tt><p class="zh">检查主 HDU：若是 IMAGE（图像），则加载。</p></li>
+<li><tt>Examine each extension HDU</tt><p class="zh">逐一检查每个扩展 HDU。</p></li>
+<li style="list-style: none">
+<ul>
+<li><tt>If IMAGE, load.</tt><tt><br></tt><p class="zh">若是 IMAGE，则加载。</p></li>
+<li><tt>If BINARY TABLE, create IMAGE if the following is true:</tt><p class="zh">若是 BINARY TABLE（二进制表），且满足以下任一条件，则将其生成图像：</p></li>
+<li style="list-style: none">
+<ul>
+<li><tt>FITS COMPRESSED: keyword ZIMAGE is T.</tt><p class="zh">压缩 FITS：关键字 ZIMAGE 为 T。</p></li>
+<li><tt>FITS EVENTS: keyword EXTNAME is EVENTS,STDEVT, or RAYEVENT, column names X and Y are present.</tt><p class="zh">FITS 事件表：关键字 EXTNAME 为 EVENTS、STDEVT 或 RAYEVENT，且存在名为 X 和 Y 的列。</p></li>
+<li><tt>FITS HEALPIX: keyword PIXTYPE is HEALPIX.</tt><tt><br></tt><p class="zh">FITS HEALPIX：关键字 PIXTYPE 为 HEALPIX。</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><tt>If DS9 traverses the entire FITS file without satisfying one of the above, an error is generated.</tt><p class="zh">如果 DS9 遍历了整个 FITS 文件仍不满足上述任一条件，则产生错误。</p></li>
+</ul>
+</blockquote>
+FITS keyword inheritance is supported. All valid FITS <tt>BITPIX</tt> values are supported, along with <tt>-16,</tt> for <tt>UNSIGNED SHORT</tt>. The following FITS keywords are supported:
+<p class="zh">DS9 支持 FITS 关键字继承。所有合法的 FITS <tt>BITPIX</tt> 取值都受支持，另外还支持用于 <tt>UNSIGNED SHORT</tt>（无符号短整型）的 <tt>-16</tt>。受支持的 FITS 关键字如下：</p>
+<blockquote><tt>OBJECT</tt><tt><br>
+UNITS</tt><tt><br>
+BSCALE / BZERO</tt><tt><br>
+BLANK</tt><tt><br>
+DATASEC</tt><tt><br>
+LTV / LTM&nbsp; for physical coords</tt><tt><br>
+DTV / DTM&nbsp; for detector coords</tt><tt><br>
+ATV / ATM&nbsp; for amplifier coords</tt><tt><br>
+WCS keywords</tt><tt><br>
+WCS# keywords</tt></blockquote>
+<p class="zh">上表列出的受支持关键字包括：OBJECT（目标）、UNITS（单位）、BSCALE/BZERO（缩放/零点）、BLANK（空像素值）、DATASEC、用于物理坐标的 LTV/LTM、用于探测器坐标的 DTV/DTM、用于放大器坐标的 ATV/ATM，以及 WCS 关键字和 WCS# 多坐标系关键字。</p>
+<p><b><a name="FITSImage" id="FITSImage"></a>FITS Image</b></p>
+<p class="zh"><b>FITS 图像</b></p>
+At load time, the user may provide just a file name or a file name along with FITS extension name/number and image section specification. FITS extension names are case insensitive. When specifying an extension, be sure to quote strings correctly to pass both the shell and DS9 parser. A image section specification is used to specify the x,y limits of an image subsection. By default, x and y coordinates are in <tt>IMAGE</tt>, use a <tt>'p'</tt> as the last character to indicate <tt>PHYSICAL</tt> coordinates. A <tt>'*'</tt> indicates use the default for that axis only. Block is optional and defaults to 1.<br>
+<p class="zh">加载时，用户可以只给出文件名，也可以连同 FITS 扩展名/扩展序号以及图像段（image section）说明一起给出。FITS 扩展名不区分大小写。指定扩展时，请注意正确地给字符串加引号，使其能同时通过 shell 和 DS9 解析器。图像段说明用于指定图像子区域的 x、y 范围。默认情况下 x、y 坐标为 <tt>IMAGE</tt>（图像）坐标；在末尾加一个 <tt>'p'</tt> 表示 <tt>PHYSICAL</tt>（物理）坐标。<tt>'*'</tt> 表示该轴取默认范围。Block（分箱因子）为可选项，默认为 1。</p>
+<blockquote><tt>Syntax:</tt><tt><br>
+filename</tt><tt><br>
+filename[ext]<br>
+filename[ext][sect]<br>
+filename[sect]<br>
+filename[ext,sect]<br>
+<br>
+where<br>
+<br>
+ext:<br>
+[extension name | extension #]<br>
+<br>
+sect:<br>
+[x0:x1,y0:y1[p]]<br>
+[x0:x1,y0:y1,block[p]]<br>
+[x0:x1,y0:y1,z0:z1[p]]<br>
+[x0:x1,y0:y1,block,z0:z1[p]]<br>
+[*,y0:y1[p]]<br>
+[*,y0:y1,block[p]]<br>
+[*,y0:y1,z0:z1[p]]<br>
+[*,y0:y1,block,z0:z1[p]]<br>
+[x0:x1,*[p]]<br>
+[x0:x1,*,block[p]]<br>
+[x0:x1,*,z0:z1[p]]<br>
+[x0:x1,*,block,z0:z1[p]]<br>
+[*,*,block]<br>
+[*,*,z0:z1]<br>
+[*,*,block,z0:z1]<br>
+<br>
+[dim1@xcen,dim2@ycen[p]]<br>
+[dim1@xcen,dim2@ycen,block[p]]<br>
+[dim1@xcen,dim2@ycen,dim3@zcen[p]]<br>
+[dim1@xcen,dim2@ycen,block,dim3@zcen[p]]<br>
+[*,dim2@ycen[p]]<br>
+[*,dim2@ycen,block[p]]<br>
+[*,dim2@ycen,dim3@zcen[p]]<br>
+[*,dim2@ycen,block,dim3@zcen[p]]<br>
+[dim1@xcen,*[p]]<br>
+[dim1@xcen,*,block[p]]<br>
+[dim1@xcen,*,dim3@zcen[p]]<br>
+[dim1@xcen,*,block,dim3@zcen[p]]<br>
+[*,*,block]<br>
+[*,*,dim3@zcen]<br>
+[*,*,block,dim3@zcen]<br>
+<br>
+[dim@xcen@ycen]<br>
+[dim@xcen@ycen,block]<br>
+[dim@xcen@ycen,zdim@zcen]<br>
+[dim@xcen@ycen,block,zdim@zcen]<br>
+<br>
+Example:<br>
+$ds9 foo.fits # default load<br>
+$ds9 foo.fits[1] # load first extension<br>
+$ds9 foo.fits[BCKGRD] # load extension named 'BCKGRD'<br>
+$ds9 foo.fits[10:200,40:100] # image section<br>
+$ds9 foo.fits[10:200,40:100,2] # image section, blocked by 2<br>
+$ds9 foo.fits[*,40:100] # only section y axis<br>
+$ds9 foo.fits[256@512@512] # section box at 512,512<br>
+$ds9 foo.fits[2][100:200,100:200] # second extension, image section<br>
+$ds9 foo.fits[2][100:200,100:200,2] # second extension, image section, blocked by 2<br>
+$ds9 foo.fits[10:200,40:100,5:20] # cube section<br>
+$ds9 foo.fits[*,40:100,5:20] # only section y and z axes<br>
+$ds9 foo.fits[256@512@512] # section cube at 512,512<br>
+$ds9 foo.fits[2][100:200,100:200,5:20] # second extension, cube section<br>
+$ds9 foo.fits[2][100:200,100:200,2,5:20] # second extension, cube section, blocked by 2</tt></blockquote>
+<p class="zh">以上为 FITS 文件名语法：ext 为扩展名或扩展序号；sect 为图像段，用 [x0:x1,y0:y1] 指定范围，末尾加 p 表示物理坐标，可用 block 因子分箱，三维时可加 z0:z1；也可用 dim@xcen 的形式指定以某点为中心的子区域。注释行（# 后）给出了各示例的含义，如默认加载、按序号/名称加载扩展、裁剪区域、2 倍分箱、立方体段等。</p>
+<b><a name="FITSBinaryEventsTable" id="FITSBinaryEventsTable"></a>FITS Binary Events Table<br>
+<br></b> At load time, the user may provide just a file name or a file name along with FITS extension name/number, image section specification, and binnng parameters. DS9 will automatically convert an FITS binary events table into a 2D image for display. FITS extension names and parameters are case insensitive. The users may specify a number of parameters on how to construct the image and how to filter data. When specifying a filter, be sure to quote strings correctly to pass both the shell and DS9 parser.</blockquote>
+<p class="zh"><b>FITS 二进制事件表</b>。加载时，用户可以只给出文件名，也可以连同 FITS 扩展名/序号、图像段说明以及分箱（binning）参数一起给出。DS9 会自动把 FITS 二进制事件表转换为二维图像用于显示。FITS 扩展名和参数不区分大小写。用户可以指定若干参数来控制如何构建图像以及如何筛选数据。指定筛选条件时，请注意正确给字符串加引号，使其能同时通过 shell 和 DS9 解析器。</p>
+<blockquote>
+<blockquote><tt>Syntax:<br>
+filename<br>
+filename[ext]<br>
+filename[ext][sect]<br>
+filename[sect]<br>
+filename[ext,sect]<br>
+<br>
+filename[ext][bin]<br>
+filename[ext][bin][sect]<br>
+filename[ext][sect][bin]<br>
+filename[bin]<br>
+filename[bin][sect]<br>
+filename[sect][bin]<br>
+filename[ext,bin]<br>
+<br>
+where:<br>
+ext: see <a href="#FITSImage">FITS Image</a><br>
+sect: see <a href="#FITSImage">FITS Image</a><br>
+<br>
+bin:<br>
+[bin=colx,coly] # bin counts<br>
+[bin=colx,coly,filter] # bin counts with filter<br>
+[bin=colx,coly,colz] # bin on colz<br>
+[bin=colx,coly,colz,filter] # bin on colz with filter<br>
+[bin=colz] # bin cols 'x', 'y', and colz<br>
+[bin=colz,filter] # bin cols 'x', 'y', and colz with filter<br>
+[key=colx,coly]<br>
+[binkey=colx,coly]<br></tt><br>
+(see <a href="http://hea-www.harvard.edu/saord/funtools/filters.html">Introduction to Filtering</a>)<br>
+<br>
+<tt>Example:<br>
+$ds9 foo.fits # default load<br>
+$ds9 foo.fits[1] # load first extension<br>
+$ds9 foo.fits[BCKGRD] # load extension named 'BCKGRD'<br>
+$ds9 foo.fits[bin=detx,dety] # bin on detx,dety<br>
+$ds9 foo.fits[2][bin=rawx,rawy] # load ext 2, cols rawx,rawy<br>
+$ds9 foo.fits[bg_events,bin=rawx,rawy] # load ext bg_events, cols rawx,rawy<br>
+$ds9 foo.fits[bin=x,y,pha] # bin on x,y,pi<br>
+$ds9 foo.fits[bin=pi] # bin on x,y,pi<br>
+$ds9 'foo.fits[ccd_id==3&amp;&amp;energy&gt;4000]' # quoted filter<br>
+$ds9 '"foo.fits[ccd_id==3 &amp;&amp; energy&gt;4000]"' # double quoted filter<br>
+$ds9 'foo.fits[events][pha&gt;5,pi&lt;2]' # load extension 'events' and filter</tt></blockquote>
+</blockquote>
+<p class="zh">以上为事件表语法：ext、sect 同前；bin 子句用 [bin=colx,coly] 指定分箱所用的两列，可再加第三列（如 pha/pi）或 filter 筛选表达式；注释行给出了各示例含义。筛选表达式的语法另见 Funtools 的《Introduction to Filtering》；带 &&、&gt;、&lt; 的筛选条件需要按示例那样用引号包起来。</p>
+<blockquote>
+<p>The shell environment variable <tt>DS9_BINKEY</tt> may be used to specify default bin cols for FITS bin tables. Example:</p>
+<p class="zh">可以使用 shell 环境变量 <tt>DS9_BINKEY</tt> 为 FITS 分箱表指定默认的分箱列。示例：</p>
+<blockquote><tt>$ export DS9_BINKEY='[bin=rawx,rawy]'<br>
+$ ds9 foo.fits # load FITS bin table, bin on rawx, rawy<br></tt></blockquote>
+<p class="zh">先用 export 设置 DS9_BINKEY 默认分箱列为 rawx、rawy，之后直接加载 FITS 分箱表时就会按该默认分箱。</p>
+<p><b><a name="FITSHEALPIXTable" id="FITSHEALPIXTable"></a>FITS HEALPIX Table<br></b></p>
+<p class="zh"><b>FITS HEALPIX 表</b></p>
+At load time, the user may provide just a file name or a file name along with FITS extension name/number, image section specification, and Healpix parameters. DS9 will automatically convert a FITS HEALPIX binary or ascii table into a 2D image for display. FITS extension names and parameters are case insensitive. The users may specify a number of parameters on how to construct the image. Any table with keyword PIXTYPE=HEALPIX or NSIDE=x will be processed as an HEALPIX image. Space MOC/partial HEALPIX binary tables using ORDERING=NUNIQ and a UNIQ or NPIX index column will also be displayed as HEALPIX images. The following FITS keywords will be used if present and not overwritten by a command line option: NSIDE, COORDSYS, ORDER, MOCORD_S, MOCORDER, HPXMOC.<br>
+<p class="zh">加载时，用户可以只给出文件名，也可以连同 FITS 扩展名/序号、图像段说明以及 Healpix 参数一起给出。DS9 会自动把 FITS HEALPIX 二进制表或 ASCII 表转换为二维图像用于显示。FITS 扩展名和参数不区分大小写，用户可以指定若干参数来控制如何构建图像。任何带关键字 PIXTYPE=HEALPIX 或 NSIDE=x 的表都会被当作 HEALPIX 图像处理；使用 ORDERING=NUNIQ 且带 UNIQ 或 NPIX 索引列的空间 MOC/部分 HEALPIX 二进制表也会作为 HEALPIX 图像显示。若存在且未被命令行选项覆盖，将使用以下 FITS 关键字：NSIDE、COORDSYS、ORDER、MOCORD_S、MOCORDER、HPXMOC。</p>
+<blockquote><tt>Syntax:<br>
+filename<br>
+filename[ext]<br>
+filename[ext][sect]<br>
+filename[sect]<br>
+filename[ext,sect]<br>
+<br>
+filename[ext][hpx]<br>
+filename[ext][hpx][sect]<br>
+filename[ext][sect][hpx]<br>
+filename[hpx]<br>
+filename[hpx][sect]<br>
+filename[sect][hpx]<br>
+filename[ext,hpx]<br>
+<br>
+where:<br>
+ext: see <a href="#FITSImage">FITS Image</a><br>
+sect: see <a href="#FITSImage">FITS Image</a><br>
+<br>
+hpx:<br>
+[order=ring|nested] # default ring<br>
+[layout=equatorial|north|south] # default equatorial<br>
+[col=&lt;column number&gt;] # defaut 1<br>
+[quad=&lt;quadurant number&gt;] # (1-4) default 1<br>
+[system=equatorial|galactic|ecliptic|unknown] # default unknown<br>
+<br>
+Example:<br>
+$ds9 foo.fits # default load<br>
+$ds9 foo.fits[1] # load first extension<br>
+$ds9 foo.fits[order=ring,layout=equatorial,col=1,quad=1,system=unknown]<br>
+$ds9 foo.fits[1,order=nested] # first extension, nested order</tt><br></blockquote>
+<p class="zh">以上为 HEALPIX 表语法：ext、sect 同前；hpx 子句中 order 指定 HEALPIX 排列方式（ring 环序，默认；nested 嵌套序），layout 指定布局（赤道/北天/南天），col 指定数据列号（默认 1），quad 指定象限（1–4，默认 1），system 指定坐标系（赤道/银道/黄道/未知，默认未知）。</p>
+<p><b><a name="FITSDataCube" id="FITSDataCube"></a>FITS Cube</b></p>
+<p class="zh"><b>FITS 立方体</b></p>
+A FITS Cube is a FITS image which contains more than 2 axes (NAXES&gt;2). DS9 will automatically detect if a cube is present and will load all additional images. In addition, individual images can be loaded one at a time into a cube. DS9 will display the Cube dialog box which allows the user to select which 2 image to be displayed.
+<p class="zh">FITS 立方体是指包含超过 2 个轴（NAXES&gt;2）的 FITS 图像。DS9 会自动检测是否存在立方体并加载所有附加的图像；此外，也可以逐张把单个图像加载进一个立方体。DS9 会弹出 Cube 对话框，让用户选择要显示哪一二维图像。</p>
+<p><b><a name="FITSMultipleExtensionDataCube" id="FITSMultipleExtensionDataCube"></a>FITS Multiple Extension Cube</b></p>
+<p class="zh"><b>FITS 多扩展立方体</b></p>
+A FITS Multiple Extension Data Cube file is a FITS file with one or more extensions, that is to be displayed as a data cube. Each image does not have to be the same size, however, only the coordinate systems from the first extension will be used for contours and grids.<br>
+<p class="zh">FITS 多扩展数据立方体文件是指一个带有一个或多个扩展、需要作为数据立方体显示的 FITS 文件。各图像尺寸不必相同，但等高线和网格只会使用第一个扩展的坐标系。</p>
+<blockquote><tt>Example:<br>
+$ds9 -mecube foo.fits # load multiple extension fits file as data cube</tt></blockquote>
+<p class="zh">示例：用 -mecube 选项把多扩展 FITS 文件作为数据立方体加载。</p>
+<p><b><a name="FITSMultipleExtensionMultipleFrames" id="FITSMultipleExtensionMultipleFrames"></a>FITS Multiple Extension Multiple Frames</b></p>
+<p class="zh"><b>FITS 多扩展多帧</b></p>
+Load a multiple extension FITS file into multiple frames. Please note that files loaded via standard-in or the xpa fits command can not be displayed using this method.<br>
+<p class="zh">把多扩展 FITS 文件加载到多个帧中。请注意：通过标准输入（stdin）或 xpa fits 命令加载的文件不能用此方式显示。</p>
+<blockquote><tt>Example:<br>
+$ds9 -multiframe foo.fits # load multiple extension fits file as multiple frames</tt></blockquote>
+<p class="zh">示例：用 -multiframe 选项把多扩展 FITS 文件加载为多个帧。</p>
+<p><b><a name="FITSMosaic" id="FITSMosaic"></a>FITS Mosaic</b></p>
+<p class="zh"><b>FITS 拼接</b></p>
+A FITS mosaic image may exist as a series of FITS files, or as one FITS file with many extensions. A FITS mosaic may be loaded all a one time, or by the segment. Once loaded, the multiple FITS images are treated as one FITS image.<br>
+<p class="zh">FITS 拼接图像（mosaic）可以是一系列 FITS 文件，也可以是一个带多个扩展的 FITS 文件。拼接图像可以一次性整体加载，也可以按分段（segment）加载。加载后，多个 FITS 图像被当作一个 FITS 图像处理。</p>
+<br>
+DS9 supports three forms of mosaics:&nbsp;
+<p class="zh">DS9 支持三种形式的拼接：</p>
+<center>
+<table summary="" cellspacing="2" cellpadding="2" border="1" align="center" width="50%">
+<tbody>
+<tr>
+<td valign="top"><tt>IRAF</tt><br></td>
+<td valign="top"><tt>contains the DETSEC and DETSIZE keywords.<br>
+See <a href="http://iraf.noao.edu/projects/ccdmosaic/imagedef/imagedef.html">NOAO IRAF Mosaic Data Structures</a></tt><br></td>
+</tr>
+<tr>
+<td align="left" valign="top"><tt>WCS</tt><br></td>
+<td align="left" valign="top"><tt>each FITS image contains a valid WCS.</tt><br></td>
+</tr>
+<tr>
+<td align="left" valign="top"><tt>HST WFPC2</tt><br></td>
+<td align="left" valign="top"><tt>valid HST WFPC2 data cube, consisting of 4 planes, along with a fits ascii table containing wcs information.</tt></td>
+</tr>
+</tbody>
+</table>
+</center>
+<p class="zh">上表：IRAF 拼接——包含 DETSEC 和 DETSIZE 关键字（详见 NOAO IRAF 拼接数据结构文档）；WCS 拼接——每个 FITS 图像都包含一个有效的 WCS；HST WFPC2——有效的 HST WFPC2 数据立方体，由 4 个平面组成，并附带一个包含 WCS 信息的 FITS ASCII 表。</p>
+<blockquote><tt>Example:<br>
+$ds9 -mosaicimage iraf foo.fits # load mosaic iraf from one fits file with multiple exts<br>
+$ds9 -mosaic iraf foo.fits bar.fits wow.fits # load mosaic iraf from 3 files<br>
+$ds9 -mosaicimage wcs foo.fits # load mosaic wcs from one fits file with multiple exts<br>
+$ds9 -mosaic wcs foo.fits bar.fits wow.fits # load mosaic wcs from 3 files<br>
+$ds9 -mosaicimage wfpc2 bar.fits # load wfpc2 mosaic<br>
+$ds9 -mosaic foo.fits bar.fits wow.fits # load mosaic (wcs) from 3 files</tt><br></blockquote>
+<p class="zh">示例：-mosaicimage iraf/wcs/wfpc2 用于从单个多扩展 FITS 文件加载拼接；-mosaic 用于从多个文件加载拼接（默认按 WCS 拼接）。</p>
+<p><b><a name="FITSMosaicDataCube" id="FITSMosaicDataCube"></a>FITS Mosaic Data Cube</b></p>
+<p class="zh"><b>FITS 拼接数据立方体</b></p>
+A FITS Mosaic Data Cube is a FITS mosaic image which contains more than 2 axes (NAXES&gt;2). DS9 will automatically detect if a mosaic data cube is present and will load all additional images. At the same time, DS9 will display the data cube dialog box which allows the user to select which 2 image to be displayed.
+<p class="zh">FITS 拼接数据立方体是指包含超过 2 个轴（NAXES&gt;2）的 FITS 拼接图像。DS9 会自动检测是否存在拼接数据立方体并加载所有附加图像，同时弹出数据立方体对话框，让用户选择要显示哪一二维图像。</p>
+<p><b><a name="FITSRGB" id="FITSRGB"></a>FITS RGB</b></p>
+<p class="zh"><b>FITS RGB</b></p>
+A FITS RGB image may exist as three of FITS images, one FITS file with three extensions, or as a FITS 3D Data cube, with three slices, each representing the red, green, and blue channel. A FITS RGB image may be loaded all a one time, or by the channel. Once loaded, the multiple FITS images are treated as one FITS image.<br>
+<p class="zh">FITS RGB 图像可以是三个独立的 FITS 图像、一个带三个扩展的 FITS 文件，或一个带有三个切片的 FITS 三维数据立方体——每个切片分别代表红、绿、蓝通道。RGB 图像可以一次性整体加载，也可以按通道加载。加载后，多个 FITS 图像被当作一个 FITS 图像处理。</p>
+<blockquote><tt>Example:<br>
+$ds9 -rgbimage rgb.fits # load rgb image consisting of one fits file with 3 image exts<br>
+$ds9 -rgbcube cube.fits # load rgb image consisting of one fits data cube<br>
+$ds9 -rgb -red foo.fits -green bar.fits -blue wow.fits # rgb image from 3 fits images</tt><br></blockquote>
+<p class="zh">示例：-rgbimage 加载含 3 个图像扩展的 RGB FITS 文件；-rgbcube 从一个 FITS 数据立方体加载 RGB；-rgb -red/-green/-blue 分别从三个 FITS 文件构成 RGB 图像。</p>
+<p><b><a name="SplitFITS" id="SplitFITS"></a>Split FITS</b></p>
+<p class="zh"><b>拆分 FITS</b></p>
+A split fits is a valid fits file in which two files contain the header and data segments.
+<p class="zh">拆分 FITS（split fits）是一种合法的 FITS 文件：其文件头（header）段和数据（data）段分别存放在两个文件中。</p>
+<p><b><a name="array" id="array"></a>Array</b></p>
+<p class="zh"><b>数组（Array）</b></p>
+Raw data arrays are supported. To load an array, the user must provide the dimensions, pixel depth, and optional header size and architecture type.
+<p class="zh">DS9 支持原始数据数组。加载数组时，用户必须给出维数、像素位深，并可选择给出文件头大小和字节序（架构类型）。</p>
+<blockquote><tt>Syntax:<br>
+filename[arr]<br>
+filename[arr][sect]<br>
+filename[sect][arr]<br>
+&nbsp;<br>
+where<br>
+sect: see <a href="#FITSImage">FITS Image</a><br>
+arr:<br></tt>
+<blockquote><tt>xdim=value<br>
+ydim=value<br>
+zdim=value # default is a depth of 1<br>
+dim=value<br>
+dims=value<br>
+bitpix=[8|16|-16|32|64|-32|-64]<br>
+skip=value # must be even, most must be factor of 4<br>
+arch|endian=[big|bigendian|little|littleendian]<br></tt></blockquote>
+<p class="zh">arr 子句参数：xdim/ydim/zdim 给出各维大小（zdim 默认为 1）；dim/dims 给出统一维数；bitpix 指定像素类型（8/16/-16/32/64/-32/-64）；skip 为跳过的头字节数（必须为偶数，且最好是 4 的倍数）；arch 或 endian 指定字节序（big 大端 / little 小端）。</p>
+<tt>Example:<br>
+$ds9 -array bar.arr[xdim=512,ydim=512,zdim=1,bitpix=16] # load 512x512 short<br>
+$ds9 -array bar.arr[dim=256,bitpix=-32,skip=4] # load 256x256 float with 4 byte head<br>
+$ds9 -array bar.arr[dim=512,bitpix=32,arch=little] # load 512x512 long, intel<br></tt>
+<p class="zh">示例：加载 512×512 短整型数组、带 4 字节头的 256×256 浮点数组、以及小端（intel）512×512 长整型数组。</p>
+<p>or alternate format:</p>
+<p class="zh">或者使用另一种格式：</p>
+<tt>filename[array(&lt;type&gt;&lt;dim&gt;&lt;:skip&gt;&lt;endian&gt;)]<br>
+<br>
+where:<br>
+type:</tt>
+<blockquote><tt>'b' 8 -bit unsigned char<br>
+'s' 16-bit short int<br>
+'u' 16-bit unsigned short int<br>
+'i' 32-bit int<br>
+'l' 64-bit int<br>
+'r' 32-bit float<br>
+'f' 32-bit float<br>
+'d' 64-bit float</tt></blockquote>
+<p class="zh">type 为数组类型代码：b=8 位无符号字符，s=16 位短整型，u=16 位无符号短整型，i=32 位整型，l=64 位整型，r/f=32 位浮点，d=64 位浮点。</p>
+<tt>dim:</tt>
+<blockquote><tt>int&nbsp;&nbsp;&nbsp;&nbsp; # x,y dim<br>
+int.int # x,y dim<br>
+int.int.int # x,y,z dim<br></tt></blockquote>
+<p class="zh">dim 为维数：单个整数表示 x、y 两维；int.int 表示 x、y 维；int.int.int 表示 x、y、z 三维。</p>
+<tt>skip:</tt>
+<blockquote><tt>int&nbsp;&nbsp;&nbsp;&nbsp; # number of bytes to skip</tt></blockquote>
+<p class="zh">skip 为需要跳过的字节数（即文件头长度）。</p>
+<tt>endian:</tt>
+<blockquote><tt>'l' little endian<br>
+'b' big endian<br></tt></blockquote>
+<p class="zh">endian 指定字节序：l 为小端，b 为大端。</p>
+<tt>Example:<br>
+$ds9 -array bar.arr[array(s512)]&nbsp;&nbsp; # load 512x512 short<br>
+$ds9 -array bar.arr[array(r256:4)] # load 256x256 float with 4 byte head<br>
+$ds9 -array bar.arr[array(i512l)]&nbsp; # load 512x512 long, intel</tt>
+<p class="zh">简洁格式示例：array(s512) 加载 512×512 短整型；array(r256:4) 加载带 4 字节头的 256×256 浮点；array(i512l) 加载小端（intel）512×512 长整型。</p>
+<p>The shell environment variable <tt>DS9_ARRAY</tt> may be used to specify default array parameters.</p>
+<p class="zh">可以使用 shell 环境变量 <tt>DS9_ARRAY</tt> 来指定默认的数组参数。</p>
+<tt>Example:<br>
+$export DS9_ARRAY='[dim=256,bitpix=-32]'<br>
+$ds9 -array foo.arr # load 256x256 float<br></tt></blockquote>
+<p class="zh">示例：export DS9_ARRAY 设置默认参数为 dim=256、bitpix=-32，之后直接加载数组文件即按该默认参数解释。</p>
+<p><b><a name="nrrd" id="nrrd"></a>NRRD (Nearly Raw Raster Data)</b><br></p>
+<p class="zh"><b>NRRD（近原始栅格数据）</b></p>
+Images in NRRD are supported directly. Encodings supported: <tt>raw, gzip<br></tt><br>
+<p class="zh">DS9 直接支持 NRRD 格式图像。支持的编码方式：<tt>raw</tt>、<tt>gzip</tt>。</p>
+<tt>Syntax:<br>
+filename<br>
+filename[sect]<br>
+<br>
+where:<br>
+sect: see <a href="#FITSImage">FITS Image</a><br>
+<br>
+Example:<br>
+$ds9 -nrrd foo.nrrd<br>
+$ds9 -nrrd foo.nrrd[100:200,100:200] # cropped</tt><br>
+<p class="zh">语法同前（sect 为图像段）；示例：直接加载 foo.nrrd，或用 [100:200,100:200] 裁剪后加载。</p>
+<p><b><a name="envi" id="envi"></a>ENVI</b><br></p>
+<p class="zh"><b>ENVI</b></p>
+Images in ENVI are supported directly. Encodings supported: <tt>BIL, BIP, BSQ.<br></tt><br>
+<p class="zh">DS9 直接支持 ENVI 格式图像。支持的编码方式：<tt>BIL</tt>、<tt>BIP</tt>、<tt>BSQ</tt>。</p>
+<tt>Syntax:<br>
+filename<br>
+filename[sect]<br>
+<br>
+where:<br>
+sect: see <a href="#FITSImage">FITS Image</a><br>
+<br>
+Example:<br>
+$ds9 -envi foo.hdr foo.bsq<br>
+$ds9 -envi foo.hdr foo.bsq[100:200,100:200] # cropped<br></tt>
+<p class="zh">示例：给出 ENVI 头文件 foo.hdr 和数据文件 foo.bsq 直接加载，或用图像段裁剪后加载。</p>
+<p><b><a name="gif" id="gif"></a>GIF</b><br></p>
+<p class="zh"><b>GIF</b></p>
+Images in GIF are supported directly. For a <tt>Frame</tt>, the average of the luminosity is used. For <tt>Frame RGB</tt>, each channel is loaded directly.<br>
+<p class="zh">DS9 直接支持 GIF 格式图像。对于普通 <tt>Frame</tt>（帧），取亮度的平均值；对于 <tt>Frame RGB</tt>，各通道直接加载。</p>
+<tt><br>
+Syntax:<br>
+filename<br>
+<br>
+Example:<br>
+$ ds9 -gif foo.gif</tt><br>
+<p class="zh">示例：用 -gif 选项直接加载 foo.gif。</p>
+<p><b><a name="tiff" id="tiff"></a>TIFF</b><br></p>
+<p class="zh"><b>TIFF</b></p>
+Images in TIFF are supported directly. For a <tt>Frame</tt>, the average of the luminosity is used. For <tt>Frame RGB</tt>, each channel is loaded directly.<br>
+<br>
+<p class="zh">DS9 直接支持 TIFF 格式图像。对于普通 <tt>Frame</tt>，取亮度的平均值；对于 <tt>Frame RGB</tt>，各通道直接加载。</p>
+<tt>Syntax:<br>
+filename<br>
+<br>
+Example:<br>
+$ ds9 -tiff foo.tiff</tt><br>
+<p class="zh">示例：用 -tiff 选项直接加载 foo.tiff。</p>
+<p><b><a name="jpeg" id="jpeg"></a>JPEG</b><br></p>
+<p class="zh"><b>JPEG</b></p>
+Images in JPEG are supported directly. For a <tt>Frame</tt>, the average of the luminosity is used. For <tt>Frame RGB</tt>, each channel is loaded directly.<br>
+<p class="zh">DS9 直接支持 JPEG 格式图像。对于普通 <tt>Frame</tt>，取亮度的平均值；对于 <tt>Frame RGB</tt>，各通道直接加载。</p>
+<tt><br>
+Syntax:<br>
+filename<br>
+<br>
+Example:<br>
+$ ds9 -jpeg foo.jpeg</tt><br>
+<p class="zh">示例：用 -jpeg 选项直接加载 foo.jpeg。</p>
+<p><b><a name="png" id="png"></a>PNG</b><br></p>
+<p class="zh"><b>PNG</b></p>
+Images in PNG are supported directly. For a <tt>Frame</tt>, the average of the luminosity is used. For <tt>Frame RGB</tt>, each channel is loaded directly.<br>
+<br>
+<p class="zh">DS9 直接支持 PNG 格式图像。对于普通 <tt>Frame</tt>，取亮度的平均值；对于 <tt>Frame RGB</tt>，各通道直接加载。</p>
+<tt>Syntax:<br>
+filename<br>
+<br>
+Example:<br>
+$ ds9 -png foo.png</tt><br>
+<p class="zh">示例：用 -png 选项直接加载 foo.png。</p>
+<p><b><a name="ExternalFileSupport" id="ExternalFileSupport"></a>External File Support</b></p>
+<p class="zh"><b>外部格式支持</b></p>
+DS9 supports external file formats via an ASCII description file. When loading a file into DS9, these descriptions are referenced for instructions for loading the file, based on the file extension. If found, the command is executed and the result, a FITS image or FITS Binary Table, is read into DS9 via stdin.<br>
+<p class="zh">DS9 通过一个 ASCII 描述文件来支持外部文件格式。把文件加载进 DS9 时，会根据文件扩展名查找这些描述，以获得加载该文件的指令。如果找到匹配项，就执行对应的命令，并把结果（一个 FITS 图像或 FITS 二进制表）通过标准输入读入 DS9。</p>
+At start-up, DS9 first searches for the ASCII file, named <tt>.ds9.fil</tt>in the local directory, then in the users home directory.<br>
+<p class="zh">启动时，DS9 先在当前目录查找名为 <tt>.ds9.fil</tt> 的 ASCII 文件，然后在用户主目录中查找。</p>
+The file command first is macro-expanded to fill in user-defined arguments and then is executed externally.<br>
+<p class="zh">文件中的命令先进行宏展开以填入用户定义的参数，然后在外部执行。</p>
+The ASCII file that defines the known image files consists of one or more file descriptors, each of which has the following format:
+<p class="zh">定义已知图像文件的 ASCII 文件由一个或多个文件描述项组成，每个描述项格式如下：</p>
+<blockquote><tt>Help description<br>
+A space-separated list of templates<br>
+A space-separated list of file types (not currently used)<br>
+The command line for the loading this file type<br></tt></blockquote>
+<p class="zh">依次为：帮助说明文本、以空格分隔的文件模板列表、以空格分隔的文件类型列表（当前未使用）、以及加载该类文件时使用的命令行。</p>
+Note that blank lines separate the file descriptions and should not be used as part of a description. Also, the '#' character is a comment character.<br>
+<br>
+<p class="zh">注意：空行用于分隔各个文件描述项，本身不应作为描述的一部分；另外，'#' 字符为注释字符。</p>
+The following macros are supported: <tt>$filename</tt><br>
+<p class="zh">支持以下宏：<tt>$filename</tt>（文件名）。</p>
+<blockquote><tt>For Example:<br>
+# File access descriptions:<br>
+#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; help explanation<br>
+#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; file template<br>
+#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; file type<br>
+#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; access command<br>
+IRAF IMH files<br>
+*.imh<br>
+IMH<br>
+i2f -s $filename</tt></blockquote>
+<p class="zh">例如：加载 IRAF IMH 文件时，模板为 *.imh，类型为 IMH，访问命令为 i2f -s $filename（把 IMH 文件转换为 FITS 后通过管道交给 DS9）。</p>
+<p><b><a name="ExternalAnalysisSupport" id="ExternalAnalysisSupport"></a>External Analysis Support</b></p>
+<p class="zh"><b>外部分析支持</b></p>
+For more information about external analysis support files, see <a href="analysis.html">Analysis</a>.
+<p class="zh">有关外部分析支持文件的更多信息，参见 <a href="analysis.html">Analysis（分析）</a>。</p>
+<p><b><a name="RegionFiles" id="RegionFiles"></a>Region Files</b></p>
+<p class="zh"><b>区域文件</b></p>
+DS9 can read and write a number of region file formats. See <a href="region.html">Regions</a> documentation for more information.
+<p class="zh">DS9 可以读写多种区域文件格式。更多信息参见 <a href="region.html">Regions（区域）</a>文档。</p>
+<blockquote><tt><a href="region.html#RegionDescriptions">DS9</a><br>
+<a href="region.html#FUNTools">FUNTools</a><br>
+<a href="region.html#Ciao">Ciao</a><br>
+<a href="region.html#SAOimage">SAOimage</a><br>
+<a href="region.html#IRAFPROS">IRAF PROS</a><br>
+<a href="region.html#FITSREGIONBinaryTable">FITS REGION Binary Table</a><br>
+<a href="region.html#XY">X Y</a><br></tt></blockquote>
+<p class="zh">支持的区域文件格式包括：DS9、FUNTools、Ciao、SAOimage、IRAF PROS、FITS REGION 二进制表、以及 X Y 文本格式。</p>
+<p><b><a name="ContourFiles" id="ContourFiles"></a>Contour Files</b></p>
+<p class="zh"><b>等高线文件</b></p>
+See <a href="contour.html#ContourFiles">Contours</a> documentation for more information.<br>
+<p class="zh">更多信息参见 <a href="contour.html#ContourFiles">Contours（等高线）</a>文档。</p>
+<p><b><a name="ColorLookupTable" id="ColorLookupTable"></a>Color Lookup Table</b></p>
+<p class="zh"><b>颜色查找表</b></p>
+DS9 has a number of default colormaps available to the user. DS9 also supports reading and writing color lookup table formats from the following programs:
+<p class="zh">DS9 为用户提供了若干默认颜色映射，同时也支持读写以下程序的颜色查找表格式：</p>
+<blockquote><tt><a href="http://tdc-www.harvard.edu/software/saoimage/saoimage.color.html#cmap">SAOimage</a><br>
+SAOtng<br>
+XImtool<br></tt></blockquote>
+<p class="zh">支持 SAOimage、SAOtng、XImtool 的颜色查找表格式。</p>
+DS9 uses the file extension to determine the color table format:
+<p class="zh">DS9 根据文件扩展名判断颜色表格式：</p>
+<center>
+<table summary="" cellspacing="2" cellpadding="2" border="1" width="50%">
+<tbody>
+<tr>
+<td>
+<center><tt>Ext</tt></center>
+</td>
+<td>
+<center><tt>Format</tt></center>
+</td>
+</tr>
+<tr>
+<td><tt>.lut</tt></td>
+<td><tt>XImtool, SAOtng</tt></td>
+</tr>
+<tr>
+<td><tt>.sao</tt></td>
+<td><tt>DS9, SAOimage</tt></td>
+</tr>
+<tr>
+<td><tt>any other</tt></td>
+<td><tt>DS9</tt></td>
+</tr>
+</tbody>
+</table>
+</center>
+<p class="zh">上表：.lut 扩展名对应 XImtool、SAOtng 格式；.sao 扩展名对应 DS9、SAOimage 格式；其他扩展名一律按 DS9 格式处理。</p>
+<p><b><a name="WCS" id="WCS"></a>WCS</b></p>
+<p class="zh"><b>WCS（世界坐标系）</b></p>
+A new WCS specification can be loaded and used by the current image regardless of the WCS that was contained in the image file. WCS specification can be sent to DS9 as an ASCII file via XPA. The format of the specification is a set of valid FITS keywords that describe a WCS.
+<p class="zh">可以为当前图像加载并使用一个新的 WCS 说明，而不受图像文件中原有 WCS 的限制。WCS 说明可以通过 XPA 以 ASCII 文件的形式发送给 DS9，其格式为一组描述某个 WCS 的合法 FITS 关键字。</p>
+<blockquote><tt>Example:<br>
+&nbsp;&nbsp;&nbsp; CRPIX1&nbsp; =&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 257.75<br>
+&nbsp;&nbsp;&nbsp; CRPIX2&nbsp; =&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 258.93<br>
+&nbsp;&nbsp;&nbsp; CRVAL1&nbsp; =&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -201.94541667302<br>
+&nbsp;&nbsp;&nbsp; CRVAL2&nbsp; =&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -47.45444<br>
+&nbsp;&nbsp;&nbsp; CDELT1&nbsp; =&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -2.1277777E-4<br>
+&nbsp;&nbsp;&nbsp; CDELT2&nbsp; =&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2.1277777E-4<br>
+&nbsp;&nbsp;&nbsp; CTYPE1&nbsp; = 'RA---TAN'<br>
+&nbsp;&nbsp;&nbsp; CTYPE2&nbsp; = 'DEC--TAN'<br></tt></blockquote>
+<p class="zh">示例：标准 FITS 80 字符卡片形式的 WCS 关键字（CRPIX、CRVAL、CDELT、CTYPE 等）。</p>
+Note that the WCS definitions can contain standard FITS 80 character WCS card images, as shown above, or free-form name/value pairs without the intervening "=" sign:
+<p class="zh">注意：WCS 定义既可以是上面那种标准的 FITS 80 字符卡片形式，也可以是不带中间 "=" 号的自由格式 名称/值 对：</p>
+<blockquote><tt>&nbsp;&nbsp;&nbsp; CRPIX1&nbsp;&nbsp;&nbsp; 257.75<br>
+&nbsp;&nbsp;&nbsp; CRPIX2&nbsp;&nbsp;&nbsp; 258.93<br>
+&nbsp;&nbsp;&nbsp; CRVAL1&nbsp;&nbsp;&nbsp; -201.94541667302<br>
+&nbsp;&nbsp;&nbsp; CRVAL2&nbsp;&nbsp;&nbsp; -47.45444<br>
+&nbsp;&nbsp;&nbsp; CDELT1&nbsp;&nbsp;&nbsp; -2.1277777E-4<br>
+&nbsp;&nbsp;&nbsp; CDELT2&nbsp;&nbsp;&nbsp; 2.1277777E-4<br>
+&nbsp;&nbsp;&nbsp; CTYPE1&nbsp;&nbsp; 'RA---TAN'<br>
+&nbsp;&nbsp;&nbsp; CTYPE2&nbsp;&nbsp; 'DEC--TAN'</tt></blockquote>
+<p class="zh">自由格式示例：关键字与值之间用空白分隔，不带 "=" 号。</p>
+<p><b><a name="PreferenceFile" id="PreferenceFile"></a>Preference File</b></p>
+<p class="zh"><b>首选项文件</b></p>
+A preference file is a valid tcl script generated by DS9 to save the current preference items. See <a href="prefs.html">Preferences</a> for more information.
+<p class="zh">首选项文件是 DS9 为保存当前首选项项而生成的一个合法 tcl 脚本。更多信息参见 <a href="prefs.html">Preferences（首选项）</a>。</p>
+<p><b><a name="StartupFile" id="StartupFile"></a>Startup File</b></p>
+<p class="zh"><b>启动文件</b></p>
+If a startup file <tt>$HOME/ds9.ini</tt> is available, it is sourced as the last step in initialization. The file permissions must be group/world read-only.<br>
+<p class="zh">如果存在启动文件 <tt>$HOME/ds9.ini</tt>，它会在初始化的最后一步被 source（载入执行）。该文件的权限必须对组/其他用户只读。</p>
+Users may have several different startup files. DS9 looks for a startup file with its own name. By default, if the application is named <tt>ds9</tt>, it will look for <tt>.ds9.ini.</tt> However, if the DS9 application is named <tt>foo</tt>, then DS9 will look for <tt>.foo.ini.</tt> In this manner, the user can have several predefined startup files that are activated by invoking DS9 with a different application name.<br>
+<p class="zh">用户可以拥有多个不同的启动文件：DS9 会查找与自身名称同名的启动文件。默认情况下，如果应用名为 <tt>ds9</tt>，它会查找 <tt>.ds9.ini</tt>；但如果 DS9 应用被命名为 <tt>foo</tt>，它就会查找 <tt>.foo.ini</tt>。通过这种方式，用户可以准备多个预定义启动文件，用不同的应用名调用 DS9 时即激活对应的启动文件。</p>
+<p><b><a name="TCL" id="TCL"></a>TCL</b></p>
+<p class="zh"><b>TCL</b></p>
+TCL/TK script file. Users may customize the appearance and enhance the capabilities of DS9 by sourcing their own TCL scripts.</blockquote>
+<p class="zh">TCL/TK 脚本文件。用户可以通过 source 自己的 TCL 脚本来定制 DS9 的外观并增强其功能。</p>
+
+<p><b><a name="Script" id="Script"></a>Movie Script</b></p>
+<p class="zh"><b>影片脚本</b></p>
+<p>
+The movie script format is used to specify a set of ds9 commands to run to create a movie.
+The user can run any of the command line options. A frame is added to the movie after each command.
+For example the script</p>
+<p class="zh">影片脚本（movie script）格式用于指定一组要依次执行的 ds9 命令，从而生成一段影片。用户可以使用任何命令行选项；每条命令执行后，影片中都会添加一个新帧。例如以下脚本：</p>
+<pre>
+pan to 4096 4096 physical
+zoom to 1
+zoom to 2
+zoom to 3
+sleep 2
+zoom to 2
+zoom to 1
+pan to 5120 5120 physical
+</pre>
+<p class="zh">上述脚本：先平移（pan）到物理坐标 4096,4096，再依次放大到 1、2、3 倍，暂停 2 秒，然后缩回 2 倍、1 倍，最后平移到 5120,5120。</p>
+
+<p>will create a movie with 8 frames. The first will be after the current image is
+panned  to the specified location, then the imager will zoom into that location, pause,
+and zoom out, and then pan to a different location.</p>
+<p class="zh">该脚本会生成一段含 8 帧的影片：第一帧是当前图像平移到指定位置之后；接着图像逐级放大到该位置、暂停、再缩回，最后平移到另一个位置。</p>
+
+<p>
+Lines in the script starting with <tt>#</tt> are treated as comments and ignored.
+Lines ending with <tt>\</tt> are continued onto the next line; multiple continue lines are allowed.
+Lines ending with <tt>&amp;&amp;</tt> are executed but a new shot/frame is not added to the movie;
+this allows multiple commands to be run before the next frame is added.
+</p>
+<p class="zh">脚本中以 <tt>#</tt> 开头的行被视为注释并忽略；以 <tt>\</tt> 结尾的行续接到下一行（允许多行续接）；以 <tt>&amp;&amp;</tt> 结尾的命令会被执行，但不会向影片添加新的镜头/帧——这样就可以在添加下一帧之前连续执行多条命令。</p>
+
+<p>
+The <tt>sleep</tt> command will be used in conjunction with the movie Delay value. The amount of time
+to sleep will be used to calculate the number of frames to add to the movie to introduce the desired delay.
+</p>
+<p class="zh"><tt>sleep</tt> 命令会与影片的 Delay（延迟）值配合使用：休眠时长会被换算成需要向影片添加的帧数，以引入所需的延迟。</p>
+
+<p>
+Finally, there is a <tt>foreach</tt> option that allows the user loop over
+a list of parameter values. This can be used with any command that takes one or more arguments.  For example it can be used with the <tt>pan to</tt> command to set way points when panning the image from one location to another. Or it could be used to incrementally zoom in/out.
+The syntax is
+</p>
+<p class="zh">最后，还有一个 <tt>foreach</tt> 选项，允许用户遍历一组参数值。它可以用于任何带一个或多个参数的命令。例如，可以配合 <tt>pan to</tt> 命令，在把图像从一处平移到另一处时设置途经点；也可以用于逐级放大/缩小。语法为：</p>
+
+<pre>
+foreach {value1 value2 value3 ...} {command ... @ ...}
+</pre>
+<p class="zh">foreach 语法：第一对花括号内为要遍历的值列表，第二对花括号内为模板命令，其中 <tt>@</tt> 会被依次替换为每个值。</p>
+
+<p>
+The <tt>@</tt> symbol in the command will be replaced with each of the specified values.
+Note: if a command takes multiple values, e.g. the coordinates required by the `pan to` command, then they must be enclosed in braces, {}.
+</p>
+<p class="zh">命令中的 <tt>@</tt> 符号会被依次替换为每个指定的值。注意：如果一条命令需要多个值（例如 <tt>pan to</tt> 命令所需的坐标），必须把它们用花括号 {} 包起来。</p>
+
+<p>
+This is an example of a longer movie script:
+</p>
+<p class="zh">下面是一个较长的影片脚本示例：</p>
+
+<pre>
+# This is a sample movie script
+cmap grey &&
+pan to 4096 4096 physical &&
+scale log &&
+scale limits 0 10
+sleep 2
+cmap bb
+foreach {1 2 3 4} {zoom to @}
+sleep 1
+zoom to 3
+zoom to 2
+zoom to 1
+pan to 4455 3322 physical
+regions command {circle 4455 3322 15}
+zoom to 2
+zoom to 4
+zoom to 1
+foreach { \
+     {165.3592040 -60.9888579} \
+     {165.3343777 -60.9970403} \
+     {165.3368115 -61.0279289} \
+     {165.3568057 -61.0420197} \
+     {165.3979999 -61.0543396} \
+     {165.4389455 -61.0510670} \
+     {165.4801702 -61.0521552} \
+     {165.4951121 -61.0380736} \
+     {165.5151265 -61.0274043} \
+     {165.5052158 -61.0092326} \
+     {165.4899765 -61.0009021} \
+     {165.4583989 -60.9924361} \
+     {165.4369801 -60.9902503} \
+     {165.4124623 -60.9905203} \
+     {165.3913201 -60.9943406} \
+     {165.3752255 -61.0081368} \
+     {165.3757554 -61.0242638} \
+     {165.4008507 -61.0339772} \
+     {165.4347153 -61.0311135} \
+     {165.4479761 -61.0223669} \
+    } {pan to @ fk5 }
+</pre>
+<p class="zh">该示例：先用 && 连续执行设置灰度颜色映射、平移、对数拉伸、设置拉伸限等命令（不每步加帧）；然后逐级缩放、画一个圆形区域，并用 foreach 在一组 fk5 天球坐标上依次平移，形成沿一个目标序列巡天的影片。</p>
+
+
+</body>
+</html>

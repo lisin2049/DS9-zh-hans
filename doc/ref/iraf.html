@@ -1,0 +1,109 @@
+<!DOCTYPE doctype PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta name="generator" content="HTML Tidy for Mac OS X (vers 31 October 2006 - Apple Inc. build 17.1), see www.w3.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="GENERATOR" content="Mozilla/4.78 [en] (X11; U; Linux 2.4.7-10 i686) [Netscape]">
+<title>IRAF Support（IRAF 支持）</title>
+<style type="text/css">
+.zh { color: #333333; border-left: 3px solid #cccccc; padding-left: 8px; margin: 2px 0 10px 0; font-family: "Microsoft YaHei", "PingFang SC", sans-serif; }
+h2 .zh, h3 .zh, h4 .zh { color: #555555; font-weight: normal; border-left: none; padding-left: 6px; }
+li .zh { display: block; }
+</style>
+</head>
+<body link="#0000EE" text="#000000" vlink="#551A8B" alink="#FF0000" bgcolor="#FFFFFF">
+<h3><img alt="" src="../sun.png" align="middle"> IRAF Support<span class="zh">（IRAF 支持）</span></h3>
+<blockquote>
+<p>DS9 is a fully functional IRAF image display server. IRAF uses the IIS protocol to communicate with a valid image display server, such as DS9, ximtool, saoimage, and saotng. With DS9, no special scripts are needed. If you have one of the above currently working, DS9 works <i>right</i> <i>out of the box.</i> And DS9 now supports IRAF's new IIS image display protocol that supports up to 16 display frames.</p>
+<p class="zh">DS9 是一个功能完整的 IRAF 图像显示服务器。IRAF 使用 IIS 协议与可用的图像显示服务器（如 DS9、ximtool、saoimage 和 saotng）通信。使用 DS9 不需要任何特殊脚本。如果你目前已能运行上述任一服务器，DS9 可以<i>直接开箱即用</i>。此外，DS9 现在还支持 IRAF 新的 IIS 图像显示协议，最多可支持 16 个显示帧。</p>
+<p>All native DS9 functions may be used with images loaded with IRAF display except for the <tt>Scale</tt> menu items. Values displayed may be the true values, if a linear scale is specified with the <tt>display</tt> command. Otherwise, the value is a scaled value. DS9 supports IRAF in all display visuals including <tt>Truecolor</tt>. Support for full postscript printing of images loaded from IRAF is provided.</p>
+<p class="zh">通过 IRAF display 命令加载的图像，可以使用 DS9 的所有原生功能，<tt>Scale</tt>（拉伸）菜单项除外。如果在 <tt>display</tt> 命令中指定了线性拉伸，显示的数值为真实值；否则显示的是经过拉伸的值。DS9 在所有显示视觉模式下（包括 <tt>Truecolor</tt> 真彩色）都支持 IRAF，并支持对从 IRAF 加载的图像进行完整的 PostScript 打印。</p>
+<p><b>Command Line Arguments</b></p>
+<p class="zh"><b>命令行参数</b></p>
+<p>As with <i>ximtool</i>, the follow command line arguments may be used to specify the communication parameters:</p>
+<p class="zh">与 <i>ximtool</i> 一样，可以使用以下命令行参数来指定通信参数：</p>
+<blockquote><tt><a href="command.html#fifo">fifo</a><br>
+<a href="command.html#fifo_only">fifo_only</a><br>
+<a href="command.html#port_only">inet_only</a><br>
+<a href="command.html#port">port</a><br>
+<a href="command.html#port_only">port_only</a><br>
+<a href="command.html#unix">unix</a><br>
+<a href="command.html#unix_only">unix_only</a></tt></blockquote>
+<p class="zh">上表列出了可用于指定通信通道的命令行参数（fifo 命名管道、端口、unix 套接字等），具体含义见各参数链接。</p>
+<p>The default parameters are:</p>
+<p class="zh">默认参数为：</p>
+<blockquote><tt>fifo /dev/imt1<br>
+port 5137<br>
+unix /tmp/.IMT%d</tt></blockquote>
+<p class="zh">默认使用命名管道 <tt>/dev/imt1</tt>、TCP 端口 5137、以及 unix 套接字 <tt>/tmp/.IMT%d</tt>。</p>
+<p><b>Configuration</b></p>
+<p class="zh"><b>配置</b></p>
+<p>An <i>IRAF</i> image server uses a configuration file to specify the number of available buffers and their sizes. What actually passes from IRAF is not the buffer size, but an index number into this file.</p>
+<p class="zh"><i>IRAF</i> 图像服务器使用一个配置文件来指定可用缓冲区的数量及其大小。IRAF 实际传递的并不是缓冲区大小，而是指向该文件的一个索引号。</p>
+<p>So when an image server starts (DS9), it will attempt to locate this file as <tt>$HOME/.imtoolrc</tt> and /<tt>usr/local/lib/imtoolrc</tt>. If not found, it will look for shell environment variables <tt>IMTOOLRC</tt> and <tt>imtoolrc</tt>, that contains the name of the configuration file.</p>
+<p class="zh">因此，图像服务器（DS9）启动时，会依次在 <tt>$HOME/.imtoolrc</tt> 和 <tt>/usr/local/lib/imtoolrc</tt> 查找该配置文件。若未找到，再查找 shell 环境变量 <tt>IMTOOLRC</tt> 和 <tt>imtoolrc</tt>，这两个变量包含配置文件的路径名。</p>
+<p>If no configuration file is found, DS9 will assume the following default configuration:</p>
+<p class="zh">如果找不到任何配置文件，DS9 将采用以下默认配置：</p>
+<blockquote><tt>1 2 512 512 # imt1|imt512<br>
+2 2 800 800 # imt2|imt800<br>
+3 2 1024 1024 # imt3|imt1024<br>
+4 1 1600 1600 # imt4|imt1600<br>
+5 1 2048 2048 # imt5|imt2048<br>
+6 1 4096 4096 # imt6|imt4096<br>
+7 1 8192 8192 # imt7|imt8192<br>
+8 1 1024 4096 # imt8|imt1x4<br>
+9 2 1144 880 # imt9|imtfs full screen (1152x900 minus frame)<br>
+10 2 1144 764 # imt10|imtfs35 full screen at 35mm film aspect ratio<br>
+11 2 128 128 # imt11|imt128<br>
+12 2 256 256 # imt12|imt256<br>
+13 2 128 1056 # imt13|imttall128 tall &amp; narrow for spectro.<br>
+14 2 256 1056 # imt14|imttall256 tall &amp; wider for spectro.<br>
+15 2 1056 128 # imt15|imtwide128 wide &amp; thin for spectro.<br>
+16 2 1056 256 # imt16|imtwide256 wide &amp; fatter for spectro.<br>
+17 2 1008 648 # imt17|imtssy Solitaire fmt w/ imtool border<br>
+18 2 1024 680 # imt18|imtssn Solitaire fmt w/out imtool border<br>
+19 1 4096 1024 # imt19|imt4x1</tt></blockquote>
+<p class="zh">以上为默认 imtoolrc 缓冲区配置表：每行依次为索引号、缓冲区数量、宽、高，后面注释给出对应缓冲区名称（如 imt512、imt800 等）。</p>
+<p>If on the other hand, IRAF assumes a different buffer size, the image will appear corrupted and DS9 may issue a number of error messages.</p>
+<p class="zh">反之，如果 IRAF 假定的缓冲区大小与此不同，图像将显示异常（看起来像损坏），DS9 可能会报出一系列错误信息。</p>
+<p>Another problem is that this file must be in sync with <tt>dev$graphcap</tt>. If your system administrator has made changes to <tt>graphcap</tt>, they must also be implemented in <tt>imtoolrc</tt>.</p>
+<p class="zh">另一个需要注意的问题是：该文件必须与 <tt>dev$graphcap</tt> 保持同步。如果系统管理员修改了 <tt>graphcap</tt>，则必须在 <tt>imtoolrc</tt> 中作相应修改。</p>
+<p>Here is a note from NOAO:</p>
+<p class="zh">以下是 NOAO 的一段说明：</p>
+<blockquote>
+<p><tt>The messages means that there is no /usr/local/lib/imtoolrc file on the machine. This is created as a symlink to dev$imtoolrc by the iraf install script but only if the /usr/local/lib dir already exists on the machine. The fix is the create the dir and rerun the install script or else make the link by hand. Users can also just copy dev$imtoolrc to $HOME/.imtoolrc and restart the server to also workaround it. Note that an existing .imtoolrc might define old frame buffer configs which might confuse things, so if the system file exists check for a private copy screwing things up.</tt></p>
+</blockquote>
+<p class="zh">该（报错）信息表示机器上不存在 /usr/local/lib/imtoolrc 文件。IRAF 安装脚本会创建一个指向 dev$imtoolrc 的符号链接，但前提是 /usr/local/lib 目录已存在。解决办法是：创建该目录并重新运行安装脚本，或者手动建立链接。用户也可以直接把 dev$imtoolrc 复制为 $HOME/.imtoolrc 再重启服务器来绕过此问题。注意：已有的 .imtoolrc 可能定义了旧的帧缓冲区配置，从而造成混乱；因此如果系统文件存在，应检查是否有一个私有的副本在捣乱。</p>
+<p><b>Windows DS9 and IRAF</b></p>
+<p class="zh"><b>Windows 下的 DS9 与 IRAF</b></p>
+<p>To direct image output from IRAF to DS9 running under windows, use the <tt>IMTDEV</tt> environment variable. For example, if the windows machine is named 'foo.bar.edu', define <tt>IMTDEV</tt> to the follow value before entering IRAF.</p>
+<p class="zh">要把 IRAF 的图像输出定向到运行在 Windows 下的 DS9，请使用 <tt>IMTDEV</tt> 环境变量。例如，如果 Windows 机器名为 'foo.bar.edu'，在进入 IRAF 之前将 <tt>IMTDEV</tt> 定义为如下值：</p>
+<blockquote><tt>$ setenv IMTDEV inet:5137:foo.bar.edu<br>
+$ cl<br>
+cl&gt; display dev$pix</tt></blockquote>
+<p class="zh">示例：通过 setenv 设置 IMTDEV 为 inet:5137:foo.bar.edu，进入 cl 后用 display 命令显示图像。</p>
+<p><b>Scale Menu Disabled</b></p>
+<p class="zh"><b>Scale 菜单被禁用</b></p>
+<p>When you display an image from <i>IRAF</i> into DS9, <i>IRAF</i> actually does the color scale distribution. In <tt>Display</tt>, use the <tt>ztrans</tt> and <tt>z1</tt>,<tt>z2</tt><tt>zscale</tt> parameter to auto determine <tt>z1,z2. Here</tt> are the <tt>DISPLAY</tt> parameters in question: parameters to set the upper/lower bounds and distribution. You can also use the</p>
+<p class="zh">当你把图像从 <i>IRAF</i> 显示到 DS9 时，颜色拉伸分布实际上是由 <i>IRAF</i> 完成的。在 <tt>display</tt> 任务中，使用 <tt>ztrans</tt> 以及 <tt>z1</tt>、<tt>z2</tt>、<tt>zscale</tt> 参数来自动确定 <tt>z1、z2</tt>。下面就是相关的 <tt>DISPLAY</tt> 参数，用于设置上/下限和分布方式：</p>
+<blockquote><tt>ztrans=[linear|log|none|user]<br>
+z1=min<br>
+z2=max<br>
+zscale=[yes|no]</tt></blockquote>
+<p class="zh">相关 display 参数：ztrans 指定拉伸类型（linear 线性 / log 对数 / none / user 用户自定义），z1、z2 指定低/高裁剪值，zscale 指定是否自动计算。</p>
+<p>What actually is sent from <i>IRAF</i> to DS9 is one byte per pixel, values 0-200, which already has applied both the upper and lower clipping bounds and the distribution. So this is why, the <tt>SCALE</tt> menu is disabled in DS9 when it receives a image from <i>IRAF</i>.</p>
+<p class="zh">实际上从 <i>IRAF</i> 发送给 DS9 的是每像素一个字节、取值 0–200 的数据，其中已经应用了上/下裁剪限和分布。这就是为什么 DS9 在接收来自 <i>IRAF</i> 的图像时 <tt>SCALE</tt> 菜单会被禁用。</p>
+<p><b>MSCRED/MSCZERO<br></b></p>
+<p class="zh"><b>MSCRED/MSCZERO</b></p>
+<p>DS9 now supports IRAF's new IIS image display protocol. However, there is one minor problem with the <b>mscred</b> task <b>msczero.</b> Before using <b>msczero</b>, issue the following command in the cl:</p>
+<p class="zh">DS9 现在支持 IRAF 新的 IIS 图像显示协议。但在使用 <b>mscred</b> 软件包的 <b>msczero</b> 任务时有一个小问题：在使用 <b>msczero</b> 之前，请在 cl 中执行以下命令：</p>
+<blockquote><tt>cl&gt; set disable_wcs_maps=""<br>
+cl&gt; flpr</tt><br></blockquote>
+<p class="zh">在 cl 中执行 set disable_wcs_maps="" 和 flpr 命令即可。</p>
+<p><b>IMEXAMINE</b></p>
+<p class="zh"><b>IMEXAMINE</b></p>
+<p>Due to the unique relationship between DS9 and IRAF, if you use the <b>imexamine</b> task, you can take advantage of a special feature of DS9. Instead of loading the image from IRAF with the <b>display</b> task, load the image directly into DS9. Then, from the <b>cl</b> prompt, invoke <b>imexamine</b> without a filename. IRAF will ask DS9 for the current filename and use it for analysis. This approach provides several advantages over previous methods. First, it will work with compound fits images such as mosaics, data cubes, and rgb images. Second, the image displays includes true image data and WCS information, not the approximated data from IRAF.</p>
+<p class="zh">由于 DS9 与 IRAF 之间的独特关系，如果你使用 <b>imexamine</b> 任务，可以利用 DS9 的一项特殊功能：不要用 <b>display</b> 任务从 IRAF 加载图像，而是把图像直接加载到 DS9 中。然后在 <b>cl</b> 提示符下不带文件名调用 <b>imexamine</b>。IRAF 会向 DS9 询问当前文件名，并将其用于分析。相比以前的方法，这种方式有几个优点：首先，它可以处理复合 FITS 图像，例如拼接图、数据立方体和 RGB 图像；其次，显示的图像包含真实的图像数据和 WCS 信息，而不是 IRAF 给出的近似数据。</p>
+</blockquote>
+</body>
+</html>

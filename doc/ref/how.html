@@ -1,0 +1,127 @@
+<!DOCTYPE doctype PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta name="generator" content="HTML Tidy for Mac OS X (vers 31 October 2006 - Apple Inc. build 17.1), see www.w3.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="GENERATOR" content="Mozilla/4.78 [en] (X11; U; Linux 2.4.7-10 i686) [Netscape]">
+<title>How（工作原理）</title>
+<style type="text/css">
+.zh { color: #333333; border-left: 3px solid #cccccc; padding-left: 8px; margin: 2px 0 10px 0; font-family: "Microsoft YaHei", "PingFang SC", sans-serif; }
+h2 .zh, h3 .zh, h4 .zh { color: #555555; font-weight: normal; border-left: none; padding-left: 6px; }
+li .zh { display: block; }
+</style>
+</head>
+<body vlink="#551A8B" text="#000000" link="#0000EE" bgcolor="#FFFFFF" alink="#FF0000">
+<h3><img alt="" src="../sun.png" align="middle"> How it Works<span class="zh">（工作原理）</span></h3>
+<blockquote>
+<p><b>Table of Contents</b></p>
+<p class="zh"><b>目录</b></p>
+<a href="#How">How DS9 Renders an Image</a><br>
+<a href="#Scales">Scales</a><br>
+<a href="#Smoothing">Smoothing</a><br>
+<a href="#Contours">Contours</a><br>
+<a href="#LargeFiles">Large Files</a><br>
+<p class="zh"><a href="#How">DS9 如何渲染图像</a>；<a href="#Scales">灰度拉伸（Scales）</a>；<a href="#Smoothing">平滑（Smoothing）</a>；<a href="#Contours">等高线（Contours）</a>；<a href="#LargeFiles">大文件（Large Files）</a></p>
+<p><b><a name="How" id="How"></a>How DS9 renders an image</b></p>
+<p class="zh"><b>DS9 如何渲染图像</b></p>
+<p>Here is a short description of how DS9 decides to paint a pixel a color on the screen, given a data value... you need a color scale, a contrast/bias pair for the colorscale, clip values for the data, a scale distribution, and finally, the value of the pixel in question.</p>
+<p class="zh">下面简要说明：给定一个数据值，DS9 是如何决定在屏幕上把某个像素绘成什么颜色的……你需要：一个颜色映射（color scale）、一对用于该颜色映射的对比度/偏置（contrast/bias）、数据的裁剪（clip）值、一种拉伸分布（scale distribution），最后就是该像素本身的值。</p>
+<blockquote>
+<p>Step 1. Select a color scale. A color scale is defined as a number of colors (RGB triplets). The number of RGB triplets can vary from just a few to over 200. DS9 contains a number of predefined color scales (Gray, A, B, I8, ...) or the user may load his own color scale.</p>
+<p class="zh">第 1 步：选择颜色映射。颜色映射由一组颜色（RGB 三元组）定义。RGB 三元组的数量可从几个到 200 多个不等。DS9 内置了若干预定义颜色映射（Gray、A、B、I8 等），用户也可以加载自己的颜色映射。</p>
+<p>Step 2. Apply a contrast/bias pair. This step takes the result of step 1 and creates a new array with the contrast/bias applied. The length of the new array will between 200 (for pseudocolor) and 4096 (for truecolor).</p>
+<p class="zh">第 2 步：应用一对对比度/偏置。本步骤取第 1 步的结果，生成一个应用了对比度/偏置的新数组。新数组的长度介于 200（伪彩色）到 4096（真彩色）之间。</p>
+<p>Step 3. Calculate the data clip values (low/high data values). The min/max data values may be used or an algorithm may be used to determine the clip data values.</p>
+<p class="zh">第 3 步：计算数据裁剪值（数据的低/高值）。可以直接使用数据的最小/最大值，也可以用某种算法来确定裁剪数据值。</p>
+<p>Step 4. Apply the scale distribution. This involves taking the result of step 2, and creating yet another array, this time of size 16384, redistributing the colors, based on the scale algorithm selected (see <a href="Scales">Scales</a>).</p>
+<p class="zh">第 4 步：应用拉伸分布。这一步取第 2 步的结果，再生成一个大小为 16384 的数组，根据所选的拉伸算法重新分配颜色（见 <a href="Scales">Scales</a>）。</p>
+<p>Step 5. Based on your data clip values, and the value of the pixel you have, index into the result of step 4, and you have an index into lookup table (for pseudocolor) and an RGB pair (for truecolor and postscript).</p>
+<p class="zh">第 5 步：根据数据裁剪值和当前像素值，索引第 4 步的结果，即可得到查找表（伪彩色）中的索引，或一对 RGB 值（真彩色和 PostScript）。</p>
+</blockquote>
+<p><b><a name="Scales" id="Scales"></a>Scales</b></p>
+<p class="zh"><b>灰度拉伸（Scales）</b></p>
+<p>The <tt>log</tt> function is defined as the following:</p>
+<p class="zh"><tt>log</tt>（对数）拉伸函数定义如下：</p>
+<blockquote>
+<p><b><img src="img/log.png" alt="log equation" width="78" height="32"></b></p>
+</blockquote>
+<p>as <i>x</i> goes from 0 to 1. The user may specify an exponent <i>a</i> to change the distribution of colors within the colorbar. The default value of <i>a</i> is 1000. Typically, optical images respond well at 1000, IR images as low as 100, and high energy bin tables up to 10000. A value of 10000 closely matches the <b><tt>log</tt></b> function of SAOImage as defined as the following:</p>
+<p class="zh">其中 <i>x</i> 从 0 取到 1。用户可以指定指数 <i>a</i> 来改变颜色条内的颜色分布。<i>a</i> 的默认值为 1000。通常，光学图像在 1000 时表现良好，红外图像可低至 100，而高能分箱表最高可用到 10000。取值 10000 与 SAOImage 的 <tt>log</tt> 函数非常接近，其定义如下：</p>
+<blockquote>
+<p><b><img src="img/saolog.png" alt="SAOImage log equation" width="65" height="34"></b></p>
+</blockquote>
+<p>The <tt>pow</tt> function is defined as the following:</p>
+<p class="zh"><tt>pow</tt>（幂）拉伸函数定义如下：</p>
+<blockquote>
+<p><b><img src="img/pow.png" alt="pow equation" width="51" height="30"></b></p>
+</blockquote>
+<p>as <i>x</i> goes from 0 to 1. The user may specify an exponent <i>a</i> to change the distribution of colors within the colorbar. The default value of <i>a</i> is 1000.</p>
+<p class="zh">其中 <i>x</i> 从 0 取到 1。用户可以指定指数 <i>a</i> 来改变颜色条内的颜色分布。<i>a</i> 的默认值为 1000。</p>
+<p>The <tt>sqrt</tt> scale function is defined as the following:</p>
+<p class="zh"><tt>sqrt</tt>（平方根）拉伸函数定义如下：</p>
+<blockquote><img src="img/sqrt.png" alt="sqrt equation" width="42" height="21"><br></blockquote>
+<p>as <i>x</i> goes from 0 to 1.</p>
+<p class="zh">其中 <i>x</i> 从 0 取到 1。</p>
+<p>The <tt>square</tt> scale function is defined as the following:</p>
+<p class="zh"><tt>square</tt>（平方）拉伸函数定义如下：</p>
+<blockquote><img src="img/square.png" alt="square equation" width="35" height="21"><br></blockquote>
+<p>as <i>x</i> goes from 0 to 1.<br></p>
+<p class="zh">其中 <i>x</i> 从 0 取到 1。</p>
+<p>The <tt>asinh</tt> scale function is defined as the following:</p>
+<p class="zh"><tt>asinh</tt>（反双曲正弦）拉伸函数定义如下：</p>
+<blockquote><img alt="asinh" src="img/asinh.png" width="80" height="29"><br></blockquote>
+<p>as <i>x</i> goes from 0 to 1.</p>
+<p class="zh">其中 <i>x</i> 从 0 取到 1。</p>
+<p>The <tt>sinh</tt> scale function is defined as the following:</p>
+<p class="zh"><tt>sinh</tt>（双曲正弦）拉伸函数定义如下：</p>
+<blockquote><img alt="sinh" src="img/sinh.png" width="69" height="29"><br></blockquote>
+<p>as <i>x</i> goes from 0 to 1.</p>
+<p class="zh">其中 <i>x</i> 从 0 取到 1。</p>
+<p>The <tt>histogram equalization</tt> scale function distributes colors based on the frequency of each data value.</p>
+<p class="zh"><tt>histogram equalization</tt>（直方图均衡）拉伸函数根据每个数据值出现的频率来分配颜色。</p>
+<p><b><a name="Smoothing" id="Smoothing"></a>Smoothing</b></p>
+<p class="zh"><b>平滑（Smoothing）</b></p>
+<p>The user may select one of three types of smoothing kernels. Two parameters, <i>r</i><i>&nbsp; (radius)</i> and <i><tt>k</tt></i> <i>(kernel size</i><i>)</i>, are defined as the following:</p>
+<p class="zh">用户可以从三种平滑卷积核（smoothing kernel）中选择一种。两个参数 <i>r</i>（半径）和 <i><tt>k</tt></i>（卷积核大小）定义如下：</p>
+<blockquote>Kernel width/height = <i>2k+1</i> with <i>r</i> <i>&lt;=</i> <i><tt>k</tt></i><br>
+Boxcar function, width = <i>2</i><i>r</i><i>+1</i><br>
+Tophat function, where the diameter = <i>2r</i><i>+1</i><br>
+Gaussian and Elliptical Gaussian function, defined as:
+<blockquote><img src="img/gauss.png" alt="Gaussian Equation" width="173" height="38"><br></blockquote>
+where the mean = 0 and sigma = <i>r/2</i> as initial values. sigma and radius are independent parameters which can be changed by the user.<br>
+</blockquote>
+<p class="zh">卷积核宽/高 = <i>2k+1</i>，且 <i>r</i> ≤ <i><tt>k</tt></i>；Boxcar（矩形窗）函数，宽度 = 2r+1；Tophat（顶帽）函数，直径 = 2r+1；高斯（Gaussian）与椭圆高斯函数定义见上图。其中均值初值为 0，sigma = r/2；sigma 和半径是相互独立的参数，均可由用户修改。</p>
+<p><b><a name="Contours" id="Contours"></a>Contours</b></p>
+<p class="zh"><b>等高线（Contours）</b></p>
+<p>The contour algorithm is from an unknown author and originally came from FV. The difference between the two modes is:<tt><br></tt></p>
+<p class="zh">等高线算法原作者不详，最初来自 FV。两种模式的区别为：</p>
+<blockquote><tt>block</tt> : the image is blocked down before the contour is generated<br>
+<tt>smooth</tt> : the image is smoothed via a Gaussian kernel before the contour is generated.</blockquote>
+<p class="zh"><tt>block</tt>（分块）：在生成等高线之前先对图像进行分块降采样；<tt>smooth</tt>（平滑）：在生成等高线之前先用高斯核对图像进行平滑。</p>
+<p><tt>block</tt> mode is faster as the smoothing parameter increases. Inversely, <tt>smooth</tt> mode is much slower as the smoothing parameter increases.</p>
+<p class="zh">随着平滑参数增大，<tt>block</tt> 模式更快；反之，<tt>smooth</tt> 模式会随着平滑参数增大而慢得多。</p>
+<p><b><a name="LargeFiles" id="LargeFiles"></a>Large Files</b></p>
+<p class="zh"><b>大文件（Large Files）</b></p>
+There are several factors that determine if DS9 will be able to load a large file.<br>
+<p class="zh">有以下几个因素决定 DS9 能否加载大文件：</p>
+<p>32 bit OS vs 64 bit OS : to address very large files, you may need to use an 64 bit OS with a 64bit version of DS9. 32bit apps can address up to 4Gb of address space. However, depending on the OS, this limit may be less. Linux for example, the limit appears to be ~3GB (the OS and shared libs eat up a lot of address space). Under 64bit Solaris, 32bit ds9 has a full 4Gb of space. MacOSX appears to have a limit ~3Gb. Under windows, ~2Gb.</p>
+<p class="zh">32 位操作系统与 64 位操作系统：要寻址非常大的文件，可能需要使用 64 位操作系统和 64 位版本的 DS9。32 位应用最多可寻址 4Gb 地址空间；但根据操作系统不同，这个限制可能更小。例如 Linux 下限制约为 3GB（操作系统和共享库占用了大量地址空间）；在 64 位 Solaris 下，32 位 ds9 拥有完整的 4Gb 空间；MacOSX 约为 3Gb；Windows 下约为 2Gb。</p>
+<p>Large File Support: is the ability to sequence thru files larger than 4Gb. DS9 is compiled with LFS.</p>
+<p class="zh">大文件支持（LFS）：指能够顺序读写大于 4Gb 的文件。DS9 已启用 LFS 编译。</p>
+<p>File system: the OS file system must be able to support files larger than 4Gb. Most recent file systems fully support 4GB&gt;.</p>
+<p class="zh">文件系统：操作系统的文件系统必须能支持大于 4Gb 的文件。较新的文件系统都完全支持大于 4GB 的文件。</p>
+<p>Memory Management: There are a number of memory management techniques supported in DS9 that will greatly affect the ability and speed of loading large files:</p>
+<p class="zh">内存管理：DS9 支持多种内存管理技术，它们会极大地影响加载大文件的能力和速度：</p>
+<blockquote><tt>$ ds9 foo.fits # uses mmap</tt><br>
+<tt>$ cat foo.fits | ds9 - # allocates memory</tt><br>
+<tt>$ xpaset -p ds9 file foo.fits # uses mmap</tt><br>
+<tt>$ xpaset -p ds9 fits foo.fits # allocates memory</tt><br></blockquote>
+<p class="zh">示例：直接加载文件（使用 <tt>mmap</tt>）、通过管道加载（分配内存）、以及通过 XPA 的 <tt>file</tt>/<tt>fits</tt> 方式加载。</p>
+<p>Memory Map (<tt>mmap</tt>) is very fast, limit is memory address space (see above). Allocate is very slow, limit is amount of physical memory + swap partition.</p>
+<p class="zh">内存映射（<tt>mmap</tt>）非常快，其限制是内存地址空间（见上文）；分配内存（Allocate）非常慢，其限制是物理内存与交换分区的总量。</p>
+<p>Scanning Data: DS9 needs to determine the min and max data values to correctly display your image. For large files, such as Mosaics and Data Cubes,&nbsp; this can take time. You have the option of using using the FITS keywords DATAMIN/MAX or IRAFMIN/MAX - great if present, bad because they are always wrong. Another option is to specify the low and high clip values via the command line or Scale dialogbox.<br></p>
+<p class="zh">数据扫描：DS9 需要确定数据的最小值和最大值，才能正确显示图像。对于大文件（如拼接图和数据立方体），这可能需要一些时间。你可以选择使用 FITS 关键字 DATAMIN/MAX 或 IRAFMIN/MAX——如果存在当然很好，但坏处是它们往往是错的。另一种选择是通过命令行或 Scale（拉伸）对话框直接指定低/高裁剪值。</p>
+<blockquote><br></blockquote>
+</blockquote>
+</body>
+</html>

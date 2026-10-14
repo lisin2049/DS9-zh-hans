@@ -1,0 +1,41 @@
+<!DOCTYPE doctype PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta name="generator" content="HTML Tidy for Mac OS X (vers 31 October 2006 - Apple Inc. build 17.1), see www.w3.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="GENERATOR" content="Mozilla/4.78 [en] (X11; U; Linux 2.4.7-10 i686) [Netscape]">
+<title>Bin（分箱）</title>
+<style type="text/css">
+.zh { color: #333333; border-left: 3px solid #cccccc; padding-left: 8px; margin: 2px 0 10px 0; font-family: "Microsoft YaHei", "PingFang SC", sans-serif; }
+h2 .zh, h3 .zh, h4 .zh { color: #555555; font-weight: normal; border-left: none; padding-left: 6px; }
+li .zh { display: block; }
+</style>
+</head>
+<body alink="#FF0000" bgcolor="#FFFFFF" link="#0000EE" text="#000000" vlink="#551A8B">
+<h3><img alt="" src="../sun.png" align="middle" > Binning <span class="zh">分箱（Binning）</span></h3>
+<blockquote>
+<p>To create an image from a FITS Bin Table, the user needs to specify a binning factor, binning buffer size, and the binning function.<br></p>
+<p class="zh">要从 FITS 二进表（Bin Table）创建图像，用户需要指定分箱因子（binning factor）、分箱缓冲区大小（bin buffer size）和分箱函数（binning function）。</p>
+<p>The Binning (or Block) Factor is defined as the following: A value greater or equal to zero. This value indicates the number of pixel values that will fall into a particular bin.<br></p>
+<p class="zh">分箱（或称块）因子（Binning/Block Factor）定义如下：一个大于或等于零的值。该值表示落入每个特定箱（bin）中的像素值数目。</p>
+<p>The Bin Buffer Size is overall size of the image generated. This has no relation to min and max values of the columns used to create the image.<br></p>
+<p class="zh">分箱缓冲区大小（Bin Buffer Size）是所生成图像的整体尺寸。它与用于创建图像的各列的最小值和最大值无关。</p>
+<p>The Bin Function is defined as the following: Average - all pixel values that fall into one pixel bin are averaged. Sum - all pixel values that fall into one pixel bin are summed.<br></p>
+<p class="zh">分箱函数（Bin Function）定义如下：Average（平均）——落入同一像素箱的所有像素值取平均；Sum（求和）——落入同一像素箱的所有像素值求和。</p>
+<p>Bin to Fit Frame will calculate a bin block factor as a power of 2 that will allow the entire data space to be displayed in the current frame.</p>
+<p class="zh">“Bin to Fit Frame”（按帧分箱）会计算一个以 2 为幂的分箱块因子，使整个数据空间恰好能在当前帧中显示。</p>
+<p>By default, DS9 will bin about the center of the image. To determine the center of the image, DS9 will look for the following keywords in order:</p>
+<p class="zh">默认情况下，DS9 会围绕图像中心进行分箱。为确定图像中心，DS9 会按以下顺序查找关键字：</p>
+<blockquote><tt>TDMIN/TDMAX<br>
+TLMIN/TLMAX<br>
+TALEN<br>
+AXLEN</tt></blockquote>
+<p class="zh">上面是 DS9 按顺序查找的 FITS 关键字：<tt>TDMIN/TDMAX</tt>、<tt>TLMIN/TLMAX</tt>、<tt>TALEN</tt>、<tt>AXLEN</tt>。</p>
+<p>If no valid keywords are found, DS9 will define the center as the middle of the possible data space based on the coordinate data type.</p>
+<p class="zh">如果未找到有效的关键字，DS9 将根据坐标数据类型，把可能数据空间的中点定义为图像中心。</p>
+<br>
+<p><br></p>
+<p><br></p>
+<br></blockquote>
+</body>
+</html>

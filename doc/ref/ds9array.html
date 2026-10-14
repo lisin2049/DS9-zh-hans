@@ -1,0 +1,367 @@
+<!DOCTYPE doctype PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.zh { color: #333333; border-left: 3px solid #cccccc; padding-left: 8px; margin: 2px 0 10px 0; font-family: "Microsoft YaHei", "PingFang SC", sans-serif; }
+h2 .zh, h3 .zh, h4 .zh { color: #555555; font-weight: normal; border-left: none; padding-left: 6px; }
+li .zh { display: block; }
+</style>
+<title>The ds9 Array (Developer Reference)（ds9 数组，开发者参考）</title>
+</head>
+<body link="#0000FF" vlink="#551A8B" alink="#FF0000">
+<h3><img alt="" src="../sun.png" align="middle"> The ds9 Array (Developer Reference) <span class="zh">ds9 数组（开发者参考）</span></h3>
+<blockquote>
+<p>DS9's Tcl library (<tt>ds9/library/*.tcl</tt>) keeps most of the application's live state in one global array, <tt>ds9</tt>. A script running via the <a href="command.html#tcl">-tcl</a> command line option, a <tt>~/.ds9.ini</tt> (or <tt>~/ds9.ini</tt>) startup file, or the <tt>tcl</tt> <a href="xpa.html">XPA</a> access point runs in the global namespace and can read (and, for the elements marked below, usefully write) this array directly, e.g.:</p>
+<p class="zh">DS9 的 Tcl 库（<tt>ds9/library/*.tcl</tt>）把应用程序的大部分实时状态保存在一个全局数组 <tt>ds9</tt> 中。通过 <a href="command.html#tcl">-tcl</a> 命令行选项、<tt>~/.ds9.ini</tt>（或 <tt>~/ds9.ini</tt>）启动文件、或 <tt>tcl</tt> <a href="xpa.html">XPA</a> 访问点运行的脚本都处于全局命名空间，可直接读取（对下面标注的元素也可有效写入）该数组，例如：</p>
+<tt>global ds9<br>
+puts "there are [llength $ds9(frames)] frames, current display mode is $ds9(display)"</tt>
+<p class="zh">上面这段 Tcl 代码保持原样不翻译，用于演示如何声明并读取 <tt>ds9</tt> 数组。</p>
+<p>This page documents every element of <tt>ds9</tt> as of this checkout, derived from its initialization in <tt>ds9/library/ds9.tcl</tt> and its use across the rest of the library. Elements are grouped by what they track rather than listed alphabetically. See also <a href="currentarray.html">The current Array</a>, a smaller companion array tracking which frame/channel/mode is presently selected.</p>
+<p class="zh">本页记录当前检出版本中 <tt>ds9</tt> 数组的每一个元素，内容来源于其在 <tt>ds9/library/ds9.tcl</tt> 中的初始化定义以及库中其余部分的用法。元素按其所跟踪的内容分组，而非按字母序列出。另见 <a href="currentarray.html">The current Array（current 数组）</a>，它是一个更小的配套数组，用于跟踪当前选中的帧/通道/模式。</p>
+<p><b>A note on <tt>pds9</tt>:</b> user-facing preferences (background color, fonts, precision digits, confirm dialogs, SAMP/XPA startup, themes, and so on) live in a <i>separate</i> global array, <tt>pds9</tt>, which is what gets written to and read back from the preferences file. <tt>pds9</tt> is out of scope for this page. A handful of legacy element names that look like <tt>ds9(bg)</tt>, <tt>ds9(nan)</tt>, <tt>ds9(confirm)</tt>, <tt>ds9(dialog)</tt>, <tt>ds9(language)</tt>, <tt>ds9(font)</tt>, <tt>ds9(font,size)</tt>, <tt>ds9(font,style)</tt>, <tt>ds9(samp)</tt>/<tt>ds9(samp,auto)</tt>, <tt>ds9(xpa)</tt>, <tt>ds9(automarker)</tt>, <tt>ds9(backup)</tt>, <tt>ds9(display,user)</tt>, and <tt>ds9(analysis,user)</tt>/<tt>user2</tt>/<tt>user3</tt>/<tt>user4</tt> only ever exist transiently, while restoring a backup/session file saved by a very old DS9 version; <tt>FixVar</tt>/<tt>FixVarRm</tt> in <tt>ds9/library/prefs.tcl</tt> immediately migrate them into <tt>pds9</tt> (or <tt>current</tt>/<tt>panalysis</tt>) and delete them. They are not part of the live <tt>ds9</tt> array and are omitted below.</p>
+<p class="zh"><b>关于 <tt>pds9</tt> 的说明：</b>面向用户的首选项（背景色、字体、精度位数、确认对话框、SAMP/XPA 启动、主题等）保存在另一个<i>独立的</i>全局数组 <tt>pds9</tt> 中，它才是写入首选项文件并从中读回的对象。<tt>pds9</tt> 不在本页范围内。少数遗留元素名——如 <tt>ds9(bg)</tt>、<tt>ds9(nan)</tt>、<tt>ds9(confirm)</tt>、<tt>ds9(dialog)</tt>、<tt>ds9(language)</tt>、<tt>ds9(font)</tt>、<tt>ds9(font,size)</tt>、<tt>ds9(font,style)</tt>、<tt>ds9(samp)</tt>/<tt>ds9(samp,auto)</tt>、<tt>ds9(xpa)</tt>、<tt>ds9(automarker)</tt>、<tt>ds9(backup)</tt>、<tt>ds9(display,user)</tt> 以及 <tt>ds9(analysis,user)</tt>/<tt>user2</tt>/<tt>user3</tt>/<tt>user4</tt>——只在恢复非常旧的 DS9 版本保存的备份/会话文件时短暂存在；<tt>ds9/library/prefs.tcl</tt> 中的 <tt>FixVar</tt>/<tt>FixVarRm</tt> 会立即把它们迁移到 <tt>pds9</tt>（或 <tt>current</tt>/<tt>panalysis</tt>）并删除。它们不属于实时 <tt>ds9</tt> 数组，下文不再列出。</p>
+
+<h4><a name="identity" id="identity"></a>Application identity, version, and startup <span class="zh">应用程序标识、版本与启动</span></h4>
+<dl>
+<dt><tt>ds9(app)</tt></dt>
+<dd>String. The running executable's base name (normally <tt>ds9</tt>), derived from <tt>argv0</tt>. Also used to build the <tt>~/.ds9.ini</tt> init-file name and the preferences file name. Read-only.</dd>
+<p class="zh">字符串。正在运行的可执行文件的基本名（通常为 <tt>ds9</tt>），来源于 <tt>argv0</tt>。也用于构造 <tt>~/.ds9.ini</tt> 初始化文件名和首选项文件名。只读。</p>
+
+<dt><tt>ds9(version)</tt></dt>
+<dd>String, e.g. <tt>8.8</tt>. The major.minor release version. Read-only.</dd>
+<p class="zh">字符串，例如 <tt>8.8</tt>。主.次版本号。只读。</p>
+
+<dt><tt>ds9(version,display)</tt></dt>
+<dd>String, e.g. <tt>8.8</tt>. The full version string shown in the About box and title bar; may include a beta suffix. Read-only.</dd>
+<p class="zh">字符串，例如 <tt>8.8</tt>。显示在 About 对话框和标题栏中的完整版本字符串，可能包含 beta 后缀。只读。</p>
+
+<dt><tt>ds9(wm)</tt></dt>
+<dd>String: <tt>x11</tt>, <tt>aqua</tt>, or <tt>win32</tt> &mdash; the result of <tt>tk windowingsystem</tt>. Used throughout the library to branch on platform. Read-only.</dd>
+<p class="zh">字符串：<tt>x11</tt>、<tt>aqua</tt> 或 <tt>win32</tt>——即 <tt>tk windowingsystem</tt> 的结果。库中各处据此按平台分支。只读。</p>
+
+<dt><tt>ds9(root)</tt></dt>
+<dd>String, a directory path. The DS9 installation root, used to locate bundled resources such as icons (see <tt>ds9(icons,*)</tt> below). Read-only.</dd>
+<p class="zh">字符串，一个目录路径。DS9 安装根目录，用于定位随附资源如图标（见下文 <tt>ds9(icons,*)</tt>）。只读。</p>
+
+<dt><tt>ds9(top)</tt></dt>
+<dd>Widget path, always <tt>.</tt>. The main top-level window. Read-only.</dd>
+<p class="zh">控件路径，恒为 <tt>.</tt>。主顶层窗口。只读。</p>
+
+<dt><tt>ds9(main)</tt></dt>
+<dd>Widget path. The main <tt>ttk::frame</tt> that fills the top-level window and contains every other widget. Internal; read-only.</dd>
+<p class="zh">控件路径。填充顶层窗口并包含所有其他控件的主 <tt>ttk::frame</tt>。内部使用；只读。</p>
+
+<dt><tt>ds9(mb)</tt></dt>
+<dd>Widget path, always <tt>.mb</tt>. The menu bar's window path. Internal; read-only.</dd>
+<p class="zh">控件路径，恒为 <tt>.mb</tt>。菜单栏的窗口路径。内部使用；只读。</p>
+
+<dt><tt>ds9(visual)</tt></dt>
+<dd>String, e.g. <tt>truecolor</tt>. The X/Tk visual class in use, from <tt>winfo visual</tt>. Read-only.</dd>
+<p class="zh">字符串，例如 <tt>truecolor</tt>。当前使用的 X/Tk 视觉类，来源于 <tt>winfo visual</tt>。只读。</p>
+
+<dt><tt>ds9(depth)</tt></dt>
+<dd>Integer, e.g. <tt>24</tt>. The display color depth in bits, from <tt>winfo depth</tt> (normalized to 16/24 on odd depths like 15/32). Read-only.</dd>
+<p class="zh">整数，例如 <tt>24</tt>。显示颜色深度（位数），来源于 <tt>winfo depth</tt>（对 15/32 等奇数深度会归一化为 16/24）。只读。</p>
+
+<dt><tt>ds9(scaling)</tt></dt>
+<dd>Real number, e.g. <tt>1.0</tt>. The Tk display-scaling factor used for HiDPI adjustment (computed specially per platform because <tt>tk scaling</tt> alone isn't trustworthy). Read-only.</dd>
+<p class="zh">实数，例如 <tt>1.0</tt>。用于 HiDPI 调整的 Tk 显示缩放系数（因 <tt>tk scaling</tt> 本身不可靠，按平台专门计算）。只读。</p>
+
+<dt><tt>ds9(threads)</tt></dt>
+<dd>Integer. The default number of render threads, initialized from the detected core count (<tt>GetNumCores</tt>); can be overridden per-frame with the <a href="framecmd.html#threads">frame <tt>threads</tt></a> command. Safe to read; not normally written after startup.</dd>
+<p class="zh">整数。默认渲染线程数，初始化为检测到的核心数（<tt>GetNumCores</tt>）；可通过 <a href="framecmd.html#threads">帧命令 <tt>threads</tt></a> 按帧覆盖。读取安全；启动后通常不再写入。</p>
+
+<dt><tt>ds9(FTY_MAXAXES)</tt></dt>
+<dd>Integer constant, <tt>9</tt>. The maximum number of FITS axes DS9's IRAF/funtools (fty) support code will handle. Read-only.</dd>
+<p class="zh">整数常量，<tt>9</tt>。DS9 的 IRAF/funtools（fty）支持代码可处理的最大 FITS 轴数。只读。</p>
+
+<dt><tt>ds9(prefs)</tt></dt>
+<dd>Boolean (0/1), default <tt>1</tt>. Whether the preferences file was loaded/should be honored this session; can be turned off via a command line option. Effectively read-only after startup.</dd>
+<p class="zh">布尔值（0/1），默认 <tt>1</tt>。本次会话是否已加载/应遵循首选项文件；可通过命令行选项关闭。启动后实际上为只读。</p>
+
+<dt><tt>ds9(init)</tt></dt>
+<dd>Boolean (0/1). <tt>1</tt> only while DS9 is still starting up (before the main window is fully built); used to defer handling of early macOS Open/Print document events. Not useful to a script running after startup, since it will always read <tt>0</tt> by then. Read-only.</dd>
+<p class="zh">布尔值（0/1）。仅在 DS9 仍处于启动过程中（主窗口尚未完全构建完成时）为 <tt>1</tt>；用于延迟处理 macOS 早期的 Open/Print 文档事件。启动后运行的脚本用不到它，因为届时它总是读为 <tt>0</tt>。只读。</p>
+
+<dt><tt>ds9(themes)</tt></dt>
+<dd>List of strings. The available ttk theme names (x11/win32 only), with <tt>alt</tt> and <tt>classic</tt> filtered out. Read-only; see <tt>pds9(theme)</tt> to change the active theme.</dd>
+<p class="zh">字符串列表。可用的 ttk 主题名（仅 x11/win32），已过滤掉 <tt>alt</tt> 和 <tt>classic</tt>。只读；更改活动主题见 <tt>pds9(theme)</tt>。</p>
+</dl>
+
+<h4><a name="fonts" id="fonts"></a>Fonts <span class="zh">字体</span></h4>
+<dl>
+<dt><tt>ds9(helvetica)</tt></dt>
+<dd>String, a font family name. The sans-serif UI font family for this platform (with platform-specific fallbacks, e.g. <tt>.AppleSystemUIFont</tt> on macOS). Read-only; see <tt>pds9(font)</tt>/<tt>pds9(font,size)</tt>/<tt>pds9(font,style)</tt> to change the active UI font.</dd>
+<p class="zh">字符串，一个字体族名。本平台的无衬线 UI 字体族（带平台相关回退，如 macOS 上的 <tt>.AppleSystemUIFont</tt>）。只读；更改活动 UI 字体见 <tt>pds9(font)</tt>/<tt>pds9(font,size)</tt>/<tt>pds9(font,style)</tt>。</p>
+
+<dt><tt>ds9(courier)</tt></dt>
+<dd>String, always <tt>courier</tt>. The monospace UI font family. Read-only.</dd>
+<p class="zh">字符串，恒为 <tt>courier</tt>。等宽 UI 字体族。只读。</p>
+
+<dt><tt>ds9(times)</tt></dt>
+<dd>String, a font family name (<tt>serif</tt> on X11, <tt>times</tt> elsewhere). The serif UI font family. Read-only.</dd>
+<p class="zh">字符串，一个字体族名（X11 上为 <tt>serif</tt>，其他平台为 <tt>times</tt>）。衬线 UI 字体族。只读。</p>
+</dl>
+
+<h4><a name="frames" id="frames"></a>Frames and display mode <span class="zh">帧与显示模式</span></h4>
+<dl>
+<dt><tt>ds9(frames)</tt></dt>
+<dd>List of frame command names, e.g. <tt>{Frame1 Frame2}</tt>. Every frame currently in existence, in creation order. Read-only &mdash; create/delete frames via the normal frame-management commands, not by editing this list.</dd>
+<p class="zh">帧命令名列表，例如 <tt>{Frame1 Frame2}</tt>。当前存在的所有帧，按创建顺序排列。只读——应通过正常的帧管理命令创建/删除帧，而不要编辑此列表。</p>
+
+<dt><tt>ds9(active)</tt></dt>
+<dd>List of frame command names. The frames considered "active" for the current display/lock mode (e.g. the frames a blink or tile-lock cycles through); order matters. Read-only.</dd>
+<p class="zh">帧命令名列表。在当前显示/锁定模式下被视为"活动"的帧（例如闪烁或平铺锁定所循环遍历的帧）；顺序有意义。只读。</p>
+
+<dt><tt>ds9(seq)</tt></dt>
+<dd>Integer counter, starts at <tt>1</tt>. The next sequence number to use when auto-naming a new frame (<tt>Frame&lt;seq&gt;</tt>); incremented on each new frame. Read-only in practice.</dd>
+<p class="zh">整数计数器，从 <tt>1</tt> 开始。自动命名新帧（<tt>Frame&lt;seq&gt;</tt>）时使用的下一个序号；每新建一帧加一。实际为只读。</p>
+
+<dt><tt>ds9(last)</tt></dt>
+<dd>Frame command name or <tt>{}</tt>. The previously-current frame, cached to short-circuit redundant "frame changed" work; scripts operating on <tt>current(frame)</tt> generally have no need to touch this. Internal; read-only.</dd>
+<p class="zh">帧命令名或 <tt>{}</tt>。上一个当前帧，用于短路冗余的"帧已切换"处理；操作 <tt>current(frame)</tt> 的脚本一般无需触碰它。内部使用；只读。</p>
+
+<dt><tt>ds9(lock)</tt></dt>
+<dd>Boolean (0/1). A general re-entrancy guard used while frame/crosshair/etc. lock updates are being propagated to other frames, to avoid recursive callbacks. Internal; do not set from a script.</dd>
+<p class="zh">布尔值（0/1）。在帧/十字光标等锁定更新向其他帧传播时使用的通用重入保护，用于避免递归回调。内部使用；脚本不应设置。</p>
+
+<dt><tt>ds9(display)</tt></dt>
+<dd>String: <tt>single</tt>, <tt>tile</tt>, <tt>blink</tt>, <tt>reveal</tt>, or <tt>fade</tt>. Mirrors <tt>current(display)</tt> &mdash; the frame display/layout mode. Read-only; change display mode via the normal <tt>current(display)</tt>-setting commands (e.g. the View/Frame menu equivalents) rather than writing this directly.</dd>
+<p class="zh">字符串：<tt>single</tt>、<tt>tile</tt>、<tt>blink</tt>、<tt>reveal</tt> 或 <tt>fade</tt>。镜像 <tt>current(display)</tt>——帧显示/布局模式。只读；应通过正常设置 <tt>current(display)</tt> 的命令（如 View/Frame 菜单的等价项）更改显示模式，而不要直接写此值。</p>
+
+<dt><tt>ds9(row)</tt></dt>
+<dd>Integer, <tt>-1</tt> when unset. The currently highlighted row in the FITS bin-table row-selection UI. Internal; read-only.</dd>
+<p class="zh">整数，未设置时为 <tt>-1</tt>。FITS 二进制表行选择 UI 中当前高亮的行。内部使用；只读。</p>
+
+<dt><tt>ds9(freeze)</tt></dt>
+<dd>Boolean (0/1). When set, suppresses frame-list/menu rebuilds that would otherwise happen while frames are being added or removed in bulk (e.g. during a mosaic load), as an optimization. Internal; do not set from a script.</dd>
+<p class="zh">布尔值（0/1）。置位时，作为优化手段抑制批量添加/删除帧（例如加载拼接图像期间）本应发生的帧列表/菜单重建。内部使用；脚本不应设置。</p>
+</dl>
+
+<h4><a name="mouse" id="mouse"></a>Mouse button and keyboard modifier state <span class="zh">鼠标按键与键盘修饰键状态</span></h4>
+<dl>
+<dt><tt>ds9(b1)</tt>, <tt>ds9(b2)</tt>, <tt>ds9(b3)</tt></dt>
+<dd>Boolean (0/1) each. Whether mouse buttons 1/2/3 are currently held down over the main canvas. Read-only, maintained by button bindings.</dd>
+<p class="zh">各为布尔值（0/1）。表示鼠标按键 1/2/3 当前是否在主画布上被按住。只读，由按键绑定维护。</p>
+
+<dt><tt>ds9(sb1)</tt>, <tt>ds9(sb2)</tt>, <tt>ds9(sb3)</tt></dt>
+<dd>Boolean (0/1) each. Same, but for the current button state while holding Shift.</dd>
+<p class="zh">各为布尔值（0/1）。同上，但表示按住 Shift 时的当前按键状态。</p>
+
+<dt><tt>ds9(cb1)</tt>, <tt>ds9(cb2)</tt>, <tt>ds9(cb3)</tt></dt>
+<dd>Boolean (0/1) each. Same, but for the current button state while holding Control (or Command on macOS).</dd>
+<p class="zh">各为布尔值（0/1）。同上，但表示按住 Control（macOS 上为 Command）时的当前按键状态。</p>
+
+<dt><tt>ds9(csb1)</tt>, <tt>ds9(csb2)</tt>, <tt>ds9(csb3)</tt></dt>
+<dd>Boolean (0/1) each. Same, but for the current button state while holding Control+Shift (or Command+Shift on macOS).</dd>
+<p class="zh">各为布尔值（0/1）。同上，但表示按住 Control+Shift（macOS 上为 Command+Shift）时的当前按键状态。</p>
+
+<dt><tt>ds9(modifier)</tt></dt>
+<dd>Boolean (0/1). Whether a modifier key relevant to the current pointer mode is currently held. Internal; read-only.</dd>
+<p class="zh">布尔值（0/1）。表示与当前指针模式相关的修饰键当前是否被按住。内部使用；只读。</p>
+
+<dt><tt>ds9(ctrl)</tt></dt>
+<dd>String, either <tt>Control-</tt> or <tt>Command-</tt>. The platform-appropriate Tk event modifier prefix, used when building keyboard-shortcut event names (e.g. <tt>&lt;${ds9(ctrl)}o&gt;</tt>). Read-only.</dd>
+<p class="zh">字符串，为 <tt>Control-</tt> 或 <tt>Command-</tt>。与平台相符的 Tk 事件修饰键前缀，用于构造键盘快捷键事件名（例如 <tt>&lt;${ds9(ctrl)}o&gt;</tt>）。只读。</p>
+
+<dt><tt>ds9(shiftctrl)</tt></dt>
+<dd>String, either <tt>Shift-Control-</tt> or <tt>Shift-Command-</tt>. Same idea, for Shift+Control/Command shortcuts. Read-only.</dd>
+<p class="zh">字符串，为 <tt>Shift-Control-</tt> 或 <tt>Shift-Command-</tt>。同理，用于 Shift+Control/Command 快捷键。只读。</p>
+</dl>
+
+<h4><a name="msg" id="msg"></a>Status/error messages <span class="zh">状态/错误消息</span></h4>
+<dl>
+<dt><tt>ds9(msg)</tt></dt>
+<dd>String. The most recently posted status/error message text, shown by the message timer. Setting it directly is unusual; use the library's <tt>Error</tt>/message-posting procs instead.</dd>
+<p class="zh">字符串。最近一条发布的状态/错误消息文本，由消息定时器显示。直接设置它并不常见；应使用库的 <tt>Error</tt>/消息发布过程。</p>
+
+<dt><tt>ds9(msg,level)</tt></dt>
+<dd>String, default <tt>info</tt>. The severity of <tt>ds9(msg)</tt> (e.g. <tt>info</tt>, <tt>error</tt>), used to pick how it's displayed.</dd>
+<p class="zh">字符串，默认 <tt>info</tt>。<tt>ds9(msg)</tt> 的严重级别（例如 <tt>info</tt>、<tt>error</tt>），用于决定其显示方式。</p>
+
+<dt><tt>ds9(msg,src)</tt></dt>
+<dd>String, default <tt>tcl</tt>. Where the pending message originated from.</dd>
+<p class="zh">字符串，默认 <tt>tcl</tt>。待处理消息的来源。</p>
+
+<dt><tt>ds9(msg,timeout)</tt></dt>
+<dd>Integer milliseconds, default <tt>1000</tt>. How long the message timer waits between checks (an <tt>after</tt> interval), set up once at startup. Read-only after startup.</dd>
+<p class="zh">整数毫秒，默认 <tt>1000</tt>。消息定时器两次检查之间的等待时长（一个 <tt>after</tt> 间隔），在启动时设置一次。启动后只读。</p>
+</dl>
+
+<h4><a name="array" id="array"></a>Raw data array load defaults <span class="zh">原始数据数组加载默认值</span></h4>
+<p>These hold the last-used (and default) parameters for the raw-array loader (mirrors the <tt>-array</tt> command line option and the <a href="framecmd.html#load">frame <tt>load array</tt></a> command's implicit dimensions dialog); they are safe to set before invoking a raw array load to change its defaults.</p>
+<p class="zh">以下元素保存原始数组加载器上次使用的（也是默认的）参数（镜像 <tt>-array</tt> 命令行选项和 <a href="framecmd.html#load">帧命令 <tt>load array</tt></a> 所弹出的隐式尺寸对话框）；在调用原始数组加载之前设置它们以更改默认值是安全的。</p>
+<dl>
+<dt><tt>ds9(array,x)</tt>, <tt>ds9(array,y)</tt></dt>
+<dd>Integer, default <tt>512</tt> each. Default array width/height in pixels.</dd>
+<p class="zh">整数，各默认 <tt>512</tt>。默认数组宽度/高度（像素）。</p>
+
+<dt><tt>ds9(array,bitpix)</tt></dt>
+<dd>Integer, default <tt>-32</tt> (IEEE 32-bit float, FITS <tt>BITPIX</tt> convention). Default array pixel data type.</dd>
+<p class="zh">整数，默认 <tt>-32</tt>（IEEE 32 位浮点，FITS <tt>BITPIX</tt> 约定）。默认数组像素数据类型。</p>
+
+<dt><tt>ds9(array,skip)</tt></dt>
+<dd>Integer, default <tt>0</tt>. Default number of leading bytes to skip (header size) before pixel data begins.</dd>
+<p class="zh">整数，默认 <tt>0</tt>。像素数据开始前默认跳过的前导字节数（文件头大小）。</p>
+
+<dt><tt>ds9(array,arch)</tt></dt>
+<dd>String, default <tt>bigendian</tt>. Default byte order of the raw array data.</dd>
+<p class="zh">字符串，默认 <tt>bigendian</tt>。原始数组数据的默认字节序。</p>
+</dl>
+
+<h4><a name="menu" id="menu"></a>Menu layout <span class="zh">菜单布局</span></h4>
+<p>These record fixed indices into the Frame and Analysis menus so the library can insert/remove the dynamic per-frame and per-task menu entries at the right position. They depend on platform (menus start at index 0 on macOS, 1 elsewhere) and on the static menu items defined above them; not meaningful to change from a script.</p>
+<p class="zh">以下元素记录 Frame 菜单和 Analysis 菜单中的固定索引，使库能在正确位置插入/删除动态的逐帧和逐任务菜单项。它们取决于平台（macOS 菜单从索引 0 开始，其他平台从 1 开始）以及其上方定义的静态菜单项；脚本更改它们没有意义。</p>
+<dl>
+<dt><tt>ds9(menu,start)</tt></dt>
+<dd>Integer, <tt>0</tt> (aqua) or <tt>1</tt> (x11/win32). Base menu index offset.</dd>
+<p class="zh">整数，<tt>0</tt>（aqua）或 <tt>1</tt>（x11/win32）。菜单索引的基准偏移量。</p>
+
+<dt><tt>ds9(menu,size,frame,goto)</tt></dt>
+<dd>Integer. Menu index where the per-frame "goto" entries begin in the Frame menu.</dd>
+<p class="zh">整数。Frame 菜单中逐帧"goto"条目开始的菜单索引。</p>
+
+<dt><tt>ds9(menu,size,frame,active)</tt></dt>
+<dd>Integer. Menu index where the per-frame "active" checkbutton entries begin in the Frame menu.</dd>
+<p class="zh">整数。Frame 菜单中逐帧"active"勾选条目开始的菜单索引。</p>
+
+<dt><tt>ds9(menu,size,analysis)</tt></dt>
+<dd>Integer. Menu index where dynamically-loaded analysis-task entries begin in the Analysis menu.</dd>
+<p class="zh">整数。Analysis 菜单中动态加载的分析任务条目开始的菜单索引。</p>
+
+<dt><tt>ds9(menu,size,wrap)</tt></dt>
+<dd>Integer, <tt>20</tt>. How many dynamic entries are placed before wrapping into a new menu column/submenu.</dd>
+<p class="zh">整数，<tt>20</tt>。在折入新菜单列/子菜单之前放置的动态条目数量。</p>
+</dl>
+
+<h4><a name="ui" id="ui"></a>UI widget handles <span class="zh">UI 控件句柄</span></h4>
+<p>These hold the Tk widget paths (and, for the icon directories, filesystem paths) of major pieces of the DS9 window, set once by the corresponding <tt>Create*</tt> procedure at startup. They're useful to read (e.g. to bind an event on <tt>$ds9(canvas)</tt>, or to size a dialog relative to <tt>$ds9(top)</tt>) but should not be reassigned.</p>
+<p class="zh">以下元素保存 DS9 窗口各主要部分的 Tk 控件路径（图标目录还保存文件系统路径），在启动时由相应的 <tt>Create*</tt> 过程设置一次。读取它们很有用（例如在 <tt>$ds9(canvas)</tt> 上绑定事件，或相对于 <tt>$ds9(top)</tt> 设定对话框大小），但不应重新赋值。</p>
+<dl>
+<dt><tt>ds9(canvas)</tt></dt>
+<dd>Widget path. The main image display canvas &mdash; the Tk canvas that hosts every frame's canvas item, the panner, magnifier, colorbar, and markers. This is the single most useful handle for scripts doing custom canvas work, e.g. <tt>$ds9(canvas) itemcget $::current(frame) -width</tt> to get a frame's on-screen size.</dd>
+<p class="zh">控件路径。主图像显示画布——承载各帧画布项、全景导航器、放大镜、颜色条和标记的 Tk canvas。对进行自定义画布操作的脚本而言，这是最有用的句柄，例如 <tt>$ds9(canvas) itemcget $::current(frame) -width</tt> 可获取某帧在屏幕上的尺寸。</p>
+
+<dt><tt>ds9(canvas,bottom)</tt></dt>
+<dd>Widget path or <tt>{}</tt>. An optional frame packed below the canvas (layout-dependent).</dd>
+<p class="zh">控件路径或 <tt>{}</tt>。打包在画布下方的一个可选 frame（取决于布局）。</p>
+
+<dt><tt>ds9(image)</tt></dt>
+<dd>Widget path. The frame that directly contains the canvas.</dd>
+<p class="zh">控件路径。直接包含画布的 frame。</p>
+
+<dt><tt>ds9(header)</tt></dt>
+<dd>Widget path. The header bar frame (contains the info panel, panner, and magnifier).</dd>
+<p class="zh">控件路径。标题栏 frame（包含信息面板、全景导航器和放大镜）。</p>
+
+<dt><tt>ds9(header,sep)</tt></dt>
+<dd>Widget path. The separator below the header bar.</dd>
+<p class="zh">控件路径。标题栏下方的分隔条。</p>
+
+<dt><tt>ds9(info)</tt></dt>
+<dd>Widget path. The info panel frame (coordinate/value readout).</dd>
+<p class="zh">控件路径。信息面板 frame（坐标/数值读出）。</p>
+
+<dt><tt>ds9(info,row,image)</tt>, <tt>ds9(info,row,physical)</tt>, <tt>ds9(info,row,amplifier)</tt>, <tt>ds9(info,row,detector)</tt></dt>
+<dd>Integer grid row numbers within <tt>$ds9(info)</tt> for each coordinate-system readout line, recorded so rows can be shown/hidden as the user toggles which coordinate systems are displayed.</dd>
+<p class="zh">各坐标系读出行在 <tt>$ds9(info)</tt> 中的整数网格行号，记录下来以便用户切换显示哪些坐标系时显示/隐藏对应行。</p>
+
+<dt><tt>ds9(info,row,value)</tt>, <tt>ds9(info,row,value,1)</tt>, <tt>ds9(info,row,value,2)</tt>, <tt>ds9(info,row,value,3)</tt></dt>
+<dd>Integer grid row numbers within <tt>$ds9(info)</tt> for the pixel-value readout line(s) (single value, or up to three for RGB/multicolor frames).</dd>
+<p class="zh">像素值读出行在 <tt>$ds9(info)</tt> 中的整数网格行号（单值，或 RGB/多色帧最多三个值）。</p>
+
+<dt><tt>ds9(magnifier)</tt></dt>
+<dd>Widget path. The magnifier panel frame.</dd>
+<p class="zh">控件路径。放大镜面板 frame。</p>
+
+<dt><tt>ds9(magnifier,canvas)</tt></dt>
+<dd>Widget path. The magnifier's own small canvas widget.</dd>
+<p class="zh">控件路径。放大镜自带的小画布控件。</p>
+
+<dt><tt>ds9(magnifier,minus)</tt>, <tt>ds9(magnifier,plus)</tt></dt>
+<dd>Widget paths. The magnifier's zoom-out/zoom-in buttons.</dd>
+<p class="zh">控件路径。放大镜的缩小/放大按钮。</p>
+
+<dt><tt>ds9(panner)</tt></dt>
+<dd>Widget path. The panner panel frame.</dd>
+<p class="zh">控件路径。全景导航器面板 frame。</p>
+
+<dt><tt>ds9(panner,canvas)</tt></dt>
+<dd>Widget path. The panner's own small canvas widget.</dd>
+<p class="zh">控件路径。全景导航器自带的小画布控件。</p>
+
+<dt><tt>ds9(panner,align)</tt></dt>
+<dd>Widget path. The panner's WCS-alignment toggle button.</dd>
+<p class="zh">控件路径。全景导航器的 WCS 对齐切换按钮。</p>
+
+<dt><tt>ds9(panner,center)</tt></dt>
+<dd>Widget path. The panner's "recenter" button.</dd>
+<p class="zh">控件路径。全景导航器的"居中"按钮。</p>
+
+<dt><tt>ds9(buttons)</tt></dt>
+<dd>Widget path. The main button-bar frame.</dd>
+<p class="zh">控件路径。主按钮栏 frame。</p>
+
+<dt><tt>ds9(buttons,frame)</tt></dt>
+<dd>Widget path. The outer frame holding the button bar (shown/hidden as a unit).</dd>
+<p class="zh">控件路径。容纳按钮栏的外层 frame（作为整体显示/隐藏）。</p>
+
+<dt><tt>ds9(buttons,aux)</tt></dt>
+<dd>Widget path. The auxiliary (analysis-task) button bar frame; per-task sub-frames are stored as <tt>ds9(buttons,aux,&lt;n&gt;)</tt>, not listed individually here.</dd>
+<p class="zh">控件路径。辅助（分析任务）按钮栏 frame；逐任务子 frame 存为 <tt>ds9(buttons,aux,&lt;n&gt;)</tt>，此处不逐一列出。</p>
+
+<dt><tt>ds9(buttons,sep)</tt></dt>
+<dd>Widget path. The separator above the button bar.</dd>
+<p class="zh">控件路径。按钮栏上方的分隔条。</p>
+
+<dt><tt>ds9(icons,top)</tt>, <tt>ds9(icons,bottom)</tt>, <tt>ds9(icons,left)</tt></dt>
+<dd>Widget paths. The icon toolbars docked at the top/bottom/left of the main window.</dd>
+<p class="zh">控件路径。停靠在主窗口顶部/底部/左侧的图标工具栏。</p>
+
+<dt><tt>ds9(icons,top,sep)</tt>, <tt>ds9(icons,bottom,sep)</tt>, <tt>ds9(icons,left,sep)</tt></dt>
+<dd>Widget paths. The separators next to the corresponding icon toolbar.</dd>
+<p class="zh">控件路径。相应图标工具栏旁的分隔条。</p>
+
+<dt><tt>ds9(icons,ui)</tt>, <tt>ds9(icons,lut)</tt>, <tt>ds9(icons,colors)</tt></dt>
+<dd>Filesystem directory paths (under <tt>$ds9(root)/icons/...</tt>) holding the toolbar-icon, colormap-preview, and named-color-swatch PNG files, respectively. Read-only.</dd>
+<p class="zh">文件系统目录路径（位于 <tt>$ds9(root)/icons/...</tt> 下），分别存放工具栏图标、颜色映射预览和命名色块的 PNG 文件。只读。</p>
+</dl>
+
+<h4><a name="tile" id="tile"></a>Tile drag-and-drop <span class="zh">平铺拖放</span></h4>
+<dl>
+<dt><tt>ds9(tile,drag)</tt></dt>
+<dd>Frame command name or unset. The frame currently being dragged in tile-mode drag-and-drop reordering.</dd>
+<p class="zh">帧命令名或未设置。在平铺模式拖放重排中当前正被拖动的帧。</p>
+
+<dt><tt>ds9(tile,drop)</tt></dt>
+<dd>Frame command name or <tt>{}</tt>. The frame currently under the drag as a drop target.</dd>
+<p class="zh">帧命令名或 <tt>{}</tt>。当前作为拖放目标位于拖动下方的帧。</p>
+
+<dt><tt>ds9(tile,drop,color)</tt></dt>
+<dd>String, a saved color name. The drop target's original highlite color, saved so it can be restored after the drop-target highlight is removed.</dd>
+<p class="zh">字符串，一个保存的颜色名。拖放目标的原始高亮颜色，保存下来以便移除拖放目标高亮后恢复。</p>
+</dl>
+
+<h4><a name="misc" id="misc"></a>Temporary files and OS document events <span class="zh">临时文件与操作系统文档事件</span></h4>
+<dl>
+<dt><tt>ds9(tmpdir)</tt></dt>
+<dd>Directory path, set by <tt>InitTempDir</tt> at startup. Where DS9 creates its own temporary files. Read-only.</dd>
+<p class="zh">目录路径，由 <tt>InitTempDir</tt> 在启动时设置。DS9 创建自身临时文件的位置。只读。</p>
+
+<dt><tt>ds9(cacert,temp)</tt></dt>
+<dd>File path or <tt>{}</tt>. A temporary extracted CA-certificate bundle path used for HTTPS connections, cleaned up on exit. Internal; read-only.</dd>
+<p class="zh">文件路径或 <tt>{}</tt>。用于 HTTPS 连接的临时解压 CA 证书包路径，退出时清理。内部使用；只读。</p>
+
+<dt><tt>ds9(event,opendoc)</tt></dt>
+<dd>List, macOS only. Arguments from a macOS "open document" Apple Event received before startup finished, replayed once initialization completes. Internal; read-only.</dd>
+<p class="zh">列表，仅 macOS。在启动完成前收到的 macOS"打开文档"Apple Event 的参数，初始化完成后重放一次。内部使用；只读。</p>
+
+<dt><tt>ds9(event,printdoc)</tt></dt>
+<dd>List, macOS only. Same, for a "print document" Apple Event. Internal; read-only.</dd>
+<p class="zh">列表，仅 macOS。同上，用于"打印文档"Apple Event。内部使用；只读。</p>
+</dl>
+
+</blockquote>
+</body>
+</html>

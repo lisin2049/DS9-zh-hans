@@ -1,0 +1,52 @@
+<!DOCTYPE doctype PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta name="generator" content="HTML Tidy for Mac OS X (vers 31 October 2006 - Apple Inc. build 17.1), see www.w3.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="GENERATOR" content="Mozilla/4.78 [en] (X11; U; Linux 2.4.7-10 i686) [Netscape]">
+<title>Coordinate Grids（坐标网格）</title>
+<style type="text/css">
+.zh { color: #333333; border-left: 3px solid #cccccc; padding-left: 8px; margin: 2px 0 10px 0; font-family: "Microsoft YaHei", "PingFang SC", sans-serif; }
+h2 .zh, h3 .zh, h4 .zh { color: #555555; font-weight: normal; border-left: none; padding-left: 6px; }
+li .zh { display: block; }
+</style>
+</head>
+<body alink="#FF0000" bgcolor="#FFFFFF" link="#0000EE" text="#000000" vlink="#551A8B">
+<h3><img alt="" src="../sun.png" align="middle" > Coordinate Grids <span class="zh">坐标网格</span></h3>
+<blockquote>
+<p>DS9 can create and display coordinate grids as an overlay on an image. The Display Coordinate Grid Menu is used to display grids. A coordinate grid is composed of Grid Lines, Axes, Border, and Title. Axes include tick marks, title, and numbers. The appearance of the coordinate grid is specified by parameters. These parameters may be configured via the Coordinate Grid Parameters dialog box. In addition to the axes titles and the grid title, the following menus are available.</p>
+<p class="zh">DS9 可以创建并显示坐标网格，作为图像上的叠加层。通过 Display Coordinate Grid 菜单来显示网格。坐标网格由网格线（Grid Lines）、坐标轴（Axes）、边框（Border）和标题（Title）组成。坐标轴包含刻度、轴标题和数字。坐标网格的外观由参数指定，这些参数可通过 Coordinate Grid Parameters 对话框配置。除坐标轴标题和网格标题外，还提供以下菜单。</p>
+<p><b><a name="Format" id="Format"></a>Numeric Formats <span class="zh">数字格式</span></b></p>
+<p>The user may specify custom numeric formats for either axes. The format specification can be empty (default) or a print function, based on the selected coordinate system:<br></p>
+<p class="zh">用户可为任一坐标轴指定自定义数字格式。格式说明可以为空（默认），也可以是一个打印函数，取决于所选的坐标系：</p>
+<blockquote><tt>image</tt><br>
+<tt>physical</tt><br>
+<tt>detector</tt><br>
+<tt>amplifier</tt><br>
+<tt>wcs linear</tt><br>
+<tt>wcs equatorial</tt><br></blockquote>
+<p class="zh">上表列出了各坐标系名称（image、physical、detector、amplifier、wcs linear、wcs equatorial），保持英文原样。</p>
+<p>The format specification string to be passed to the C "printf" function (e.g. "%%1.7G") in order to format a single coordinate value.</p>
+<p class="zh">该格式说明字符串将传递给 C 语言的 "printf" 函数（例如 "%%1.7G"），用于格式化单个坐标值。</p>
+<p>The Format string supplied should contain one or more of the following characters. These may occur in any order, but the following is recommended for clarity:</p>
+<p class="zh">所提供的格式字符串应包含下列一个或多个字符。这些字符可按任意顺序出现，但为清晰起见建议按如下顺序排列：</p>
+<blockquote>"": Indicates that a plus sign should be prefixed to positive values. By default, no plus sign is used.<br>
+"z": Indicates that leading zeros should be prefixed to the value so that the first field is of constant width, as would be required in a fixed-width table (leading zeros are always prefixed to any fields that follow). By default, no leading zeros are added.<br>
+"i": Use the standard ISO field separator (a colon) between fields. This is the default behaviour.<br>
+"b": Use a blank to separate fields.<br>
+"l": Use a letter ("h"/"d", "m" or "s" as appropriate) to separate fields.<br>
+"g": Use a letter and symbols to separate fields ("h"/"d", "m" or "s", etc, as appropriate), but include escape sequences in the formatted value so that the Plot class will draw the separators as small super-scripts.<br>
+"d": Include a degrees field. Expressing the angle purely in degrees is also the default if none of "h", "m", "s" or "t" are given.<br>
+"h": Express the angle as a time and include an hours field (where 24 hours correspond to 360 degrees). Expressing the angle purely in hours is also the default if "t" is given without either "m" or "s".<br>
+"m": Include a minutes field. By default this is not included.<br>
+"s": Include a seconds field. By default this is not included. This request is ignored if "d" or "h" is given, unless a minutes field is also included.<br>
+"t": Express the angle as a time (where 24 hours correspond to 360 degrees). This option is ignored if either "d" or "h" is given and is intended for use where the value is to be expressed purely in minutes and/or seconds of time (with no hours field). If "t" is given without "d", "h", "m" or "s" being present, then it is equivalent to "h".<br>
+".": Indicates that decimal places are to be given for the final field in the formatted string (whichever field this is). The "." should be followed immediately by an unsigned integer which gives the number of decimal places required, or by an asterisk. If an asterisk is supplied, a default number of decimal places is used which is based on the value of the Digits attribute.<br></blockquote>
+<p class="zh">上述各格式字符含义如下：""（空）表示在正值前加正号，默认不加；"z" 表示在值前补前导零使首字段等宽（后续字段也总是补前导零），默认不补；"i" 使用标准 ISO 字段分隔符（冒号），这是默认行为；"b" 用空格分隔字段；"l" 用字母（视情况用 "h"/"d"、"m" 或 "s"）分隔字段；"g" 用字母和符号分隔字段，但在格式化值中包含转义序列，以便 Plot 类将分隔符绘制成小上标；"d" 包含度数字段，若未给出 "h"、"m"、"s" 或 "t"，默认即以纯度数表示角度；"h" 将角度表示为时间并包含小时字段（24 小时对应 360 度），若给出 "t" 但未给 "m" 或 "s"，默认即以纯小时表示角度；"m" 包含分钟字段，默认不包含；"s" 包含秒字段，默认不包含，若已给 "d" 或 "h" 则此请求被忽略，除非同时包含分钟字段；"t" 将角度表示为时间（24 小时对应 360 度），若已给 "d" 或 "h" 则忽略此选项，用于需要仅以分钟和/或秒表示角度（无小时字段）的情形，若单独给出 "t" 而无 "d"、"h"、"m"、"s"，则等价于 "h"；"." 表示对格式化字符串中的最后一个字段给出小数位数，"." 后应紧跟一个无符号整数表示所需小数位数，或紧跟一个星号，若给星号则使用基于 Digits 属性值的默认小数位数。</p>
+<p>All of the above format specifiers are case-insensitive. If several characters make conflicting requests (e.g. if both "i" and "b" appear), then the character occurring last takes precedence, except that "d" and "h" always override "t".</p>
+<p class="zh">上述所有格式说明符均不区分大小写。若多个字符发出冲突请求（例如同时出现 "i" 和 "b"），则最后出现的字符优先，但 "d" 和 "h" 始终覆盖 "t"。</p>
+<p>The default formats are <tt>d.3</tt> for degrees and <tt>hms.1</tt> / <tt>dms.1</tt> / <tt>ldms.1</tt> for sexagesimal.<br></p>
+<p class="zh">默认格式为：角度制用 <tt>d.3</tt>，六十进制用 <tt>hms.1</tt> / <tt>dms.1</tt> / <tt>ldms.1</tt>。</p>
+</blockquote>
+</body>
+</html>

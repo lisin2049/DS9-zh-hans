@@ -1,0 +1,37 @@
+# 语言菜单显示"简体中文"补丁（util.tcl）
+
+## 问题
+
+DS9 的语言包使用 Tcl `msgcat` 国际化，界面语言通过 首选项 → 常规 → 字体 → 语言 下拉框选择。
+上游 `library/util.tcl` 的 `LanguageToName` 过程中，`zh`（中文）返回的是**繁体"中文"**两个字
+（以 big5 编码存储），导致简体用户在选择语言时看不到明确的"简体中文"标识。
+
+## 修改
+
+文件：`library/util.tcl`（第 691 行），`LanguageToName` 过程中：
+
+```diff
+--- a/library/util.tcl
++++ b/library/util.tcl
+@@ -689,5 +689,5 @@
+ 	ja {return [encoding convertfrom euc-jp "\xc6\xfc\xcb\xdc\xb8\xec"]}
+ 	pt {return {Português}}
+-	zh {return [encoding convertfrom big5 "\xA4\xA4\xA4\xE5"]}
++	zh {return "\u7b80\u4f53\u4e2d\u6587"}
+     }
+ }
+```
+
+说明：
+
+- 使用 `\u` 转义（`\u7b80\u4f53\u4e2d\u6587` = 简体中文），避免文件编码问题；
+- 建议同步修改两处：DS9 安装目录的 `library/util.tcl` 与源码树的 `ds9/library/util.tcl`。
+
+## 验证
+
+用 tclsh 加载后执行 `LanguageToName zh`，应输出 `简体中文`。
+
+```tcl
+source library/util.tcl
+puts [LanguageToName zh]
+```
